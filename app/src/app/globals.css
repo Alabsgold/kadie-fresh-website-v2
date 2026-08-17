@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-display: var(--font-display-loaded), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-sans-loaded), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme {
+  /* Header nav collapses to the mobile burger below this width. */
+  --breakpoint-wide: 1080px;
+
+  /* Deep forest greens darker than Tailwind's default green-950, used for
+     headings, dark hero/nav surfaces and gradients. Tailwind's green-* scale
+     otherwise matches this design system's mid-tones exactly (green-600 is
+     the brand primary), so only these extra-dark stops need custom tokens. */
+  --color-forest-800: #0e3d22;
+  --color-forest-900: #0b1f13;
+  --color-forest-950: #07200f;
+  --color-forest-975: #082816;
+
+  --animate-fade-up: kfFadeUp 0.35s ease both;
+  --animate-shake: kfShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  --animate-spin-slow: kfSpin 0.9s linear infinite;
+  --animate-pulse-ring: kfPulse 2.2s ease-out infinite;
+  --animate-toast: kfToast 0.3s ease both;
+  --animate-drawer: kfDrawer 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-bar: kfBar 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pop: kfPop 0.5s cubic-bezier(0.2, 1.3, 0.4, 1) both;
+  --animate-blip: kfBlip 2.4s ease-in-out infinite;
+  --animate-drift: kfDrift 22s ease-in-out infinite alternate;
+}
+
+@keyframes kfShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+@keyframes kfFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes kfSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes kfPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes kfToast {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes kfDrawer {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes kfBar {
+  from {
+    width: 4%;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes kfPop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes kfBlip {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgba(74, 222, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
+}
+@keyframes kfDrift {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-2%, -1.5%, 0);
+  }
+}
+
+body {
+  margin: 0;
+  background: #e9f1ea;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: #16a34a;
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-forest-800);
+}
+
+::selection {
+  background: #dcfce7;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid #16a34a;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  /* The prototype's recurring "frosted glass" card recipe: blurred
+     translucent white surface, 1px highlight border, soft shadow with an
+     inset top specular. Reused across product/service/standards cards. */
+  .glass-card {
+    border-radius: 1.125rem;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(16px) saturate(1.7);
+    -webkit-backdrop-filter: blur(16px) saturate(1.7);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 8px 28px rgba(14, 61, 34, 0.09);
+  }
+
+  .glass-card:hover {
+    box-shadow: 0 18px 40px rgba(14, 61, 34, 0.12);
+  }
+
+  /* Sticky glass chrome recipe used by the public header and studio topbar. */
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.62);
+    backdrop-filter: blur(22px) saturate(1.7);
+    -webkit-backdrop-filter: blur(22px) saturate(1.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 1px 0 rgba(14, 61, 34, 0.06);
+  }
+
+  .glass-panel {
+    border-radius: 1.25rem;
+    border: 1px solid rgba(14, 61, 34, 0.1);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(22px) saturate(1.7);
+    -webkit-backdrop-filter: blur(22px) saturate(1.7);
+  }
+
+  .btn-cta {
+    border: 0;
+    cursor: pointer;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #fb923c, #f97316);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(249, 115, 22, 0.34);
+    transition:
+      transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.18s;
+  }
+  .btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(249, 115, 22, 0.42);
+  }
+  .btn-cta:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .btn-outline {
+    border: 1px solid rgba(14, 61, 34, 0.16);
+    background: #fff;
+    border-radius: 999px;
+    font-weight: 600;
+    color: var(--color-forest-800);
+    cursor: pointer;
+    transition:
+      background 0.18s,
+      border-color 0.18s;
+  }
+  .btn-outline:hover {
+    background: #f0fdf4;
+    border-color: #16a34a;
+  }
+
+  /* Elements revealed as they scroll into view; toggled by useScrollReveal. */
+  [data-reveal="1"] {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  [data-reveal="1"].is-visible {
+    animation: kfFadeUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+}

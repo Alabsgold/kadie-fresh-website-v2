@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='13' cy='13' r='11' fill='%2316A34A'/%3E%3Ccircle cx='23' cy='23' r='6' fill='%23F97316'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#E9F1EA; font-family:'Inter',system-ui,sans-serif; color:#111827; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#16A34A; text-decoration:none; }
+  a:hover { color:#0E3D22; }
+  input, textarea, select, button { font-family:inherit; }
+  input:focus-visible, textarea:focus-visible, button:focus-visible { outline:2px solid #16A34A; outline-offset:2px; }
+  ::selection { background:#DCFCE7; }
+  @keyframes kfShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(2px)} }
+  @keyframes kfFadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes kfSpin { to{transform:rotate(360deg)} }
+  @keyframes kfPulse { 0%{transform:scale(1);opacity:.55} 70%{transform:scale(1.5);opacity:0} 100%{opacity:0} }
+  @keyframes kfToast { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes kfDrawer { from{opacity:0;transform:translateX(28px)} to{opacity:1;transform:translateX(0)} }
+  @keyframes kfBar { from{width:4%} to{width:100%} }
+  @keyframes kfPop { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
+  @keyframes kfBlip { 0%{box-shadow:0 0 0 0 rgba(74,222,128,.7)} 70%{box-shadow:0 0 0 9px rgba(74,222,128,0)} 100%{box-shadow:0 0 0 0 rgba(74,222,128,0)} }
+  @keyframes kfDrift { from{transform:scale(1) translate3d(0,0,0)} to{transform:scale(1.12) translate3d(-2%,-1.5%,0)} }
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:0 0 64px">
+
+  <div style="position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:12px 22px;background:rgba(14,61,34,.96);backdrop-filter:blur(18px) saturate(1.6);color:#EAF6EE">
+    <div style="display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;letter-spacing:-.01em">
+      <span style="width:18px;height:18px;border-radius:50%;background:#16A34A;position:relative;display:inline-block"><span style="position:absolute;right:-3px;bottom:-2px;width:8px;height:8px;border-radius:50%;background:#F97316"></span></span>
+      Kadie Fresh · vertical slice
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <sc-for list="{{ routeChips }}" as="chip" hint-placeholder-count="6">
+        <button onClick="{{ chip.go }}" style="{{ chip.style }}">{{ chip.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:6px;margin-left:auto;align-items:center">
+      <sc-for list="{{ deviceChips }}" as="d" hint-placeholder-count="3">
+        <button onClick="{{ d.go }}" style="{{ d.style }}">{{ d.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:center;padding:26px 18px 0">
+    <div style="{{ frameStyle }}">
+      <div style="{{ pageStyle }}">
+
+        <sc-if value="{{ isPublic }}" hint-placeholder-val="{{ true }}">
+          <div style="background:radial-gradient(60% 44% at 8% 0%,#E7F6EC 0%,transparent 60%),radial-gradient(48% 38% at 96% 22%,#FFF0E4 0%,transparent 62%),linear-gradient(180deg,#FBFDFB,#F4FAF6)">
+
+            <div style="position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:24px;padding:14px 26px;background:rgba(255,255,255,.62);backdrop-filter:blur(22px) saturate(1.7);border-bottom:1px solid rgba(255,255,255,.7);box-shadow:0 1px 0 rgba(14,61,34,.06)">
+              <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px;flex:none;padding:2px 6px 2px 0;line-height:1;cursor:pointer">
+                <span style="width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#22C55E,#12833C);position:relative;display:inline-block;box-shadow:0 4px 12px rgba(22,163,74,.3)"><span style="position:absolute;right:-2px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:#F97316;border:2px solid #fff"></span></span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em;color:#0E3D22;white-space:nowrap">Kadie Fresh</span>
+              </div>
+              <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;gap:26px;flex-shrink:0;white-space:nowrap;font-size:14.5px;font-weight:500;color:#374151">
+                  <sc-for list="{{ siteNav }}" as="n" hint-placeholder-count="6">
+                    <span onClick="{{ n.go }}" onMouseEnter="{{ n.tip }}" onMouseLeave="{{ hideTip }}" style="{{ n.style }}">{{ n.label }}</span>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="display:flex;align-items:center;gap:14px;margin-left:auto">
+                <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+                  <a href="tel:+2348105420458" onMouseEnter="{{ tipCall }}" onMouseLeave="{{ hideTip }}" style="font-size:14px;font-weight:600;color:#0E3D22;display:flex;align-items:center;gap:7px;white-space:nowrap;flex:none">
+                    <span style="width:7px;height:7px;border-radius:50%;background:#16A34A;display:inline-block"></span>0810 542 0458
+                  </a>
+                </sc-if>
+                <button onClick="{{ goQuote }}" style="border:0;cursor:pointer;padding:11px 20px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:14px;white-space:nowrap;flex:none;box-shadow:0 6px 18px rgba(249,115,22,.34);transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s" style-hover="transform:translateY(-2px);box-shadow:0 10px 24px rgba(249,115,22,.42)" style-active="transform:translateY(0) scale(.98)">Request a quote</button>
+                <sc-if value="{{ showBurger }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ toggleMenu }}" style="border:1px solid rgba(14,61,34,.14);background:#fff;width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:17px;color:#0E3D22">☰</button>
+                </sc-if>
+              </div>
+            </div>
+
+            <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;inset:0;z-index:50;background:linear-gradient(160deg,#0E3D22,#082816);padding:22px 26px;animation:kfDrawer .32s cubic-bezier(.2,.8,.2,1) both">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;color:#fff">Kadie Fresh</span>
+                  <button onClick="{{ toggleMenu }}" style="border:0;background:transparent;color:#fff;font-size:24px;cursor:pointer">×</button>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:14px;margin-top:34px">
+                  <sc-for list="{{ siteNav }}" as="n" hint-placeholder-count="6">
+                    <span onClick="{{ n.go }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:34px;letter-spacing:-.02em;color:#fff;cursor:pointer">{{ n.label }}</span>
+                  </sc-for>
+                </div>
+                <div style="position:absolute;left:26px;right:26px;bottom:30px;display:flex;flex-direction:column;gap:14px">
+                  <button onClick="{{ goQuote }}" style="border:0;cursor:pointer;padding:16px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:16px;box-shadow:0 8px 22px rgba(249,115,22,.4)">Enquire on WhatsApp</button>
+                  <a href="tel:+2348105420458" style="color:rgba(255,255,255,.66);font-size:13.5px">0810 542 0458 · Ikorodu, Lagos · Mon–Sat 6am–6pm</a>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onProducts }}" hint-placeholder-val="{{ true }}">
+              <div style="padding:38px 26px 20px;background:linear-gradient(170deg,#F4FBF6 0%,#FFFFFF 78%)">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">The catalogue</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:46px;line-height:1.02;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13;max-width:14ch;text-wrap:balance">Every line we prepare.</h1>
+                <p style="margin:0;max-width:52ch;font-size:16px;line-height:1.6;color:#4B5563;text-wrap:pretty">Washed, cut and sealed within four hours. Retail packs, kitchen volumes and bulk pallets from the same line — each one date-coded to the batch it came from.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:26px">
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+                      <button onClick="{{ f.go }}" style="{{ f.style }}">{{ f.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(14,61,34,.1);backdrop-filter:blur(18px) saturate(1.7)">
+                    <span style="color:#9CA3AF;font-size:14px">⌕</span>
+                    <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="Search lines" style="border:0;background:transparent;outline:none;font-size:14px;width:150px;color:#111827">
+                  </div>
+                  <button onClick="{{ downloadCatalogue }}" onMouseEnter="{{ tipCatalogue }}" onMouseLeave="{{ hideTip }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;color:#0E3D22;cursor:pointer;transition:background .18s,border-color .18s" style-hover="background:#F0FDF4;border-color:#16A34A">Download line card ↓</button>
+                </div>
+              </div>
+
+              <div style="padding:24px 26px 56px">
+                <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:18px">
+                    <sc-for list="{{ visibleProducts }}" as="p" hint-placeholder-count="6">
+                      <div data-reveal="1" onClick="{{ p.open }}" style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:14px;cursor:pointer;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,border-color .24s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(14,61,34,.12);border-color:rgba(22,163,74,.3)">
+                        <div style="{{ p.swatch }}"></div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:14px">
+                          <span style="{{ p.tagStyle }}">{{ p.cat }}</span>
+                          <span style="font-size:12px;color:#9CA3AF">MOQ {{ p.moq }}</span>
+                        </div>
+                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em;color:#0B1F13;margin-top:8px">{{ p.name }}</div>
+                        <div style="font-size:13.5px;color:#6B7280;margin-top:3px">{{ p.pack }}</div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
+                          <span style="font-size:13.5px;font-weight:600;color:#16A34A;white-space:nowrap">View spec →</span>
+                          <span style="font-size:12px;color:#9CA3AF">{{ p.shelf }}</span>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:70px 20px;border:1px dashed rgba(14,61,34,.18);border-radius:20px;background:#FAFDFB;animation:kfFadeUp .35s ease both">
+                    <div style="width:56px;height:56px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;font-size:22px">⌕</div>
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:21px;color:#0B1F13">No line matches that</div>
+                    <p style="margin:0;max-width:38ch;font-size:14.5px;color:#6B7280">We cut to spec on request. Tell us what you need and we will quote it even if it is not listed.</p>
+                    <div style="display:flex;gap:10px;margin-top:6px">
+                      <button onClick="{{ clearSearch }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;color:#0E3D22;cursor:pointer">Clear search</button>
+                      <button onClick="{{ goQuote }}" style="border:0;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;padding:10px 20px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 6px 18px rgba(249,115,22,.32)">Request a quote</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onProduct }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:26px 26px 0">
+                <div style="font-size:13px;color:#9CA3AF"><span onClick="{{ goProducts }}" style="cursor:pointer;color:#16A34A;font-weight:600">Products</span> · {{ product.name }}</div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:34px;padding:22px 26px 44px;align-items:start">
+                <div>
+                  <div style="{{ product.hero }}"></div>
+                  <div style="display:flex;gap:10px;margin-top:12px">
+                    <sc-for list="{{ product.thumbs }}" as="t" hint-placeholder-count="3">
+                      <div style="{{ t.style }}"></div>
+                    </sc-for>
+                  </div>
+                </div>
+                <div data-reveal="1">
+                  <span style="{{ product.tagStyle }}">{{ product.cat }}</span>
+                  <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:40px;line-height:1.04;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13">{{ product.name }}</h1>
+                  <p style="margin:0 0 20px;font-size:16px;line-height:1.62;color:#4B5563;max-width:46ch;text-wrap:pretty">{{ product.blurb }}</p>
+
+                  <div style="border:1px solid rgba(14,61,34,.1);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.66);backdrop-filter:blur(22px) saturate(1.7)">
+                    <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:#F0FDF4;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16A34A">
+                      Spec sheet
+                      <span onMouseEnter="{{ tipSpec }}" onMouseLeave="{{ hideTip }}" style="width:16px;height:16px;border-radius:50%;border:1px solid rgba(22,163,74,.5);color:#16A34A;font-size:10px;display:inline-flex;align-items:center;justify-content:center;cursor:help;letter-spacing:0">i</span>
+                    </div>
+                    <sc-for list="{{ product.spec }}" as="row" hint-placeholder-count="6">
+                      <div style="display:flex;justify-content:space-between;gap:20px;padding:11px 16px;border-top:1px solid rgba(14,61,34,.07);font-size:14px">
+                        <span style="color:#6B7280">{{ row.label }}</span>
+                        <span style="font-weight:600;color:#0B1F13;text-align:right">{{ row.value }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+
+                  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px">
+                    <button onClick="{{ quoteThis }}" style="border:0;cursor:pointer;padding:15px 26px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:15.5px;box-shadow:0 8px 22px rgba(249,115,22,.34);transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s" style-hover="transform:translateY(-2px);box-shadow:0 12px 28px rgba(249,115,22,.44)" style-active="transform:scale(.98)">Request a quote for this line</button>
+                    <a href="tel:+2348105420458" style="padding:15px 24px;border-radius:999px;border:1px solid rgba(14,61,34,.16);font-weight:600;font-size:15px;color:#0E3D22">Call the line</a>
+                  </div>
+
+                  <div style="display:flex;gap:12px;margin-top:22px;padding:16px 18px;border-radius:14px;background:#F0FDF4;border-left:3px solid #16A34A">
+                    <div>
+                      <div style="font-weight:700;font-size:14.5px;color:#0E3D22">Our guarantee</div>
+                      <p style="margin:5px 0 0;font-size:14px;line-height:1.55;color:#3F6B4F;text-wrap:pretty">If a pack arrives off-spec or past its seal window, we replace the batch or credit it in full. No return required — send the batch code.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onQuote }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:32px 26px 60px;background:linear-gradient(175deg,#F4FBF6,#FFFFFF 60%);min-height:520px">
+                <div style="max-width:720px;margin:0 auto">
+                  <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Request a quote</div>
+                  <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:38px;line-height:1.05;letter-spacing:-.035em;margin:10px 0 22px;color:#0B1F13">Tell us what your kitchen needs.</h1>
+
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
+                    <sc-for list="{{ stepper }}" as="s" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;gap:10px;flex:1">
+                        <span style="{{ s.dot }}">{{ s.n }}</span>
+                        <span style="{{ s.label }}">{{ s.title }}</span>
+                        <span style="{{ s.bar }}"></span>
+                      </div>
+                    </sc-for>
+                  </div>
+
+                  <div style="border:1px solid rgba(14,61,34,.1);border-radius:20px;background:rgba(255,255,255,.72);backdrop-filter:blur(22px) saturate(1.7);box-shadow:0 18px 44px rgba(14,61,34,.08);padding:26px">
+
+                    <sc-if value="{{ step1 }}" hint-placeholder-val="{{ true }}">
+                      <div style="animation:kfFadeUp .3s ease both;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+                        <div style="{{ f.nameWrap }}">
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Your name</label>
+                          <input value="{{ f.name }}" onChange="{{ onName }}" placeholder="Femi Alabi" style="{{ f.nameInput }}">
+                          <sc-if value="{{ f.nameErr }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#DC2626;margin-top:6px">{{ f.nameErrText }}</div></sc-if>
+                        </div>
+                        <div>
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Business <span style="color:#9CA3AF;font-weight:400">(optional)</span></label>
+                          <input value="{{ f.business }}" onChange="{{ onBusiness }}" placeholder="Harbour Hotel" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;background:#fff">
+                        </div>
+                        <div style="{{ f.emailWrap }}">
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Email</label>
+                          <input value="{{ f.email }}" onChange="{{ onEmail }}" placeholder="you@company.com" style="{{ f.emailInput }}">
+                          <sc-if value="{{ f.emailErr }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#DC2626;margin-top:6px">{{ f.emailErrText }}</div></sc-if>
+                        </div>
+                        <div style="{{ f.phoneWrap }}">
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Phone / WhatsApp</label>
+                          <input value="{{ f.phone }}" onChange="{{ onPhone }}" placeholder="0810 542 0458" style="{{ f.phoneInput }}">
+                          <sc-if value="{{ f.phoneErr }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#DC2626;margin-top:6px">{{ f.phoneErrText }}</div></sc-if>
+                        </div>
+                        <div style="grid-column:1/-1">
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:8px">What kind of buyer are you?</label>
+                          <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <sc-for list="{{ buyerTypes }}" as="b" hint-placeholder-count="4">
+                              <button onClick="{{ b.go }}" style="{{ b.style }}">{{ b.label }}</button>
+                            </sc-for>
+                          </div>
+                        </div>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ step2 }}" hint-placeholder-val="{{ false }}">
+                      <div style="animation:kfFadeUp .3s ease both">
+                        <div style="{{ f.itemsWrap }}">
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:8px">Which lines? Pick as many as you need.</label>
+                          <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            <sc-for list="{{ picker }}" as="p" hint-placeholder-count="8">
+                              <button onClick="{{ p.go }}" style="{{ p.style }}">{{ p.name }}</button>
+                            </sc-for>
+                          </div>
+                          <sc-if value="{{ f.itemsErr }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#DC2626;margin-top:8px">Pick at least one line, or describe it in the notes on the next step.</div></sc-if>
+                        </div>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px">
+                          <div style="{{ f.volumeWrap }}">
+                            <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Estimated volume</label>
+                            <input value="{{ f.volume }}" onChange="{{ onVolume }}" placeholder="e.g. 40kg per week" style="{{ f.volumeInput }}">
+                            <sc-if value="{{ f.volumeErr }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#DC2626;margin-top:6px">Give us a rough volume so we can price it.</div></sc-if>
+                          </div>
+                          <div>
+                            <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">How often?</label>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap">
+                              <sc-for list="{{ frequencies }}" as="fr" hint-placeholder-count="4">
+                                <button onClick="{{ fr.go }}" style="{{ fr.style }}">{{ fr.label }}</button>
+                              </sc-for>
+                            </div>
+                          </div>
+                          <div style="grid-column:1/-1">
+                            <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Delivery location</label>
+                            <input value="{{ f.location }}" onChange="{{ onLocation }}" placeholder="Ikeja, Lagos" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;background:#fff">
+                          </div>
+                        </div>
+                      </div>
+                    </sc-if>
+
+                    <sc-if value="{{ step3 }}" hint-placeholder-val="{{ false }}">
+                      <div style="animation:kfFadeUp .3s ease both">
+                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:21px;letter-spacing:-.02em;color:#0B1F13;margin-bottom:14px">Check it over</div>
+                        <div style="border:1px solid rgba(14,61,34,.1);border-radius:14px;overflow:hidden;background:#fff">
+                          <sc-for list="{{ summary }}" as="row" hint-placeholder-count="6">
+                            <div style="display:flex;justify-content:space-between;gap:20px;padding:12px 16px;border-bottom:1px solid rgba(14,61,34,.06);font-size:14px">
+                              <span style="color:#6B7280">{{ row.label }}</span>
+                              <span style="font-weight:600;color:#0B1F13;text-align:right;max-width:60%">{{ row.value }}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                        <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin:18px 0 6px">Anything else we should know?</label>
+                        <textarea value="{{ f.notes }}" onChange="{{ onNotes }}" rows="4" placeholder="Cut size, packaging preference, delivery window…" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;resize:vertical;background:#fff"></textarea>
+                        <div style="font-size:12.5px;color:#9CA3AF;margin-top:10px">We reply within one working day. Mon–Sat, 6am–6pm.</div>
+                      </div>
+                    </sc-if>
+
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(14,61,34,.08)">
+                      <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+                        <button onClick="{{ back }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:12px 20px;border-radius:999px;font-weight:600;font-size:14.5px;color:#0E3D22;cursor:pointer">Back</button>
+                      </sc-if>
+                      <span style="font-size:13px;color:#9CA3AF;margin-right:auto">{{ stepHint }}</span>
+                      <button onClick="{{ next }}" style="{{ nextStyle }}">{{ nextLabel }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onDone }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:70px 26px 90px;text-align:center;background:linear-gradient(175deg,#F4FBF6,#FFFFFF 70%);min-height:520px">
+                <div style="position:relative;width:96px;height:96px;margin:0 auto 26px">
+                  <span style="position:absolute;inset:0;border-radius:50%;background:#16A34A;opacity:.28;animation:kfPulse 2.2s ease-out infinite"></span>
+                  <span style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 34% 30%,#22C55E,#12833C);display:flex;align-items:center;justify-content:center;color:#fff;font-size:38px;animation:kfPop .5s cubic-bezier(.2,1.3,.4,1) both">✓</span>
+                </div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:38px;letter-spacing:-.035em;margin:0 0 12px;color:#0B1F13">Quote request sent.</h1>
+                <p style="margin:0 auto;max-width:44ch;font-size:16px;line-height:1.6;color:#4B5563">Reference <strong style="color:#0B1F13">{{ lastRef }}</strong>. We will come back with pack sizes and a price within one working day.</p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+                  <button onClick="{{ goProducts }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:13px 24px;border-radius:999px;font-weight:600;font-size:15px;color:#0E3D22;cursor:pointer">Back to products</button>
+                  <button onClick="{{ goLogin }}" style="border:0;background:linear-gradient(180deg,#22C55E,#16A34A);color:#fff;padding:13px 24px;border-radius:999px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 8px 22px rgba(22,163,74,.3)">See it arrive in the studio →</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onHome }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative;min-height:560px;overflow:hidden;background:#0B1F13">
+                <div style="position:absolute;inset:0;background:linear-gradient(125deg,#14532D 0%,#166534 40%,#0B1F13 100%)"></div>
+                <div style="position:absolute;inset:0;background:radial-gradient(70% 60% at 22% 30%,rgba(34,197,94,.5),transparent 62%),radial-gradient(50% 50% at 82% 72%,rgba(249,115,22,.34),transparent 66%);animation:kfDrift 22s ease-in-out infinite alternate"></div>
+                <video muted loop playsinline autoplay preload="auto" poster="https://images.pexels.com/videos/7456696/4k-agricultural-agriculture-batch-7456696.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" src="https://videos.pexels.com/video-files/7456696/7456696-hd_1920_1080_30fps.mp4" data-hero="1" style="{{ videoStyle }}"></video>
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,12,.72) 0%,rgba(6,20,12,.58) 45%,rgba(6,20,12,.82) 100%)"></div>
+                <div style="position:relative;padding:96px 26px 84px;max-width:820px">
+                  <span style="display:inline-block;padding:7px 15px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.22);font-size:13px;font-weight:600;color:#EAF6EE">Ikorodu, Lagos · supplying and exporting since day one</span>
+                  <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:66px;line-height:.98;letter-spacing:-.04em;margin:22px 0 18px;color:#fff;text-wrap:balance;text-shadow:0 2px 24px rgba(0,0,0,.35)">Welcome to Kadie Fresh.</h1>
+                  <p style="margin:0;max-width:52ch;font-size:19px;line-height:1.55;color:rgba(255,255,255,.88);text-wrap:pretty;text-shadow:0 1px 12px rgba(0,0,0,.4)">High-grade fresh produce, washed, sliced and sealed within four hours — supplied to Lagos kitchens and consolidated for export buyers overseas.</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:32px">
+                    <button onClick="{{ goProducts }}" style="border:0;cursor:pointer;padding:16px 30px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:16px;box-shadow:0 10px 30px rgba(249,115,22,.42);transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s" style-hover="transform:translateY(-2px);box-shadow:0 16px 38px rgba(249,115,22,.5)" style-active="transform:scale(.98)">Explore Products</button>
+                    <button onClick="{{ goQuote }}" style="cursor:pointer;padding:16px 30px;border-radius:999px;background:rgba(255,255,255,.1);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.4);color:#fff;font-weight:700;font-size:16px;transition:background .18s,border-color .18s" style-hover="background:rgba(255,255,255,.2);border-color:#fff">Request a Quote</button>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:38px;margin-top:44px">
+                    <sc-for list="{{ homeStats }}" as="s" hint-placeholder-count="4">
+                      <div>
+                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:29px;letter-spacing:-.03em;color:#fff">{{ s.v }}</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,.62);margin-top:2px">{{ s.l }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2px;background:rgba(14,61,34,.08)">
+                <sc-for list="{{ homeProof }}" as="p" hint-placeholder-count="4">
+                  <div style="background:#F0FDF4;padding:20px 24px">
+                    <div style="font-size:15px;font-weight:700;color:#0B1F13">{{ p.t }}</div>
+                    <div style="font-size:13.5px;color:#4B5563;margin-top:3px">{{ p.d }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="padding:56px 26px 20px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Who we supply</div>
+                <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:38px;letter-spacing:-.035em;margin:10px 0 26px;color:#0B1F13">Four ways to buy</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+                  <sc-for list="{{ homeAudiences }}" as="a" hint-placeholder-count="4">
+                    <div data-reveal="1" style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:22px;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(14,61,34,.1)">
+                      <div style="width:38px;height:38px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;margin-bottom:14px"><span style="width:13px;height:13px;border-radius:50%;background:#F97316;display:inline-block"></span></div>
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;color:#0B1F13">{{ a.t }}</div>
+                      <p style="margin:8px 0 16px;font-size:14.5px;line-height:1.55;color:#6B7280;text-wrap:pretty">{{ a.d }}</p>
+                      <span onClick="{{ a.go }}" style="font-size:14px;font-weight:700;color:#F97316;cursor:pointer">{{ a.cta }} →</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="padding:44px 26px;background:#F7FAF8;margin-top:34px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">The line</div>
+                <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:36px;letter-spacing:-.035em;margin:10px 0 30px;color:#0B1F13">Four steps, every batch</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:22px">
+                  <sc-for list="{{ homeSteps }}" as="st" hint-placeholder-count="4">
+                    <div data-reveal="1">
+                      <span style="{{ st.dot }}"></span>
+                      <div style="font-size:16px;font-weight:700;color:#0B1F13;margin-top:14px">{{ st.t }}</div>
+                      <div style="font-size:13.5px;color:#6B7280;margin-top:3px">{{ st.d }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="padding:54px 26px 20px">
+                <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px">
+                  <div>
+                    <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Selected lines</div>
+                    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:36px;letter-spacing:-.035em;margin:10px 0 0;color:#0B1F13">What we prepare</h2>
+                  </div>
+                  <button onClick="{{ goProducts }}" style="margin-left:auto;border:1px solid rgba(14,61,34,.16);background:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px;color:#0E3D22;cursor:pointer" style-hover="background:#F0FDF4">All products</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px">
+                  <sc-for list="{{ homeFeatured }}" as="p" hint-placeholder-count="3">
+                    <div data-reveal="1" onClick="{{ p.open }}" style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:14px;cursor:pointer;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(14,61,34,.12)">
+                      <div style="{{ p.swatch }}"></div>
+                      <div style="display:flex;align-items:center;gap:8px;margin-top:14px"><span style="{{ p.tagStyle }}">{{ p.cat }}</span></div>
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em;color:#0B1F13;margin-top:8px">{{ p.name }}</div>
+                      <div style="font-size:13.5px;color:#6B7280;margin-top:3px">{{ p.pack }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="margin:44px 26px 50px;border-radius:22px;background:linear-gradient(120deg,#0E3D22,#07200F);padding:40px;display:flex;flex-wrap:wrap;align-items:center;gap:22px">
+                <div style="flex:1;min-width:260px">
+                  <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:33px;letter-spacing:-.035em;margin:0;color:#fff;text-wrap:balance">Tell us what your kitchen needs.</h2>
+                  <p style="margin:10px 0 0;font-size:15.5px;color:rgba(234,246,238,.66)">Message us and we will come back with pack sizes and a price.</p>
+                </div>
+                <button onClick="{{ goQuote }}" style="border:0;cursor:pointer;padding:16px 30px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:16px;box-shadow:0 10px 30px rgba(249,115,22,.4)">Request a quote</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onServices }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 20px;background:linear-gradient(170deg,#F4FBF6,#FFFFFF 78%)">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Services</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:46px;line-height:1.02;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13">Four services, one line.</h1>
+                <p style="margin:0;max-width:56ch;font-size:16px;line-height:1.6;color:#4B5563;text-wrap:pretty">The same facility, the same four-hour window. What changes is the pack, the volume and the paperwork that travels with it.</p>
+              </div>
+              <div style="padding:26px 26px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+                <sc-for list="{{ services }}" as="sv" hint-placeholder-count="4">
+                  <div data-reveal="1" onClick="{{ sv.open }}" style="border:1px solid rgba(255,255,255,.72);border-radius:20px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:24px;cursor:pointer;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,border-color .24s" style-hover="transform:translateY(-4px);box-shadow:0 20px 44px rgba(14,61,34,.12);border-color:rgba(22,163,74,.3)">
+                    <div style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16A34A">{{ sv.kicker }}</div>
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:24px;letter-spacing:-.025em;color:#0B1F13;margin-top:8px">{{ sv.name }}</div>
+                    <p style="margin:10px 0 18px;font-size:14.5px;line-height:1.58;color:#6B7280;text-wrap:pretty">{{ sv.blurb }}</p>
+                    <div style="display:flex;gap:22px;padding-top:14px;border-top:1px solid rgba(14,61,34,.07)">
+                      <div><div style="font-size:12px;color:#9CA3AF">Turnaround</div><div style="font-size:13.5px;font-weight:600;color:#0B1F13">{{ sv.turnaround }}</div></div>
+                      <div><div style="font-size:12px;color:#9CA3AF">Minimum</div><div style="font-size:13.5px;font-weight:600;color:#0B1F13">{{ sv.minimum }}</div></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onService }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:26px 26px 0"><div style="font-size:13px;color:#9CA3AF"><span onClick="{{ goServices }}" style="cursor:pointer;color:#16A34A;font-weight:600">Services</span> · {{ service.name }}</div></div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px;padding:20px 26px 56px;align-items:start">
+                <div>
+                  <div style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16A34A">{{ service.kicker }}</div>
+                  <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:42px;line-height:1.03;letter-spacing:-.035em;margin:12px 0 14px;color:#0B1F13">{{ service.name }}</h1>
+                  <p style="margin:0 0 24px;font-size:16.5px;line-height:1.6;color:#4B5563;max-width:46ch;text-wrap:pretty">{{ service.blurb }}</p>
+                  <div style="display:flex;flex-direction:column;gap:12px">
+                    <sc-for list="{{ service.bullets }}" as="b" hint-placeholder-count="4">
+                      <div data-reveal="1" style="display:flex;gap:12px;align-items:flex-start">
+                        <span style="width:20px;height:20px;border-radius:50%;background:#F0FDF4;color:#16A34A;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;margin-top:2px">✓</span>
+                        <span style="font-size:15px;line-height:1.5;color:#374151">{{ b.text }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+                    <button onClick="{{ goQuote }}" style="border:0;cursor:pointer;padding:15px 26px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:15.5px;box-shadow:0 8px 22px rgba(249,115,22,.34)">Request a quote</button>
+                    <button onClick="{{ goContact }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:15px 24px;border-radius:999px;font-weight:600;font-size:15px;color:#0E3D22;cursor:pointer">Talk to us</button>
+                  </div>
+                </div>
+                <div>
+                  <div style="height:260px;border-radius:20px;background:linear-gradient(135deg,#CDEED8,#8FD3A9);box-shadow:0 20px 44px rgba(14,61,34,.12)"></div>
+                  <div style="margin-top:16px;border:1px solid rgba(14,61,34,.1);border-radius:16px;overflow:hidden;background:#fff">
+                    <div style="padding:12px 16px;background:#F0FDF4;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16A34A">At a glance</div>
+                    <div style="display:flex;justify-content:space-between;padding:12px 16px;border-top:1px solid rgba(14,61,34,.07);font-size:14px"><span style="color:#6B7280">Turnaround</span><span style="font-weight:600;color:#0B1F13">{{ service.turnaround }}</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:12px 16px;border-top:1px solid rgba(14,61,34,.07);font-size:14px"><span style="color:#6B7280">Minimum</span><span style="font-weight:600;color:#0B1F13">{{ service.minimum }}</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:12px 16px;border-top:1px solid rgba(14,61,34,.07);font-size:14px"><span style="color:#6B7280">Batch coding</span><span style="font-weight:600;color:#0B1F13">Included</span></div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onStandards }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 20px;background:linear-gradient(170deg,#F4FBF6,#FFFFFF 78%)">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Trust & standards</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:46px;line-height:1.02;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13;max-width:16ch">I'm precise, on the open.</h1>
+                <p style="margin:0;max-width:56ch;font-size:16px;line-height:1.6;color:#4B5563;text-wrap:pretty">Six things govern how the line runs. Each one is written down, recorded per batch, and available to any buyer who asks.</p>
+              </div>
+              <div style="padding:26px 26px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px">
+                <sc-for list="{{ standardsRows }}" as="r" hint-placeholder-count="6">
+                  <div data-reveal="1" style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:22px">
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em;color:#0B1F13">{{ r.t }}</div>
+                    <p style="margin:9px 0 0;font-size:14.5px;line-height:1.58;color:#6B7280;text-wrap:pretty">{{ r.d }}</p>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="margin:0 26px 56px;padding:26px;border-radius:18px;background:#F0FDF4;display:flex;flex-wrap:wrap;align-items:center;gap:18px">
+                <div style="flex:1;min-width:240px">
+                  <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:21px;color:#0B1F13">Exporting? The credentials sit on their own page.</div>
+                  <p style="margin:6px 0 0;font-size:14.5px;color:#3F6B4F">NAFDAC, NEPC and phytosanitary certification, with the consignment process written out.</p>
+                </div>
+                <button onClick="{{ goExport }}" style="border:1px solid #16A34A;background:#fff;padding:13px 24px;border-radius:999px;font-weight:700;font-size:14.5px;color:#16A34A;cursor:pointer" style-hover="background:#16A34A;color:#fff">Export credentials →</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onAbout }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:48px 26px 30px;background:linear-gradient(170deg,#F4FBF6,#FFFFFF 78%)">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">About us</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:48px;line-height:1.02;letter-spacing:-.04em;margin:12px 0 14px;color:#0B1F13;max-width:18ch;text-wrap:balance">Prep is the hardest part of a kitchen. We do it first.</h1>
+                <p style="margin:0;max-width:58ch;font-size:17px;line-height:1.6;color:#4B5563;text-wrap:pretty">Kadie Fresh prepares fresh produce in a controlled facility in Ikorodu and supplies homes, kitchens, distributors and export buyers across and beyond Lagos.</p>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:34px;padding:20px 26px 44px;align-items:start">
+                <div>
+                  <div style="height:300px;border-radius:20px;background:linear-gradient(135deg,#CDEED8,#8FD3A9);box-shadow:0 20px 44px rgba(14,61,34,.12)"></div>
+                  <div style="display:flex;gap:30px;margin-top:22px">
+                    <div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;color:#0B1F13">10+</div><div style="font-size:13px;color:#6B7280">prepared lines</div></div>
+                    <div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;color:#0B1F13">4 hrs</div><div style="font-size:13px;color:#6B7280">wash to seal</div></div>
+                    <div><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;color:#0B1F13">Lagos</div><div style="font-size:13px;color:#6B7280">and export</div></div>
+                  </div>
+                </div>
+                <div data-reveal="1">
+                  <div style="font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#16A34A">The founder</div>
+                  <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.025em;color:#0B1F13;margin-top:8px">{{ founder.name }}</div>
+                  <div style="font-size:14px;color:#6B7280;margin-bottom:16px">{{ founder.role }}</div>
+                  <sc-for list="{{ founder.paras }}" as="p" hint-placeholder-count="3">
+                    <p style="margin:0 0 14px;font-size:15.5px;line-height:1.62;color:#374151;text-wrap:pretty">{{ p }}</p>
+                  </sc-for>
+                  <div style="margin-top:8px;padding:18px 20px;border-left:3px solid #F97316;background:#FFF8F3;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;line-height:1.35;letter-spacing:-.02em;color:#0B1F13;text-wrap:pretty">{{ founder.pull }}</div>
+                  <button onClick="{{ goTeam }}" style="margin-top:22px;border:1px solid rgba(14,61,34,.16);background:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14.5px;color:#0E3D22;cursor:pointer" style-hover="background:#F0FDF4">Meet the team →</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onTeam }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 22px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Our team</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13">Who handles your produce</h1>
+                <p style="margin:0;max-width:52ch;font-size:16px;line-height:1.6;color:#4B5563">Small team, fixed responsibilities. You will know who to call.</p>
+              </div>
+              <div style="padding:14px 26px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px">
+                <sc-for list="{{ team }}" as="m" hint-placeholder-count="6">
+                  <div data-reveal="1" style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px;text-align:center;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s" style-hover="transform:translateY(-4px);box-shadow:0 16px 36px rgba(14,61,34,.1)">
+                    <div style="width:78px;height:78px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(135deg,#CDEED8,#8FD3A9)"></div>
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;color:#0B1F13">{{ m.name }}</div>
+                    <div style="font-size:13.5px;color:#16A34A;font-weight:600;margin-top:3px">{{ m.role }}</div>
+                    <div style="font-size:13px;color:#6B7280;margin-top:8px;line-height:1.5">{{ m.note }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onGallery }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 18px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Gallery</div>
+                <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+                  <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-.035em;margin:12px 0 0;color:#0B1F13">See it in the room</h1>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-left:auto">
+                    <sc-for list="{{ galleryFilters }}" as="g" hint-placeholder-count="5">
+                      <button onClick="{{ g.go }}" style="{{ g.style }}">{{ g.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+              <div style="padding:20px 26px 56px;columns:3 240px;column-gap:16px">
+                <sc-for list="{{ galleryTiles }}" as="t" hint-placeholder-count="9">
+                  <div onClick="{{ t.open }}" style="{{ t.style }}" style-hover="transform:scale(1.015)">
+                    <div style="position:absolute;left:0;right:0;bottom:0;padding:14px;background:linear-gradient(180deg,transparent,rgba(6,20,12,.66));color:#fff">
+                      <div style="font-size:14.5px;font-weight:600">{{ t.label }}</div>
+                      <div style="font-size:12px;color:rgba(255,255,255,.7)">{{ t.cat }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ closeLightbox }}" style="position:absolute;inset:0;z-index:55;background:rgba(6,20,12,.86);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;animation:kfPop .22s ease both">
+                  <div style="width:min(760px,100%)">
+                    <div style="{{ lightboxStyle }}"></div>
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:14px;color:#fff">
+                      <span style="font-size:16px;font-weight:600">{{ lightboxLabel }}</span>
+                      <span style="margin-left:auto;font-size:13px;color:rgba(255,255,255,.6)">Click anywhere to close</span>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-if>
+
+            <sc-if value="{{ onReviews }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 22px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Testimonials</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13">What buyers tell us</h1>
+              </div>
+              <div style="padding:10px 26px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+                <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3">
+                  <div data-reveal="1" style="border:1px solid rgba(255,255,255,.72);border-radius:20px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:26px">
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:38px;line-height:1;color:#DCFCE7">“</div>
+                    <p style="margin:6px 0 18px;font-size:17px;line-height:1.55;color:#0B1F13;text-wrap:pretty">{{ r.quote }}</p>
+                    <div style="display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px solid rgba(14,61,34,.07)">
+                      <span style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#CDEED8,#8FD3A9);display:inline-block"></span>
+                      <div><div style="font-size:14.5px;font-weight:600;color:#0B1F13">{{ r.name }}</div><div style="font-size:13px;color:#6B7280">{{ r.role }}</div></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onBlog }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 22px;background:linear-gradient(170deg,#F4FBF6,#FFFFFF 80%)">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Blog</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:46px;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13">From the line</h1>
+                <p style="margin:0;max-width:54ch;font-size:16px;line-height:1.6;color:#4B5563">Notes on standards, sourcing and what actually keeps prepared produce good.</p>
+              </div>
+              <div style="padding:26px 26px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+                <sc-for list="{{ posts }}" as="p" hint-placeholder-count="3">
+                  <div data-reveal="1" onClick="{{ p.open }}" style="border:1px solid rgba(255,255,255,.72);border-radius:20px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:16px;cursor:pointer;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s" style-hover="transform:translateY(-4px);box-shadow:0 20px 44px rgba(14,61,34,.12)">
+                    <div style="{{ p.swatch }}"></div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-top:16px;font-size:12px;color:#9CA3AF">
+                      <span style="font-weight:700;color:#16A34A;letter-spacing:.06em;text-transform:uppercase">{{ p.cat }}</span>
+                      <span>{{ p.date }}</span><span>·</span><span>{{ p.read }}</span>
+                    </div>
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:21px;line-height:1.2;letter-spacing:-.025em;color:#0B1F13;margin-top:8px;text-wrap:balance">{{ p.title }}</div>
+                    <p style="margin:8px 0 0;font-size:14.5px;line-height:1.55;color:#6B7280;text-wrap:pretty">{{ p.excerpt }}</p>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onPost }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:26px 26px 0"><div style="font-size:13px;color:#9CA3AF"><span onClick="{{ goBlog }}" style="cursor:pointer;color:#16A34A;font-weight:600">Blog</span> · {{ post.cat }}</div></div>
+              <div style="padding:18px 26px 10px;max-width:760px">
+                <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#9CA3AF">
+                  <span style="font-weight:700;color:#16A34A;letter-spacing:.06em;text-transform:uppercase">{{ post.cat }}</span>
+                  <span>{{ post.date }}</span><span>·</span><span>{{ post.read }}</span><span>·</span><span>{{ post.author }}</span>
+                </div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:1.05;letter-spacing:-.04em;margin:14px 0 20px;color:#0B1F13;text-wrap:balance">{{ post.title }}</h1>
+              </div>
+              <div style="padding:0 26px"><div style="{{ post.hero }}"></div></div>
+              <div style="padding:28px 26px 20px;max-width:700px">
+                <sc-for list="{{ post.body }}" as="para" hint-placeholder-count="4">
+                  <p data-reveal="1" style="margin:0 0 20px;font-size:17.5px;line-height:1.68;color:#1F2937;text-wrap:pretty">{{ para.text }}</p>
+                </sc-for>
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:26px;padding:22px;border-radius:18px;background:#F0FDF4">
+                  <div style="flex:1;min-width:220px">
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;color:#0B1F13">Buying for a kitchen?</div>
+                    <div style="font-size:14px;color:#3F6B4F;margin-top:4px">We will quote against your own cut spec.</div>
+                  </div>
+                  <button onClick="{{ goQuote }}" style="border:0;cursor:pointer;padding:13px 24px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:14.5px;box-shadow:0 8px 20px rgba(249,115,22,.32)">Request a quote</button>
+                </div>
+              </div>
+              <div style="padding:20px 26px 56px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase;margin-bottom:14px">Keep reading</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+                  <sc-for list="{{ morePosts }}" as="m" hint-placeholder-count="2">
+                    <div onClick="{{ m.open }}" style="border:1px solid rgba(255,255,255,.72);border-radius:16px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:18px;cursor:pointer;transition:background .2s" style-hover="background:#FAFDFB">
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17.5px;letter-spacing:-.02em;color:#0B1F13;text-wrap:balance">{{ m.title }}</div>
+                      <div style="font-size:12.5px;color:#9CA3AF;margin-top:6px">{{ m.date }} · {{ m.read }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onFaq }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 10px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">FAQ</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;letter-spacing:-.035em;margin:12px 0 10px;color:#0B1F13">Practical answers</h1>
+              </div>
+              <div style="padding:10px 26px 40px;max-width:760px">
+                <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="8">
+                  <div style="border-bottom:1px solid rgba(14,61,34,.09)">
+                    <button onClick="{{ q.go }}" style="{{ q.row }}"><span>{{ q.q }}</span><span style="{{ q.sign }}">+</span></button>
+                    <div style="{{ q.panel }}"><p style="margin:0 0 18px;font-size:15.5px;line-height:1.6;color:#4B5563;max-width:62ch;text-wrap:pretty">{{ q.a }}</p></div>
+                  </div>
+                </sc-for>
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:28px;padding:22px;border-radius:18px;background:#F7FAF8">
+                  <div style="flex:1;min-width:220px;font-size:15px;color:#374151">Still not answered? Message the line directly.</div>
+                  <button onClick="{{ goContact }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14.5px;color:#0E3D22;cursor:pointer">Contact us</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onContact }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:34px;padding:44px 26px 56px;align-items:start">
+                <div>
+                  <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Contact</div>
+                  <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:1.03;letter-spacing:-.035em;margin:12px 0 14px;color:#0B1F13">Message the line.</h1>
+                  <p style="margin:0 0 26px;max-width:44ch;font-size:16px;line-height:1.6;color:#4B5563;text-wrap:pretty">WhatsApp is fastest — it is the number the whole team watches. Email suits documentation and standing-order paperwork.</p>
+                  <div style="display:flex;flex-direction:column;gap:14px">
+                    <a href="tel:+2348105420458" style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;border:1px solid rgba(14,61,34,.1);background:#fff;transition:background .2s" style-hover="background:#F0FDF4">
+                      <span style="width:38px;height:38px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;color:#16A34A;font-size:15px">☎</span>
+                      <span><span style="display:block;font-size:12.5px;color:#9CA3AF">Tap to call</span><span style="font-size:16px;font-weight:700;color:#0B1F13">0810 542 0458</span></span>
+                    </a>
+                    <a href="mailto:info@kadiefresh.com" style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;border:1px solid rgba(14,61,34,.1);background:#fff;transition:background .2s" style-hover="background:#F0FDF4">
+                      <span style="width:38px;height:38px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;color:#16A34A;font-size:15px">✉</span>
+                      <span><span style="display:block;font-size:12.5px;color:#9CA3AF">Email</span><span style="font-size:16px;font-weight:700;color:#0B1F13">info@kadiefresh.com</span></span>
+                    </a>
+                    <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;border:1px solid rgba(14,61,34,.1);background:#fff">
+                      <span style="width:38px;height:38px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;color:#16A34A;font-size:15px">◷</span>
+                      <span><span style="display:block;font-size:12.5px;color:#9CA3AF">Opening hours</span><span style="font-size:16px;font-weight:700;color:#0B1F13">Mon–Sat, 6am–6pm</span></span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;border:1px solid rgba(14,61,34,.1);background:#fff">
+                      <span style="width:38px;height:38px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;color:#16A34A;font-size:15px">⌖</span>
+                      <span><span style="display:block;font-size:12.5px;color:#9CA3AF">Facility</span><span style="font-size:16px;font-weight:700;color:#0B1F13">Ikorodu, Lagos</span></span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div style="height:220px;border-radius:20px;background:linear-gradient(135deg,#CDEED8,#8FD3A9);position:relative;overflow:hidden">
+                    <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:#F97316;box-shadow:0 0 0 8px rgba(249,115,22,.24)"></span>
+                  </div>
+                  <div style="margin-top:16px;padding:22px;border-radius:18px;border:1px solid rgba(14,61,34,.1);background:#fff">
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;color:#0B1F13">Need a price?</div>
+                    <p style="margin:8px 0 16px;font-size:14.5px;line-height:1.55;color:#6B7280">The quote form captures cut spec, volume and frequency in three steps — it gets you an answer faster than a message.</p>
+                    <button onClick="{{ goQuote }}" style="width:100%;border:0;cursor:pointer;padding:14px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:15px;box-shadow:0 8px 22px rgba(249,115,22,.32)">Request a quote</button>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onExport }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:48px 26px 26px;background:linear-gradient(160deg,#0E3D22,#0B2E1A);color:#fff">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#86EFAC;text-transform:uppercase">Export credentials</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:46px;line-height:1.02;letter-spacing:-.04em;margin:12px 0 12px;max-width:18ch;text-wrap:balance">The paperwork, before you ask for it.</h1>
+                <p style="margin:0;max-width:56ch;font-size:16.5px;line-height:1.6;color:rgba(234,246,238,.72);text-wrap:pretty">Registrations held continuously, certification arranged per consignment, and a process an importer can audit.</p>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:26px">
+                  <button onClick="{{ downloadCatalogue }}" style="border:0;cursor:pointer;padding:14px 24px;border-radius:999px;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;font-weight:700;font-size:15px;box-shadow:0 8px 22px rgba(249,115,22,.34)">Download line card ↓</button>
+                  <button onClick="{{ goDistributor }}" style="cursor:pointer;padding:14px 24px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,.36);color:#fff;font-weight:600;font-size:15px" style-hover="background:rgba(255,255,255,.12)">Become a distributor</button>
+                </div>
+              </div>
+              <div style="padding:32px 26px 20px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase;margin-bottom:14px">What we hold</div>
+                <div style="border:1px solid rgba(14,61,34,.1);border-radius:18px;overflow:hidden;background:#fff">
+                  <sc-for list="{{ exportCreds }}" as="c" hint-placeholder-count="4">
+                    <div data-reveal="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(14,61,34,.06)">
+                      <div style="flex:1;min-width:200px">
+                        <div style="font-size:15.5px;font-weight:700;color:#0B1F13">{{ c.name }}</div>
+                        <div style="font-size:13px;color:#6B7280;margin-top:2px">{{ c.issuer }} · ref {{ c.ref }}</div>
+                      </div>
+                      <div style="font-size:13px;color:#6B7280">Valid to {{ c.expires }}</div>
+                      <span style="{{ c.pill }}">{{ c.status }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="padding:24px 26px 56px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase;margin-bottom:16px">How a consignment runs</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+                  <sc-for list="{{ exportSteps }}" as="st" hint-placeholder-count="4">
+                    <div data-reveal="1" style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px">
+                      <span style="width:28px;height:28px;border-radius:50%;background:#F0FDF4;color:#16A34A;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">{{ st.n }}</span>
+                      <div style="font-size:16.5px;font-weight:700;color:#0B1F13;margin-top:12px">{{ st.t }}</div>
+                      <p style="margin:7px 0 0;font-size:14px;line-height:1.55;color:#6B7280;text-wrap:pretty">{{ st.d }}</p>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onDistributor }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:44px 26px 56px;background:linear-gradient(175deg,#F4FBF6,#FFFFFF 62%);min-height:520px">
+                <div style="max-width:720px">
+                  <div style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#16A34A;text-transform:uppercase">Partner with us</div>
+                  <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:42px;line-height:1.04;letter-spacing:-.035em;margin:12px 0 12px;color:#0B1F13">Become a distributor</h1>
+                  <p style="margin:0 0 26px;max-width:52ch;font-size:16px;line-height:1.6;color:#4B5563;text-wrap:pretty">We appoint a limited number of distributors per market. Tell us where you sell and what you can move, and we will come back within three working days.</p>
+
+                  <sc-if value="{{ distSent }}" hint-placeholder-val="{{ false }}">
+                    <div style="border:1px solid rgba(22,163,74,.3);border-radius:20px;background:#fff;padding:34px;text-align:center;animation:kfFadeUp .35s ease both">
+                      <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 18px;background:radial-gradient(circle at 34% 30%,#22C55E,#12833C);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;animation:kfPop .45s cubic-bezier(.2,1.3,.4,1) both">✓</div>
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.03em;color:#0B1F13">Application received</div>
+                      <p style="margin:10px auto 22px;max-width:42ch;font-size:15.5px;line-height:1.6;color:#4B5563">It is in the studio inbox now. Expect a reply within three working days, with the line card and volume pricing attached.</p>
+                      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                        <button onClick="{{ resetDist }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14.5px;color:#0E3D22;cursor:pointer">Submit another</button>
+                        <button onClick="{{ goInbox }}" style="border:0;background:linear-gradient(180deg,#22C55E,#16A34A);color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14.5px;cursor:pointer">See it in the studio →</button>
+                      </div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ distForm }}" hint-placeholder-val="{{ true }}">
+                    <div style="border:1px solid rgba(14,61,34,.1);border-radius:20px;background:rgba(255,255,255,.72);backdrop-filter:blur(22px) saturate(1.7);box-shadow:0 18px 44px rgba(14,61,34,.08);padding:26px">
+                      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+                        <div>
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Company</label>
+                          <input value="{{ dist.company }}" onChange="{{ onDistCompany }}" placeholder="Zenith Foods Ltd" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;background:#fff">
+                        </div>
+                        <div>
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Country of operation</label>
+                          <input value="{{ dist.country }}" onChange="{{ onDistCountry }}" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;background:#fff">
+                        </div>
+                        <div>
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Monthly volume you can move</label>
+                          <input value="{{ dist.volume }}" onChange="{{ onDistVolume }}" placeholder="e.g. 4 pallets" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;background:#fff">
+                        </div>
+                        <div>
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Markets or channels served</label>
+                          <input value="{{ dist.markets }}" onChange="{{ onDistMarkets }}" placeholder="Retail chains, food service" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;background:#fff">
+                        </div>
+                        <div style="grid-column:1/-1">
+                          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Anything else</label>
+                          <textarea value="{{ dist.message }}" onChange="{{ onDistMessage }}" rows="4" placeholder="Existing lines you carry, cold-chain capacity, target start date…" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;resize:vertical;background:#fff"></textarea>
+                        </div>
+                      </div>
+                      <div onClick="{{ toggleAgreed }}" style="display:flex;gap:12px;align-items:flex-start;margin-top:18px;cursor:pointer">
+                        <span style="{{ agreedBox }}">{{ agreedMark }}</span>
+                        <span style="font-size:14px;line-height:1.5;color:#4B5563;text-wrap:pretty">I confirm the company holds the cold-chain capacity to handle prepared produce, and I accept the distributor terms.</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:12px;margin-top:22px;padding-top:20px;border-top:1px solid rgba(14,61,34,.08)">
+                        <span style="font-size:13px;color:#9CA3AF;margin-right:auto">We reply within three working days.</span>
+                        <button onClick="{{ submitDist }}" style="{{ distSubmitStyle }}">{{ distSubmitLabel }}</button>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ onNotFound }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:100px 26px 110px;text-align:center;background:linear-gradient(175deg,#F4FBF6,#FFFFFF 70%)">
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:96px;line-height:1;letter-spacing:-.05em;color:#DCFCE7">404</div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;letter-spacing:-.035em;margin:10px 0 12px;color:#0B1F13">That page is not on the line.</h1>
+                <p style="margin:0 auto;max-width:40ch;font-size:16px;line-height:1.6;color:#4B5563">It may have been moved. The catalogue and the quote form are both one tap away.</p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px">
+                  <button onClick="{{ goHome }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:13px 24px;border-radius:999px;font-weight:600;font-size:15px;color:#0E3D22;cursor:pointer">Back home</button>
+                  <button onClick="{{ goProducts }}" style="border:0;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;padding:13px 24px;border-radius:999px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 8px 22px rgba(249,115,22,.32)">See the catalogue</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <div style="background:#0E3D22;color:#EAF6EE;padding:38px 26px 30px">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:26px">
+                <div>
+                  <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;color:#fff">Kadie Fresh</div>
+                  <p style="margin:10px 0 0;font-size:13.5px;line-height:1.6;color:rgba(234,246,238,.62)">Prepared fresh produce, Ikorodu, Lagos. Mon–Sat 6am–6pm.</p>
+                  <a href="mailto:info@kadiefresh.com" style="display:inline-block;margin-top:10px;font-size:13.5px;color:#86EFAC">info@kadiefresh.com</a>
+                  <div style="display:flex;gap:8px;margin-top:14px">
+                    <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+                      <a href="{{ s.href }}" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(234,246,238,.8)">{{ s.label }}</a>
+                    </sc-for>
+                  </div>
+                </div>
+                <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+                  <div>
+                    <div style="font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(234,246,238,.5)">{{ col.title }}</div>
+                    <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+                      <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4">
+                        <a href="{{ l.href }}" style="font-size:14px;color:rgba(234,246,238,.86)">{{ l.label }}</a>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);font-size:12.5px;color:rgba(234,246,238,.5)">
+                <span>© 2026 Kadie Fresh. RC 1849022.</span>
+                <span style="display:flex;gap:16px"><a href="#terms" style="color:rgba(234,246,238,.6)">Terms of service</a><a href="#privacy" style="color:rgba(234,246,238,.6)">Privacy</a></span>
+              </div>
+            </div>
+
+            <sc-if value="{{ showCookies }}" hint-placeholder-val="{{ true }}">
+              <div style="position:sticky;bottom:0;z-index:40;margin:0 14px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:14px 18px;border-radius:16px;background:rgba(255,255,255,.78);backdrop-filter:blur(22px) saturate(1.7);border:1px solid rgba(255,255,255,.8);box-shadow:0 16px 40px rgba(14,61,34,.16);animation:kfToast .4s cubic-bezier(.2,.8,.2,1) both">
+                <span style="font-size:13.5px;color:#374151;flex:1;min-width:220px;text-wrap:pretty">We use a small number of cookies to see which pages buyers read. Nothing is sold on.</span>
+                <button onClick="{{ declineCookies }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;color:#0E3D22;cursor:pointer">Only essentials</button>
+                <button onClick="{{ acceptCookies }}" style="border:0;background:linear-gradient(180deg,#22C55E,#16A34A);color:#fff;padding:9px 18px;border-radius:999px;font-size:13.5px;font-weight:700;cursor:pointer">Accept</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onLogin }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));min-height:560px;background:#fff">
+            <div style="background:linear-gradient(160deg,#0E3D22,#07200F);padding:42px 38px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+              <div style="position:absolute;right:-90px;top:-70px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(34,197,94,.34),transparent 68%)"></div>
+              <div style="display:flex;align-items:center;gap:10px;position:relative">
+                <span style="width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#22C55E,#12833C);position:relative;display:inline-block"><span style="position:absolute;right:-2px;bottom:-1px;width:11px;height:11px;border-radius:50%;background:#F97316;border:2px solid #0E3D22"></span></span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;color:#fff">Kadie Fresh</span>
+              </div>
+              <div style="position:relative">
+                <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:38px;line-height:1.06;letter-spacing:-.035em;color:#fff;max-width:15ch">The control panel for the whole site.</div>
+                <p style="margin:14px 0 0;max-width:38ch;font-size:15px;line-height:1.6;color:rgba(234,246,238,.6)">Products, enquiries, testimonials, certifications, blog and gallery — edited here, live on the site in seconds.</p>
+              </div>
+              <div style="position:relative;font-size:12.5px;color:rgba(234,246,238,.42)">Staff access only · sessions expire after 12 hours</div>
+            </div>
+            <div style="padding:46px 40px;display:flex;flex-direction:column;justify-content:center;max-width:460px">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.03em;color:#0B1F13">Sign in</div>
+              <p style="margin:8px 0 26px;font-size:14.5px;color:#6B7280">Use the address the account was set up with.</p>
+              <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:10px;padding:12px 14px;border-radius:12px;background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;font-size:13.5px;margin-bottom:16px;animation:kfShake .42s ease both">{{ loginErrorText }}</div>
+              </sc-if>
+              <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Email</label>
+              <input value="{{ loginEmail }}" onChange="{{ onLoginEmail }}" placeholder="femi@kadiefresh.com" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;margin-bottom:16px">
+              <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Password</label>
+              <input type="password" value="{{ loginPass }}" onChange="{{ onLoginPass }}" placeholder="••••••••" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none">
+              <button onClick="{{ signIn }}" style="{{ signInStyle }}">{{ signInLabel }}</button>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:13.5px">
+                <a href="#reset" style="color:#16A34A;font-weight:600">Forgot password</a>
+                <span onClick="{{ goProducts }}" style="color:#9CA3AF;cursor:pointer">← Back to site</span>
+              </div>
+              <div style="margin-top:22px;padding:11px 14px;border-radius:10px;background:#F0FDF4;font-size:12.5px;color:#3F6B4F">Prototype: press Sign in with anything filled, or leave blank to see the error state.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ inStudio }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:236px 1fr;min-height:640px;background:radial-gradient(52% 40% at 78% 0%,#E7F6EC 0%,transparent 62%),linear-gradient(180deg,#FAFDFB,#F1F7F3)">
+            <div style="background:linear-gradient(180deg,#0E3D22,#07200F);padding:22px 16px;display:flex;flex-direction:column">
+              <div style="display:flex;align-items:center;gap:10px;padding:0 8px 4px">
+                <span style="width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#22C55E,#12833C);position:relative;display:inline-block"><span style="position:absolute;right:-2px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:#F97316;border:2px solid #0E3D22"></span></span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16.5px;color:#fff">Kadie Fresh</span>
+              </div>
+              <div style="padding:0 8px 18px;font-size:12.5px;color:rgba(234,246,238,.42)">Control panel</div>
+              <div style="display:flex;flex-direction:column;gap:3px">
+                <sc-for list="{{ studioNav }}" as="n" hint-placeholder-count="8">
+                  <button onClick="{{ n.go }}" style="{{ n.style }}">
+                    <span>{{ n.label }}</span>
+                    <sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}"><span style="margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#F97316;color:#fff;font-size:11.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">{{ n.badge }}</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+              <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px 8px 0;border-top:1px solid rgba(255,255,255,.09)">
+                <span style="width:34px;height:34px;border-radius:50%;background:#DCFCE7;display:inline-block"></span>
+                <div style="line-height:1.25">
+                  <div style="font-size:13.5px;font-weight:600;color:#fff">Femi Alabi</div>
+                  <div style="font-size:12px;color:rgba(234,246,238,.45)">Owner</div>
+                </div>
+                <button onClick="{{ signOut }}" onMouseEnter="{{ tipSignOut }}" onMouseLeave="{{ hideTip }}" style="margin-left:auto;border:0;background:transparent;color:rgba(234,246,238,.5);cursor:pointer;font-size:15px">⏻</button>
+              </div>
+            </div>
+
+            <div style="padding:26px 28px 34px;overflow:hidden">
+
+              <sc-if value="{{ onDash }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:33px;letter-spacing:-.035em;margin:0;color:#0B1F13">Good morning, Femi</h1>
+                    <p style="margin:6px 0 0;font-size:15px;color:#6B7280">Here is how the website is doing this week.</p>
+                  </div>
+                  <span style="margin-left:auto;padding:9px 16px;border-radius:999px;background:#F0FDF4;border:1px solid rgba(22,163,74,.2);font-size:13.5px;font-weight:600;color:#16A34A">All systems normal</span>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:14px;margin-top:22px">
+                  <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+                    <div data-reveal="1" style="border:1px solid rgba(255,255,255,.72);border-radius:16px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:18px;box-shadow:0 2px 6px rgba(14,61,34,.04)">
+                      <div style="font-size:13.5px;color:#6B7280">{{ s.label }}</div>
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:38px;letter-spacing:-.03em;color:#0B1F13;margin:6px 0 4px">{{ s.value }}</div>
+                      <div style="font-size:13px;color:#16A34A">{{ s.delta }}</div>
+                      <div style="height:4px;border-radius:99px;background:#EAF3EC;margin-top:12px;overflow:hidden"><span style="{{ s.bar }}"></span></div>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:16px">
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px">
+                    <div style="display:flex;align-items:center;justify-content:space-between">
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.02em;color:#0B1F13">Recent enquiries</div>
+                      <span onClick="{{ goInbox }}" style="font-size:13.5px;font-weight:600;color:#16A34A;cursor:pointer">Open inbox →</span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;margin-top:8px">
+                      <sc-for list="{{ recent }}" as="e" hint-placeholder-count="4">
+                        <div onClick="{{ e.open }}" style="display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid rgba(14,61,34,.07);cursor:pointer">
+                          <div>
+                            <div style="font-size:14.5px;font-weight:600;color:#0B1F13">{{ e.name }}</div>
+                            <div style="font-size:13px;color:#6B7280">{{ e.meta }}</div>
+                          </div>
+                          <span style="{{ e.pill }}">{{ e.status }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:16px">
+                    <div style="border:1.5px solid #F97316;border-radius:18px;background:#fff;padding:20px;box-shadow:0 8px 24px rgba(249,115,22,.1)">
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;color:#0B1F13">Change WhatsApp number</div>
+                      <p style="margin:8px 0 14px;font-size:13.5px;line-height:1.55;color:#6B7280">This is the number every WhatsApp button on your website opens.</p>
+                      <input value="{{ waNumber }}" onChange="{{ onWa }}" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:15px;font-weight:600;outline:none;margin-bottom:12px">
+                      <button onClick="{{ saveWa }}" style="{{ saveWaStyle }}">{{ saveWaLabel }}</button>
+                    </div>
+                    <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px">
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;color:#0B1F13">Needs your attention</div>
+                      <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px;font-size:14px;color:#4B5563">
+                        <span>2 products missing photographs</span>
+                        <span>No certifications added yet</span>
+                        <span>Last blog post 41 days ago</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ onInbox }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:31px;letter-spacing:-.035em;margin:0;color:#0B1F13">Enquiries</h1>
+                    <p style="margin:6px 0 0;font-size:14.5px;color:#6B7280">{{ inboxSubtitle }}</p>
+                  </div>
+                  <div style="display:flex;gap:7px;margin-left:auto;flex-wrap:wrap">
+                    <sc-for list="{{ inboxTabs }}" as="t" hint-placeholder-count="3">
+                      <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-top:20px;align-items:start">
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);overflow:hidden">
+                    <sc-if value="{{ inboxHasRows }}" hint-placeholder-val="{{ true }}">
+                      <sc-for list="{{ inboxRows }}" as="e" hint-placeholder-count="5">
+                        <div onClick="{{ e.open }}" style="{{ e.row }}">
+                          <div style="display:flex;align-items:center;gap:10px">
+                            <span style="{{ e.dot }}"></span>
+                            <span style="font-size:14.5px;font-weight:600;color:#0B1F13">{{ e.name }}</span>
+                            <span style="{{ e.pill }}">{{ e.status }}</span>
+                            <span style="margin-left:auto;font-size:12px;color:#9CA3AF">{{ e.when }}</span>
+                          </div>
+                          <div style="font-size:13px;color:#6B7280;margin-top:4px;margin-left:20px">{{ e.meta }}</div>
+                        </div>
+                      </sc-for>
+                    </sc-if>
+                    <sc-if value="{{ inboxEmpty }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:60px 26px;animation:kfFadeUp .35s ease both">
+                        <div style="width:52px;height:52px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;font-size:20px">✉</div>
+                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;color:#0B1F13">Nothing in this view</div>
+                        <p style="margin:0;max-width:34ch;font-size:13.5px;color:#6B7280">When a buyer sends a quote request it lands here, with their contact details attached.</p>
+                      </div>
+                    </sc-if>
+                  </div>
+
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px;min-height:340px">
+                    <sc-if value="{{ hasSelection }}" hint-placeholder-val="{{ false }}">
+                      <div style="animation:kfFadeUp .28s ease both">
+                        <div style="display:flex;align-items:flex-start;gap:12px">
+                          <div>
+                            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:21px;letter-spacing:-.02em;color:#0B1F13">{{ sel.name }}</div>
+                            <div style="font-size:13.5px;color:#6B7280;margin-top:3px">{{ sel.meta }} · {{ sel.when }}</div>
+                          </div>
+                          <span style="{{ sel.pill }}">{{ sel.status }}</span>
+                        </div>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">
+                          <a href="{{ sel.mailto }}" style="padding:8px 14px;border-radius:999px;background:#F0FDF4;font-size:13px;font-weight:600;color:#16A34A">{{ sel.email }}</a>
+                          <a href="{{ sel.tel }}" style="padding:8px 14px;border-radius:999px;background:#F0FDF4;font-size:13px;font-weight:600;color:#16A34A">{{ sel.phone }}</a>
+                        </div>
+                        <p style="margin:16px 0 0;padding:14px 16px;border-radius:12px;background:#F7FAF8;font-size:14.5px;line-height:1.6;color:#374151;white-space:pre-line;text-wrap:pretty">{{ sel.body }}</p>
+                        <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin:18px 0 6px">Reply</label>
+                        <textarea value="{{ reply }}" onChange="{{ onReply }}" rows="3" placeholder="Thanks for reaching out — here is what we can do…" style="width:100%;padding:13px 15px;border-radius:12px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none;resize:vertical"></textarea>
+                        <div style="display:flex;gap:10px;margin-top:12px">
+                          <button onClick="{{ sendReply }}" style="{{ sendReplyStyle }}">{{ sendReplyLabel }}</button>
+                          <button onClick="{{ markNew }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:12px 18px;border-radius:999px;font-weight:600;font-size:14px;color:#0E3D22;cursor:pointer">Mark unread</button>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ noSelection }}" hint-placeholder-val="{{ true }}">
+                      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;height:300px;color:#9CA3AF">
+                        <div style="width:46px;height:46px;border-radius:50%;background:#F7FAF8;display:flex;align-items:center;justify-content:center;font-size:18px">←</div>
+                        <div style="font-size:14.5px">Pick an enquiry to read and reply</div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ onSettings }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:31px;letter-spacing:-.035em;margin:0;color:#0B1F13">Site settings</h1>
+                    <p style="margin:6px 0 0;font-size:14.5px;color:#6B7280">Details that appear across the whole website.</p>
+                  </div>
+                  <button onClick="{{ saveSettings }}" style="{{ saveSettingsStyle }}">{{ saveSettingsLabel }}</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-top:20px;align-items:start">
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px">
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;color:#0B1F13;margin-bottom:14px">Business details</div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+                      <sc-for list="{{ settingsFields }}" as="fd" hint-placeholder-count="8">
+                        <div>
+                          <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">{{ fd.label }}</label>
+                          <input value="{{ fd.value }}" onChange="{{ fd.onChange }}" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none">
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:16px">
+                    <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px">
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;color:#0B1F13;margin-bottom:14px">Search & discovery</div>
+                      <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Page title</label>
+                      <input value="{{ seoTitle }}" onChange="{{ onSeoTitle }}" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none;margin-bottom:14px">
+                      <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Meta description</label>
+                      <textarea value="{{ seoDesc }}" onChange="{{ onSeoDesc }}" rows="3" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none;resize:vertical;margin-bottom:14px"></textarea>
+                      <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Google Search Console verification</label>
+                      <input value="{{ gsc }}" onChange="{{ onGsc }}" placeholder="google-site-verification=…" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none">
+                      <div style="font-size:12.5px;color:#9CA3AF;margin-top:8px">Pasted here, it is written into the site head automatically.</div>
+                    </div>
+                    <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px">
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;color:#0B1F13">Legal pages</div>
+                      <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;font-size:14px">
+                        <div style="display:flex;align-items:center;gap:10px"><span style="color:#374151">Terms of service</span><span style="margin-left:auto;padding:3px 10px;border-radius:999px;background:#F0FDF4;color:#16A34A;font-size:11.5px;font-weight:700">Published</span></div>
+                        <div style="display:flex;align-items:center;gap:10px"><span style="color:#374151">Privacy policy</span><span style="margin-left:auto;padding:3px 10px;border-radius:999px;background:#F0FDF4;color:#16A34A;font-size:11.5px;font-weight:700">Published</span></div>
+                        <div style="display:flex;align-items:center;gap:10px"><span style="color:#374151">Cookie notice</span><span style="margin-left:auto;padding:3px 10px;border-radius:999px;background:#FFF1E6;color:#C2410C;font-size:11.5px;font-weight:700">Draft</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ onProductsAdmin }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:31px;letter-spacing:-.035em;margin:0;color:#0B1F13">Products</h1>
+                    <p style="margin:6px 0 0;font-size:14.5px;color:#6B7280">Click a line to edit it. Hidden lines stay off the public catalogue.</p>
+                  </div>
+                  <button onClick="{{ addProduct }}" style="margin-left:auto;border:1px solid rgba(14,61,34,.16);background:#fff;padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px;color:#0E3D22;cursor:pointer">Add product</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:20px;align-items:start">
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);overflow:hidden">
+                    <sc-for list="{{ catalogueRows }}" as="p" hint-placeholder-count="8">
+                      <div style="{{ p.row }}">
+                        <div onClick="{{ p.edit }}" style="flex:1;cursor:pointer">
+                          <div style="display:flex;align-items:center;gap:9px">
+                            <span style="font-size:14.5px;font-weight:600;color:#0B1F13">{{ p.name }}</span>
+                            <span style="{{ p.tagStyle }}">{{ p.cat }}</span>
+                          </div>
+                          <div style="font-size:12.5px;color:#6B7280;margin-top:3px">{{ p.pack }} · MOQ {{ p.moq }}</div>
+                          <sc-if value="{{ p.photoWarn }}" hint-placeholder-val="{{ false }}">
+                            <div style="font-size:12px;color:#C2410C;margin-top:4px">⚠ {{ p.photoText }}</div>
+                          </sc-if>
+                        </div>
+                        <span onClick="{{ p.toggle }}" style="{{ p.livePill }}">{{ p.liveLabel }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px;min-height:340px">
+                    <sc-if value="{{ editingProduct }}" hint-placeholder-val="{{ false }}">
+                      <div style="animation:kfFadeUp .28s ease both">
+                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;color:#0B1F13;margin-bottom:16px">Edit line</div>
+                        <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Name</label>
+                        <input value="{{ draft.name }}" onChange="{{ onDraftName }}" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none;margin-bottom:12px">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:12px">
+                          <div>
+                            <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Pack</label>
+                            <input value="{{ draft.pack }}" onChange="{{ onDraftPack }}" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none">
+                          </div>
+                          <div>
+                            <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">MOQ</label>
+                            <input value="{{ draft.moq }}" onChange="{{ onDraftMoq }}" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none">
+                          </div>
+                          <div>
+                            <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Shelf life</label>
+                            <input value="{{ draft.shelf }}" onChange="{{ onDraftShelf }}" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none">
+                          </div>
+                        </div>
+                        <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Description</label>
+                        <textarea value="{{ draft.blurb }}" onChange="{{ onDraftBlurb }}" rows="4" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none;resize:vertical"></textarea>
+                        <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin:14px 0 6px">Photographs</label>
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+                          <div style="height:74px;border-radius:10px;background:linear-gradient(135deg,#CDEED8,#8FD3A9)"></div>
+                          <div style="height:74px;border-radius:10px;background:linear-gradient(135deg,#CDEED8,#8FD3A9);opacity:.7"></div>
+                          <div onClick="{{ addPhoto }}" style="height:74px;border-radius:10px;border:1.5px dashed rgba(14,61,34,.2);background:#FAFDFB;display:flex;align-items:center;justify-content:center;color:#9CA3AF;font-size:20px;cursor:pointer">+</div>
+                        </div>
+                        <div style="display:flex;gap:10px;margin-top:18px">
+                          <button onClick="{{ saveProduct }}" style="{{ saveProductStyle }}">{{ saveProductLabel }}</button>
+                          <button onClick="{{ cancelEdit }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:12px 18px;border-radius:999px;font-weight:600;font-size:14px;color:#0E3D22;cursor:pointer">Cancel</button>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ noProductSelected }}" hint-placeholder-val="{{ true }}">
+                      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;height:300px;color:#9CA3AF">
+                        <div style="width:46px;height:46px;border-radius:50%;background:#F7FAF8;display:flex;align-items:center;justify-content:center;font-size:18px">←</div>
+                        <div style="font-size:14.5px">Pick a line to edit its spec and photographs</div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ onReviewsAdmin }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:31px;letter-spacing:-.035em;margin:0;color:#0B1F13">Testimonials</h1>
+                    <p style="margin:6px 0 0;font-size:14.5px;color:#6B7280">{{ reviewsPending }}</p>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:20px">
+                  <sc-for list="{{ reviewsAdmin }}" as="t" hint-placeholder-count="4">
+                    <div data-reveal="1" style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px;display:flex;flex-direction:column">
+                      <div style="display:flex;align-items:center;gap:10px">
+                        <span style="{{ t.livePill }}">{{ t.liveLabel }}</span>
+                      </div>
+                      <p style="margin:12px 0 16px;font-size:15px;line-height:1.55;color:#374151;text-wrap:pretty">{{ t.quote }}</p>
+                      <div style="display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:14px;border-top:1px solid rgba(14,61,34,.07)">
+                        <div><div style="font-size:14px;font-weight:600;color:#0B1F13">{{ t.name }}</div><div style="font-size:12.5px;color:#6B7280">{{ t.role }}</div></div>
+                        <button onClick="{{ t.remove }}" style="margin-left:auto;border:1px solid rgba(14,61,34,.14);background:#fff;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;color:#6B7280;cursor:pointer">Delete</button>
+                        <button onClick="{{ t.toggle }}" style="border:1px solid #16A34A;background:#fff;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;color:#16A34A;cursor:pointer" style-hover="background:#16A34A;color:#fff">{{ t.btnLabel }}</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ onCerts }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:31px;letter-spacing:-.035em;margin:0;color:#0B1F13">Certifications</h1>
+                    <p style="margin:6px 0 0;font-size:14.5px;color:#6B7280">These appear on the export credentials page in the order listed.</p>
+                  </div>
+                  <div style="display:flex;gap:10px;margin-left:auto">
+                    <button onClick="{{ toggleCertsEmpty }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:11px 18px;border-radius:999px;font-weight:600;font-size:13.5px;color:#6B7280;cursor:pointer">{{ certsEmptyLabel }}</button>
+                    <button onClick="{{ addCert }}" style="border:0;background:linear-gradient(180deg,#22C55E,#16A34A);color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 6px 18px rgba(22,163,74,.28)">Upload certificate</button>
+                  </div>
+                </div>
+                <sc-if value="{{ certsHas }}" hint-placeholder-val="{{ true }}">
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);overflow:hidden;margin-top:20px">
+                    <sc-for list="{{ certsList }}" as="c" hint-placeholder-count="4">
+                      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(14,61,34,.06)">
+                        <span style="width:38px;height:46px;border-radius:6px;background:#F0FDF4;border:1px solid rgba(22,163,74,.2);flex:none"></span>
+                        <div style="flex:1;min-width:180px">
+                          <div style="font-size:14.5px;font-weight:600;color:#0B1F13">{{ c.name }}</div>
+                          <div style="font-size:12.5px;color:#6B7280;margin-top:2px">{{ c.issuer }} · ref {{ c.ref }}</div>
+                        </div>
+                        <div style="font-size:12.5px;color:#6B7280">Expires {{ c.expires }}</div>
+                        <span style="{{ c.pill }}">{{ c.status }}</span>
+                        <button onClick="{{ c.remove }}" style="border:0;background:transparent;color:#9CA3AF;font-size:16px;cursor:pointer">×</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ certsNone }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;height:420px;margin-top:20px;border:1px dashed rgba(14,61,34,.18);border-radius:20px;background:#fff;animation:kfFadeUp .3s ease both">
+                    <div style="width:56px;height:56px;border-radius:50%;background:#F0FDF4;display:flex;align-items:center;justify-content:center;font-size:22px">▤</div>
+                    <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;color:#0B1F13">No certifications added yet</div>
+                    <p style="margin:0;max-width:40ch;font-size:14.5px;line-height:1.6;color:#6B7280;text-wrap:pretty">Export buyers check this first. Upload NAFDAC and NEPC registrations to switch the credentials page on.</p>
+                    <button onClick="{{ addCert }}" style="margin-top:6px;border:0;background:linear-gradient(180deg,#FB923C,#F97316);color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 8px 20px rgba(249,115,22,.32)">Upload the first one</button>
+                  </div>
+                </sc-if>
+              </sc-if>
+
+              <sc-if value="{{ onBlogAdmin }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:31px;letter-spacing:-.035em;margin:0;color:#0B1F13">Blog</h1>
+                    <p style="margin:6px 0 0;font-size:14.5px;color:#6B7280">Drafts stay off the public blog until published.</p>
+                  </div>
+                  <button onClick="{{ newPost }}" style="margin-left:auto;border:0;background:linear-gradient(180deg,#22C55E,#16A34A);color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 6px 18px rgba(22,163,74,.28)">New post</button>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:20px;align-items:start">
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);overflow:hidden">
+                    <sc-for list="{{ postsAdmin }}" as="p" hint-placeholder-count="4">
+                      <div onClick="{{ p.edit }}" style="{{ p.row }}">
+                        <div style="flex:1">
+                          <div style="font-size:14.5px;font-weight:600;color:#0B1F13">{{ p.title }}</div>
+                          <div style="font-size:12.5px;color:#6B7280;margin-top:3px">{{ p.cat }} · {{ p.date }}</div>
+                        </div>
+                        <span style="{{ p.statusPill }}">{{ p.statusLabel }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:20px;min-height:360px">
+                    <sc-if value="{{ editingPost }}" hint-placeholder-val="{{ false }}">
+                      <div style="animation:kfFadeUp .28s ease both">
+                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;color:#0B1F13;margin-bottom:16px">Editor</div>
+                        <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Title</label>
+                        <input value="{{ postDraft.title }}" onChange="{{ onPostTitle }}" placeholder="A working title" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:15px;outline:none;margin-bottom:12px">
+                        <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Excerpt</label>
+                        <textarea value="{{ postDraft.excerpt }}" onChange="{{ onPostExcerpt }}" rows="2" style="width:100%;padding:11px 13px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;outline:none;resize:vertical;margin-bottom:12px"></textarea>
+                        <label style="font-size:12.5px;font-weight:600;color:#6B7280;display:block;margin-bottom:5px">Body — one blank line between paragraphs</label>
+                        <textarea value="{{ postDraft.body }}" onChange="{{ onPostBody }}" rows="9" style="width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(14,61,34,.14);font-size:14.5px;line-height:1.6;outline:none;resize:vertical"></textarea>
+                        <div onClick="{{ togglePublish }}" style="display:flex;gap:10px;align-items:center;margin-top:14px;cursor:pointer">
+                          <span style="{{ publishBox }}">{{ publishMark }}</span>
+                          <span style="font-size:14px;color:#374151">Publish to the public blog</span>
+                        </div>
+                        <div style="display:flex;gap:10px;margin-top:18px">
+                          <button onClick="{{ savePost }}" style="{{ savePostStyle }}">{{ savePostLabel }}</button>
+                          <button onClick="{{ goBlog }}" style="border:1px solid rgba(14,61,34,.16);background:#fff;padding:12px 18px;border-radius:999px;font-weight:600;font-size:14px;color:#0E3D22;cursor:pointer">Preview site</button>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ noPostSelected }}" hint-placeholder-val="{{ true }}">
+                      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;height:320px;color:#9CA3AF">
+                        <div style="width:46px;height:46px;border-radius:50%;background:#F7FAF8;display:flex;align-items:center;justify-content:center;font-size:18px">✎</div>
+                        <div style="font-size:14.5px">Pick a post to edit, or start a new one</div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ onGalleryAdmin }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+                  <div>
+                    <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:31px;letter-spacing:-.035em;margin:0;color:#0B1F13">Gallery</h1>
+                    <p style="margin:6px 0 0;font-size:14.5px;color:#6B7280">Hidden photographs stay in the library but off the public gallery.</p>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:20px">
+                  <div onClick="{{ addTile }}" onMouseEnter="{{ dragOn }}" onMouseLeave="{{ dragOff }}" style="{{ dropStyle }}">
+                    <span style="font-size:22px;color:#16A34A">↑</span>
+                    <span style="font-size:13px;font-weight:600;color:#0E3D22">Drop photographs</span>
+                    <span style="font-size:11.5px;color:#9CA3AF">JPG or PNG, up to 8MB</span>
+                  </div>
+                  <sc-for list="{{ galleryAdmin }}" as="g" hint-placeholder-count="9">
+                    <div style="border:1px solid rgba(255,255,255,.72);border-radius:16px;background:rgba(255,255,255,.62);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 28px rgba(14,61,34,.09);padding:8px">
+                      <div style="{{ g.tile }}"></div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:9px 4px 3px">
+                        <div style="min-width:0">
+                          <div style="font-size:13px;font-weight:600;color:#0B1F13;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.label }}</div>
+                          <div style="font-size:11.5px;color:#9CA3AF">{{ g.cat }}</div>
+                        </div>
+                        <button onClick="{{ g.toggle }}" style="margin-left:auto;border:1px solid rgba(14,61,34,.14);background:#fff;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:600;color:#0E3D22;cursor:pointer">{{ g.btnLabel }}</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <sc-if value="{{ isPublic }}" hint-placeholder-val="{{ true }}">
+        <a href="https://wa.me/2348105420458?text=Hello%20Kadie%20Fresh%2C%20I%20would%20like%20to%20enquire%20about%20your%20prepared%20produce." target="_blank" rel="noopener" style="position:fixed;right:26px;bottom:26px;z-index:66;display:flex;align-items:center;gap:11px;padding:11px 20px 11px 12px;border-radius:999px;background:rgba(20,150,70,.9);backdrop-filter:blur(16px) saturate(1.7);-webkit-backdrop-filter:blur(16px) saturate(1.7);border:1px solid rgba(255,255,255,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 14px 36px rgba(14,61,34,.34);color:#fff;font-weight:700;font-size:14.5px;text-decoration:none;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 20px 44px rgba(14,61,34,.42)" style-active="transform:translateY(0) scale(.98)">
+          <span style="position:relative;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px;flex:none">
+            <span style="position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(255,255,255,.55);animation:kfPulse 2.4s ease-out infinite"></span>&#9990;
+          </span>
+          <span style="display:flex;flex-direction:column;gap:2px;line-height:1.1;white-space:nowrap">
+            <span>Chat on WhatsApp</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:500;color:rgba(255,255,255,.8)"><span style="width:7px;height:7px;border-radius:50%;background:#4ADE80;display:inline-block;animation:kfBlip 2s ease-out infinite"></span>Online now</span>
+          </span>
+        </a>
+      </sc-if>
+
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+        <div style="{{ preloaderStyle }}">
+          <div style="position:relative;width:74px;height:74px">
+            <span style="position:absolute;inset:0;border-radius:50%;background:#16A34A;opacity:.3;animation:kfPulse 1.8s ease-out infinite"></span>
+            <span style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 30%,#22C55E,#12833C)"></span>
+            <span style="position:absolute;right:-2px;bottom:0;width:24px;height:24px;border-radius:50%;background:#F97316;border:3px solid #fff"></span>
+          </div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;color:#0B1F13">Kadie Fresh</div>
+          <div style="width:170px;height:3px;border-radius:99px;background:#DCFCE7;overflow:hidden"><span style="display:block;height:100%;background:linear-gradient(90deg,#16A34A,#F97316);animation:kfBar 1.25s cubic-bezier(.4,0,.2,1) both"></span></div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:70;display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;background:#0E3D22;color:#fff;font-size:14px;font-weight:600;box-shadow:0 14px 34px rgba(14,61,34,.34);animation:kfToast .34s cubic-bezier(.2,.8,.2,1) both">
+          <span style="width:7px;height:7px;border-radius:50%;background:#4ADE80;display:inline-block"></span>{{ toastText }}
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ tip }}" hint-placeholder-val="{{ false }}">
+        <div style="{{ tipStyle }}">{{ tipText }}</div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1340,&quot;height&quot;:900}}">
+const CAT_SWATCH = {
+  Fruit: 'linear-gradient(135deg,#FFE0C7,#F9A870)',
+  Veg: 'linear-gradient(135deg,#CDEED8,#8FD3A9)'
+};
+
+const PRODUCTS = [
+  { id:'pineapple', name:'Sliced pineapple', cat:'Fruit', pack:'500g · sealed pack', grade:'Grade A, ripe', shelf:'4 days chilled', moq:'20 packs', storage:'2–4°C', origin:'Ogun State growers', blurb:'Crown and eyes removed, cored and cut to even rings or chunks. Sealed within four hours of washing, date-coded to the batch and the farm it came from.' },
+  { id:'ugu', name:'Chopped ugu', cat:'Veg', pack:'250g · washed & drained', grade:'Grade A leaf', shelf:'3 days chilled', moq:'30 packs', storage:'2–4°C', origin:'Ikorodu belt', blurb:'Stems stripped, triple-washed in potable water and spun dry so the pack does not sweat. Cut fine for soups or coarse on request.' },
+  { id:'pepper', name:'Prepared pepper mix', cat:'Veg', pack:'400g · blended base', grade:'Blend, deseeded', shelf:'5 days chilled', moq:'24 packs', storage:'2–4°C', origin:'Mile 12 intake', blurb:'Rodo, tatashe and onion blended to a consistent stew base. Deseeded to your heat level and packed without water added.' },
+  { id:'carrots', name:'Sliced carrots', cat:'Veg', pack:'500g · pack', grade:'Grade A', shelf:'6 days chilled', moq:'20 packs', storage:'2–4°C', origin:'Jos plateau', blurb:'Peeled and cut to coin, baton or dice. Sized to spec so the cut is even across the whole batch.' },
+  { id:'watermelon', name:'Diced watermelon', cat:'Fruit', pack:'500g · sealed pack', grade:'Grade A, seedless', shelf:'3 days chilled', moq:'20 packs', storage:'2–4°C', origin:'Oyo growers', blurb:'Rind off, cut to 25mm dice and drained before sealing so the pack stays firm rather than swimming.' },
+  { id:'coconut', name:'Grated coconut', cat:'Fruit', pack:'300g · pack', grade:'Mature nut', shelf:'4 days chilled', moq:'24 packs', storage:'2–4°C', origin:'Badagry coast', blurb:'Shelled, brown skin removed and grated the same morning. No sulphites, no added moisture.' },
+  { id:'onions', name:'Chopped onions', cat:'Veg', pack:'400g · pack', grade:'Grade A red', shelf:'4 days chilled', moq:'30 packs', storage:'2–4°C', origin:'Sokoto intake', blurb:'Peeled and diced under extraction so the cut stays clean. Available fine, medium or ring cut.' },
+  { id:'plantain', name:'Sliced plantain', cat:'Fruit', pack:'600g · pack', grade:'Firm ripe', shelf:'2 days chilled', moq:'20 packs', storage:'2–4°C', origin:'Edo growers', blurb:'Cut on the diagonal to an even 8mm for frying, or thick round for boiling. Sorted by ripeness before the line runs.' }
+];
+
+const SEED = [
+  { id:1, name:'Tunde Bakare', meta:'Bulk · pepper mix · Ikeja', status:'New', when:'2h ago', email:'tunde@bakarefoods.ng', phone:'0803 221 7745', body:'We run three kitchens in Ikeja and go through roughly 60kg of pepper base a week. Can you hold a standing Tuesday and Friday delivery? Need the heat mild for the hotel side.' },
+  { id:2, name:'Grace Okonkwo', meta:'General · storage question', status:'Replied', when:'Yesterday', email:'grace.o@gmail.com', phone:'0812 004 9911', body:'How long does the chopped ugu keep once I open the pack? I buy for the family and would rather not waste it.' },
+  { id:3, name:'Harbour Hotel', meta:'Quote · weekly standing order', status:'New', when:'Yesterday', email:'procurement@harbourhotel.ng', phone:'0700 442 8890', body:'Requesting pricing on a weekly standing order: sliced pineapple 40 packs, diced watermelon 30 packs, sliced carrots 25 packs. Delivery to Victoria Island before 7am.' },
+  { id:4, name:'Zenith Foods Ltd', meta:'Export · phytosanitary docs', status:'New', when:'2 days ago', email:'exports@zenithfoods.com', phone:'0906 118 2200', body:'We consolidate for a buyer in Dubai. Before we go further — can you supply phytosanitary certification and NAFDAC registration numbers with each consignment?' },
+  { id:5, name:'Ada Mensah', meta:'Retail · home pack', status:'Replied', when:'4 days ago', email:'ada.mensah@outlook.com', phone:'0705 663 1042', body:'Do you deliver to Yaba on Saturdays? Interested in the 500g fruit packs.' }
+];
+
+const IMGS = {"pineapple":"https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=900&q=72","ugu":"https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=900&q=72","pepper":"https://images.unsplash.com/photo-1441057206919-63d19fac2369?auto=format&fit=crop&w=900&q=72","carrots":"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=900&q=72","watermelon":"https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=900&q=72","coconut":"https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=900&q=72","onions":"https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=900&q=72","plantain":"https://images.unsplash.com/photo-1603833665858-e61d17a86224?auto=format&fit=crop&w=900&q=72"};
+const GAL = ["https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1441057206919-63d19fac2369?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=900&q=72","https://images.unsplash.com/photo-1603833665858-e61d17a86224?auto=format&fit=crop&w=900&q=72"];
+const FARM = 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=900&q=72';
+const MARKET = 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=900&q=72';
+const imgBg = (id, cat) => "url('" + (IMGS[id] || FARM) + "') center/cover no-repeat, " + CAT_SWATCH[cat];
+const listBg = i => "url('" + GAL[((i % GAL.length) + GAL.length) % GAL.length] + "') center/cover no-repeat, " + CAT_SWATCH.Veg;
+
+const SERVICES = [
+  { id:'retail', name:'Retail packs', kicker:'For your home', blurb:'Sealed 250g–600g packs of prepared fruit and vegetables, cut the way a home kitchen actually uses them.', turnaround:'Next-day in Lagos', minimum:'20 packs',
+    bullets:['Cut, washed and sealed the same morning','Date-coded so you know the seal window','Mixed cases across any lines','WhatsApp reorder in one message'] },
+  { id:'kitchen', name:'Kitchen supply', kicker:'For your kitchen', blurb:'Standing weekly volumes for restaurants, hotels and caterers, cut to your own spec and delivered before service.', turnaround:'Before 7am, agreed days', minimum:'25kg per drop',
+    bullets:['Cut size fixed to your spec sheet','Standing order, one invoice a month','Substitution called before the run, never after','Named contact on the line'] },
+  { id:'bulk', name:'Bulk & distribution', kicker:'For distribution', blurb:'Pallet volumes for supermarkets, distributors and institutional buyers, with batch paperwork on every consignment.', turnaround:'48–72 hours', minimum:'200kg',
+    bullets:['Batch and farm code per pallet','Cold handling to your depot','Volume pricing on standing contracts','Weekly forecast against your order book'] },
+  { id:'export', name:'Export consolidation', kicker:'For overseas buyers', blurb:'Consolidated consignments prepared to buyer spec with the documentation an importer will ask for before it ships.', turnaround:'By agreed sailing', minimum:'One pallet',
+    bullets:['Phytosanitary certification arranged','NAFDAC and NEPC registration on file','Spec sheet signed off before the run','Photographs of the loaded consignment'] }
+];
+
+const POSTS = [
+  { id:'cold-chain', title:'What four hours actually buys you', cat:'Standards', date:'12 August 2026', read:'6 min', author:'Femi Alabi',
+    excerpt:'Between washing and sealing, produce loses more than moisture. Here is what happens in that window, and why we close it.',
+    body:['Every prepared-produce operation has a number it will not say out loud: the gap between the wash tank and the seal. Ours is four hours, and it is the single figure that governs how the rest of the line is laid out.','A cut surface is an open wound. Respiration climbs, sugars convert, and the microbial load on that surface starts from whatever the water left behind. Chilling slows all three. It does not reverse any of them.','So the line runs backwards from the seal. Intake is graded before it is washed, because a fruit that fails grading after washing has already spent water and time. Cutting is batched by line rather than by order, because a knife that changes size every ten minutes is a knife that is idle. Packing sits next to sealing, not across the floor from it.','The result is not a claim about freshness in the abstract. It is a batch code, printed on the pack, that tells you the morning the produce was washed and the farm it arrived from. If a pack disappoints, that code is how we find out why.'] },
+  { id:'ugu', title:'Why we triple-wash ugu and spin it dry', cat:'The line', date:'29 July 2026', read:'4 min', author:'Blessing Eze',
+    excerpt:'The difference between a pack that keeps three days and one that keeps one is almost always water left in the leaf.',
+    body:['Ugu comes in with field soil in the crease of the stem, and no single wash reaches it. We run three tanks at falling turbidity, so the last water the leaf touches is the cleanest water on the floor.','Then we spin. A leaf packed wet sweats, and a pack that sweats goes slimy at the bottom long before the top of it turns. Thirty seconds in the spinner is the cheapest shelf life we buy.','Buyers who receive ugu from us and store it above 4°C still see the three days. Below that, four. The variable is almost never the wash — it is the fridge at the other end.'] },
+  { id:'export-docs', title:'The paperwork an importer asks for first', cat:'Export', date:'14 July 2026', read:'8 min', author:'Femi Alabi',
+    excerpt:'Phytosanitary, NAFDAC, NEPC, and the certificate of origin. What each one proves, and who issues it.',
+    body:['Most first-time exporters discover the documentation after the buyer has already agreed a price. It is the wrong order, and it costs a sailing.','A phytosanitary certificate is issued by the Nigeria Agricultural Quarantine Service and attests that the consignment was inspected and found free of quarantine pests. It is consignment-specific. It cannot be issued retrospectively.','NAFDAC registration covers the product and the facility rather than the shipment. NEPC registration covers you as an exporter. The certificate of origin comes from the chamber of commerce and is what the importer files at their end.','We hold the first three continuously and arrange the fourth per consignment. A buyer asking for all of them is not being difficult — they are being audited by someone else.'] },
+  { id:'pepper', title:'Deseeding to a heat level, not a recipe', cat:'The line', date:'2 July 2026', read:'5 min', author:'Blessing Eze',
+    excerpt:'Two kitchens ordering the same pepper mix rarely want the same pepper mix. We solved it with a number.',
+    body:['Heat in a stew base is a function of the rodo-to-tatashe ratio and how much of the seed and pith survives the blend. Left alone, it varies batch to batch by more than most kitchens will tolerate.','We index it. One through five, agreed once with the kitchen, held on the spec sheet, checked at the blender. A hotel that orders a two gets a two in January and a two in September.','It sounds trivial. It is the single thing our kitchen customers mention most when they renew.'] }
+];
+
+const TEAM = [
+  { name:'Femi Alabi', role:'Founder & managing director', note:'Runs intake grading personally most mornings.' },
+  { name:'Blessing Eze', role:'Head of production', note:'Owns the four-hour window and the spec sheets.' },
+  { name:'Samuel Oduya', role:'Quality & compliance', note:'HACCP records, batch coding, certification files.' },
+  { name:'Amaka Nwosu', role:'Buyer relationships', note:'Standing orders, quotes and the WhatsApp line.' },
+  { name:'Ibrahim Sule', role:'Logistics', note:'Cold handling, routing and the 7am hotel drops.' },
+  { name:'Chidera Okoro', role:'Sourcing', note:'Farm relationships from Ogun to the Jos plateau.' }
+];
+
+const TESTIMONIALS = [
+  { quote:'We stopped prepping vegetables in-house eleven months ago. Two kitchen staff went back to cooking, which is what we hired them for.', name:'Ngozi Adeyemi', role:'Executive chef, Harbour Hotel', live:true },
+  { quote:'The batch code matters more than people realise. When a supplier can tell you which farm a pack came from, the conversation about quality changes completely.', name:'Tunde Bakare', role:'Owner, Bakare Foods', live:true },
+  { quote:'They called me before the run to say the tatashe was short and asked how I wanted to handle it. Nobody else does that.', name:'Grace Okonkwo', role:'Caterer, Lekki', live:true },
+  { quote:'Documentation was ready before we asked. That is unusual enough here that it decided the contract.', name:'Zenith Foods Ltd', role:'Export consolidator', live:false }
+];
+
+const CERTS = [
+  { name:'NAFDAC facility registration', issuer:'NAFDAC', ref:'A1-9920L', expires:'March 2027', status:'Valid' },
+  { name:'NEPC exporter registration', issuer:'Nigerian Export Promotion Council', ref:'NEPC/0084221', expires:'January 2027', status:'Valid' },
+  { name:'Phytosanitary — standing inspection', issuer:'Nigeria Agricultural Quarantine Service', ref:'Per consignment', expires:'Per consignment', status:'On request' },
+  { name:'HACCP principles — internal audit', issuer:'Independent auditor', ref:'KF-HA-26', expires:'September 2026', status:'Renewing' }
+];
+
+const FAQS = [
+  { q:'How long does a pack keep?', a:'Between two and six days chilled depending on the line. The exact figure is on the spec sheet and printed on the pack, alongside the date it was washed.' },
+  { q:'Do you deliver outside Lagos?', a:'Yes, on agreed days, for volumes from 200kg. Cold handling is arranged to the depot rather than to individual sites.' },
+  { q:'Can you cut to our own specification?', a:'That is most of what we do. Kitchens agree a cut size once, it goes on the spec sheet, and every batch is checked against it.' },
+  { q:'What is your minimum order?', a:'20 packs for retail lines, 25kg per drop for kitchen supply, 200kg for bulk. Export starts at one pallet.' },
+  { q:'How do I pay?', a:'Transfer against invoice. Standing orders are invoiced monthly; first orders are settled on delivery.' },
+  { q:'What happens if a pack is off-spec?', a:'Send us the batch code. We replace the batch or credit it in full, and you do not need to return it.' },
+  { q:'Do you supply certification for export?', a:'NAFDAC and NEPC registrations are held continuously. Phytosanitary certification is arranged per consignment.' },
+  { q:'Can I visit the facility?', a:'Yes, by appointment, Monday to Thursday. Buyers placing standing orders are encouraged to.' }
+];
+
+const GALLERY = [
+  { label:'Intake grading', cat:'The line' }, { label:'Wash tanks', cat:'The line' }, { label:'Cutting bench', cat:'The line' },
+  { label:'Sealed retail packs', cat:'Product' }, { label:'Pepper base', cat:'Product' }, { label:'Pallet build', cat:'Dispatch' },
+  { label:'Cold room', cat:'Facility' }, { label:'Morning dispatch', cat:'Dispatch' }, { label:'Batch labelling', cat:'Facility' }
+];
+
+class Component extends DCLogic {
+  state = {
+    loading:true, screen:'home', device:'desktop', paging:false,
+    serviceId:'kitchen', postId:'cold-chain', openFaq:0, galleryFilter:'All', lightbox:null,
+    dist:{ company:'', country:'Nigeria', volume:'', markets:'', message:'', agreed:false }, distSent:false, distSending:false,
+    settings:{ business:'Kadie Fresh', tagline:'Washed, sliced, ready to cook.', email:'info@kadiefresh.com', phone:'0810 542 0458', address:'Ikorodu, Lagos', hours:'Mon–Sat, 6am–6pm', seoTitle:'Kadie Fresh — prepared fresh produce, Lagos', seoDesc:'Washed, cut and sealed within four hours. Retail packs, kitchen supply, bulk and export from Ikorodu, Lagos.', gsc:'', instagram:'kadiefresh', linkedin:'company/kadiefresh' },
+    settingsDirty:false, savingSettings:false,
+    catalogue:PRODUCTS.map(p => Object.assign({}, p, { live:true, photos:p.id === 'onions' || p.id === 'plantain' ? 0 : 3 })),
+    editingProduct:null, draft:null, savingProduct:false,
+    testimonials:TESTIMONIALS.map((t, i) => Object.assign({}, t, { id:i + 1 })),
+    certs:CERTS.map((c, i) => Object.assign({}, c, { id:i + 1 })), certsEmpty:false,
+    posts:POSTS.map((p, i) => Object.assign({}, p, { published:i < 3 })), editingPost:null, postDraft:null, savingPost:false,
+    gallery:GALLERY.map((g, i) => Object.assign({}, g, { id:i + 1, live:i < 7 })), dragOver:false, videoReady:false, videoFailed:false, fading:false, winW:1400,
+    filter:'All', query:'', productId:'pineapple',
+    step:1, errors:{}, submitting:false, lastRef:'',
+    form:{ name:'', business:'', email:'', phone:'', buyer:'Restaurant / hotel', items:[], volume:'', frequency:'Weekly', location:'', notes:'' },
+    loginEmail:'', loginPass:'', loginError:'', signingIn:false,
+    inboxFilter:'All', selectedId:null, reply:'', sending:false,
+    enquiries:SEED, waNumber:'2348105420458', savingWa:false,
+    menuOpen:false, cookies:true, toast:'', tip:null, counts:[38, 7, 3, 412]
+  };
+
+  componentDidMount() {
+    setTimeout(() => this.setState({ fading:true }), 1150);
+    setTimeout(() => this.setState({ loading:false }), 1750);
+    this.reveal();
+    this._onResize = () => this.setState({ winW:window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+    this._onResize();
+    this.primeVideo();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+  primeVideo() {
+    setTimeout(() => {
+      const v = document.querySelector('video[data-hero]');
+      if (!v || v === this._video) return;
+      this._video = v;
+      v.muted = true; v.defaultMuted = true; v.playsInline = true; v.loop = true;
+      v.addEventListener('error', () => this.setState({ videoFailed:true }));
+      const p = v.play();
+      if (p && p.catch) p.catch(() => {});
+    }, 60);
+  }
+  reveal() {
+    setTimeout(() => {
+      const nodes = document.querySelectorAll('[data-reveal]');
+      nodes.forEach((n, i) => {
+        n.style.opacity = '0';
+        n.style.transform = 'translateY(18px)';
+        n.style.transition = 'opacity .5s ease ' + (i * 55) + 'ms, transform .55s cubic-bezier(.2,.8,.2,1) ' + (i * 55) + 'ms';
+      });
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; io.unobserve(e.target); }
+      }), { threshold:.12 });
+      nodes.forEach(n => io.observe(n));
+      setTimeout(() => nodes.forEach(n => { n.style.opacity = '1'; n.style.transform = 'none'; }), 1400);
+    }, 30);
+  }
+  countUp() {
+    const targets = [38, this.state.enquiries.length + 2, 3, 412];
+    this.setState({ counts:[0, 0, 0, 0] });
+    const t0 = performance.now();
+    const tick = now => {
+      const k = Math.min(1, (now - t0) / 900);
+      const e = 1 - Math.pow(1 - k, 3);
+      this.setState({ counts: targets.map(v => Math.round(v * e)) });
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+  nav(screen, extra) {
+    this.setState({ paging:true, menuOpen:false });
+    setTimeout(() => {
+      this.setState(Object.assign({ screen, paging:false }, extra || {}));
+      this.reveal();
+      if (screen === 'dash') this.countUp();
+      if (screen === 'home') this.primeVideo();
+    }, 190);
+  }
+  flash(text) { this.setState({ toast:text }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast:'' }), 2400); }
+  setF(k, v) { this.setState(s => ({ form:Object.assign({}, s.form, { [k]:v }) })); }
+
+  pill(status) {
+    const on = status === 'New';
+    return 'padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;' +
+      (on ? 'background:#FFF1E6;color:#C2410C;' : 'background:#F0FDF4;color:#16A34A;');
+  }
+  chip(active, dark) {
+    const base = 'border:1px solid;cursor:pointer;padding:8px 15px;border-radius:999px;font-size:13.5px;font-weight:600;transition:background .18s,border-color .18s,color .18s;';
+    if (dark) return base + (active ? 'background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff;' : 'background:transparent;border-color:rgba(255,255,255,.16);color:rgba(234,246,238,.62);');
+    return base + (active ? 'background:#0E3D22;border-color:#0E3D22;color:#fff;' : 'background:#fff;border-color:rgba(14,61,34,.14);color:#374151;');
+  }
+  field(err) {
+    return 'width:100%;padding:13px 15px;border-radius:12px;font-size:15px;outline:none;background:#fff;border:1px solid ' + (err ? '#DC2626' : 'rgba(14,61,34,.14)') + ';';
+  }
+  cta(busy, extra) {
+    return 'border:0;cursor:' + (busy ? 'wait' : 'pointer') + ';padding:14px 26px;border-radius:999px;color:#fff;font-weight:700;font-size:15px;' +
+      'background:linear-gradient(180deg,#FB923C,#F97316);box-shadow:0 8px 22px rgba(249,115,22,.32);opacity:' + (busy ? .75 : 1) + ';transition:transform .18s cubic-bezier(.2,.8,.2,1);' + (extra || '');
+  }
+
+  validate() {
+    const f = this.state.form, e = {};
+    if (this.state.step === 1) {
+      if (!f.name.trim()) e.name = 'We need a name to put on the quote.';
+      if (!f.email.trim()) e.email = 'Add an email so we can send the quote.';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) e.email = 'That address does not look right.';
+      if (!f.phone.trim()) e.phone = 'A phone or WhatsApp number speeds this up a lot.';
+    }
+    if (this.state.step === 2) {
+      if (!f.items.length) e.items = 1;
+      if (!f.volume.trim()) e.volume = 1;
+    }
+    return e;
+  }
+
+  renderVals() {
+    const s = this.state, f = s.form;
+    const PUB = ['home','products','product','services','service','standards','about','team','gallery','testimonials','blog','post','faq','contact','export','distributor','quote','done','notfound'];
+    const isPublic = PUB.indexOf(s.screen) > -1;
+    const inStudio = ['dash','inbox','settings','products-admin','testimonials-admin','certifications','blog-admin','gallery-admin'].indexOf(s.screen) > -1;
+    const mobile = s.device === 'mobile' && isPublic;
+    const widths = { desktop:1280, tablet:834, mobile:390 };
+    const w = (inStudio || s.screen === 'login') ? 1280 : widths[s.device];
+
+    const product = PRODUCTS.find(p => p.id === s.productId) || PRODUCTS[0];
+    const q = s.query.trim().toLowerCase();
+    const visible = PRODUCTS.filter(p => (s.filter === 'All' || p.cat === s.filter) && (!q || p.name.toLowerCase().indexOf(q) > -1));
+
+    const tag = cat => 'padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;display:inline-block;' +
+      (cat === 'Fruit' ? 'background:#FFF1E6;color:#C2410C;' : 'background:#F0FDF4;color:#16A34A;');
+
+    const enquiries = s.enquiries;
+    const rows = enquiries.filter(e => s.inboxFilter === 'All' || e.status === s.inboxFilter);
+    const sel = enquiries.find(e => e.id === s.selectedId);
+    const newCount = enquiries.filter(e => e.status === 'New').length;
+
+    const openEnq = id => () => this.setState({ selectedId:id, reply:'', screen:'inbox' });
+
+    const stepTitles = ['Who you are','What you need','Review & send'];
+    const showTip = (text, wide) => ev => {
+      const r = ev.currentTarget.getBoundingClientRect();
+      this.setState({ tip:{ text, x:r.left + r.width / 2, y:r.top - 10, wide:!!wide } });
+    };
+
+    return {
+      loading:s.loading, paging:s.paging,
+      preloaderStyle:'position:absolute;inset:0;z-index:80;background:linear-gradient(165deg,#FFFFFF,#F0FDF4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;opacity:' + (s.fading ? 0 : 1) + ';transition:opacity .55s ease', toast:!!s.toast, toastText:s.toast,
+      pageStyle:'position:relative;opacity:' + (s.paging ? 0 : 1) + ';' + (s.paging ? 'transform:translateY(10px);' : '') + 'transition:opacity .2s ease,transform .3s cubic-bezier(.2,.8,.2,1)',
+      frameStyle:'position:relative;width:100%;max-width:' + w + 'px;border-radius:' + (mobile ? 30 : 18) + 'px;overflow:hidden;background:#fff;box-shadow:0 30px 80px rgba(14,61,34,.16);transition:max-width .45s cubic-bezier(.2,.8,.2,1)',
+
+      routeChips:[
+        ['home','Home'],['products','Catalogue'],['product','Product'],['services','Services'],['service','Service'],
+        ['standards','Standards'],['about','About'],['team','Team'],['gallery','Gallery'],['testimonials','Reviews'],
+        ['blog','Blog'],['post','Post'],['faq','FAQ'],['contact','Contact'],['export','Export'],['distributor','Distributor'],
+        ['quote','Quote'],['done','Sent'],['notfound','404'],
+        ['login','Login'],['dash','Dashboard'],['inbox','Enquiries'],['settings','Settings'],['products-admin','Products·A'],
+        ['testimonials-admin','Reviews·A'],['certifications','Certs·A'],['blog-admin','Blog·A'],['gallery-admin','Gallery·A']
+      ].map(([id,label]) => ({ label, go:() => this.nav(id), style:this.chip(s.screen === id, true) + 'font-size:11.5px;padding:5px 11px;' })),
+      deviceChips:['desktop','tablet','mobile'].map(d => ({
+        label:d[0].toUpperCase() + d.slice(1), go:() => this.setState({ device:d }),
+        style:this.chip(s.device === d, true) + 'font-size:12.5px;padding:6px 13px;'
+      })),
+
+      isPublic, inStudio,
+      onProducts:s.screen === 'products', onProduct:s.screen === 'product',
+      onQuote:s.screen === 'quote', onDone:s.screen === 'done', onLogin:s.screen === 'login',
+      onDash:s.screen === 'dash', onInbox:s.screen === 'inbox',
+      onHome:s.screen === 'home', onServices:s.screen === 'services', onService:s.screen === 'service',
+      onStandards:s.screen === 'standards', onAbout:s.screen === 'about', onTeam:s.screen === 'team',
+      onGallery:s.screen === 'gallery', onReviews:s.screen === 'testimonials', onBlog:s.screen === 'blog',
+      onPost:s.screen === 'post', onFaq:s.screen === 'faq', onContact:s.screen === 'contact',
+      onExport:s.screen === 'export', onDistributor:s.screen === 'distributor', onNotFound:s.screen === 'notfound',
+      onSettings:s.screen === 'settings', onProductsAdmin:s.screen === 'products-admin',
+      onReviewsAdmin:s.screen === 'testimonials-admin', onCerts:s.screen === 'certifications',
+      onBlogAdmin:s.screen === 'blog-admin', onGalleryAdmin:s.screen === 'gallery-admin',
+      goHome:() => this.nav('home'), goServices:() => this.nav('services'), goBlog:() => this.nav('blog'),
+      goAbout:() => this.nav('about'), goTeam:() => this.nav('team'), goStandards:() => this.nav('standards'),
+      goExport:() => this.nav('export'), goDistributor:() => this.nav('distributor'), goContact:() => this.nav('contact'),
+      goFaq:() => this.nav('faq'), goGallery:() => this.nav('gallery'), goReviews:() => this.nav('testimonials'),
+
+      videoStyle:'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:' + (s.videoFailed ? 0 : 1) + ';transition:opacity .9s ease',
+      videoFail:() => this.setState({ videoFailed:true }),
+      videoReady:() => { if (!this.state.videoReady) this.setState({ videoReady:true }); },
+      videoStart:ev => {
+        const el = ev.currentTarget;
+        if (!el || !el.currentSrc) return;
+        const p = el.play();
+        if (p && p.catch) p.catch(() => {});
+      },
+      homeStats:[{ v:'4 hrs', l:'wash to seal' }, { v:'10+', l:'prepared lines' }, { v:'Batch', l:'date-coded' }, { v:'6am', l:'first dispatch' }],
+      homeProof:[
+        { t:'Potable-water wash', d:'Every batch, every line' }, { t:'Food-grade sealing', d:'Packed within 4 hours' },
+        { t:'Traceable batches', d:'Coded to source farm' }, { t:'HACCP principles', d:'Applied across the line' }
+      ],
+      homeAudiences:[
+        { t:'For your home', d:'Retail packs of prepared fruit and vegetables, ready for the pot.', cta:'Enquire on WhatsApp', go:() => this.nav('products') },
+        { t:'For your kitchen', d:'Standing weekly volumes for restaurants, hotels and caterers.', cta:'Request a quote', go:() => this.nav('quote') },
+        { t:'For distribution', d:'Bulk supply for supermarkets, distributors and institutional buyers.', cta:'Talk to us', go:() => this.nav('contact') },
+        { t:'For export', d:'Consolidated consignments with the documentation an importer will ask for.', cta:'Export credentials', go:() => this.nav('export') }
+      ],
+      homeSteps:[
+        { t:'Wash', d:'Potable water, graded intake' }, { t:'Slice', d:'Cut to spec per order' },
+        { t:'Pack', d:'Food-grade seal, date-coded' }, { t:'Deliver', d:'Cold handling to your door' }
+      ].map((x, i) => ({ t:x.t, d:x.d, dot:'width:18px;height:18px;border-radius:50%;flex:none;background:' + (i < 2 ? '#16A34A' : '#F97316') + ';box-shadow:0 0 0 6px ' + (i < 2 ? 'rgba(22,163,74,.14)' : 'rgba(249,115,22,.14)') + ';' })),
+      homeFeatured:PRODUCTS.slice(0, 3).map(p => ({
+        name:p.name, pack:p.pack, tagStyle:tag(p.cat), cat:p.cat,
+        swatch:'height:140px;border-radius:12px;background:' + imgBg(p.id, p.cat) + ';',
+        open:() => this.nav('product', { productId:p.id })
+      })),
+
+      services:SERVICES.map(x => ({
+        name:x.name, kicker:x.kicker, blurb:x.blurb, turnaround:x.turnaround, minimum:x.minimum,
+        open:() => this.nav('service', { serviceId:x.id })
+      })),
+      service:(function (x) {
+        return { name:x.name, kicker:x.kicker, blurb:x.blurb, turnaround:x.turnaround, minimum:x.minimum, bullets:x.bullets.map(b => ({ text:b })) };
+      })(SERVICES.find(x => x.id === s.serviceId) || SERVICES[0]),
+
+      standardsRows:[
+        { t:'Potable-water wash', d:'Three tanks at falling turbidity. Water is tested monthly and logged; the last water produce touches is the cleanest on the floor.' },
+        { t:'Four-hour seal window', d:'The line is laid out backwards from the seal. Intake is graded before washing so nothing spends time it cannot recover.' },
+        { t:'Batch and farm coding', d:'Every pack carries the date it was washed and a code for the farm it came from. That code is how a complaint is traced in minutes.' },
+        { t:'HACCP principles', d:'Hazard points identified at intake, wash, cut, pack and dispatch, with a record kept at each. Audited internally twice a year.' },
+        { t:'Cold handling', d:'2–4°C from cold room to vehicle to your door. Hotel drops land before 7am so nothing sits on a loading bay.' },
+        { t:'Replacement guarantee', d:'Off-spec or past the seal window, we replace the batch or credit it in full against the code. No return required.' }
+      ],
+
+      team:TEAM,
+      founder:{ name:'Femi Alabi', role:'Founder & managing director',
+        paras:['Kadie Fresh started with one observation: kitchens in Lagos were paying skilled staff to peel. Every hour a cook spends at a wash tank is an hour not spent cooking, and every kitchen was solving it alone, badly.','The first year was a rented room in Ikorodu, three lines and a motorcycle. What changed the business was not scale, it was the batch code. Once a buyer could point at a pack and ask which farm, which morning, the conversation moved from price to reliability.','We now run more than ten prepared lines from a controlled facility, supply hotels and distributors across Lagos, and consolidate for buyers overseas. The four-hour window has not moved.'],
+        pull:'Every hour a cook spends at a wash tank is an hour not spent cooking.' },
+
+      galleryFilters:['All','The line','Product','Dispatch','Facility'].map(label => ({
+        label, go:() => this.setState({ galleryFilter:label }), style:this.chip(s.galleryFilter === label)
+      })),
+      galleryTiles:s.gallery.filter(g => s.galleryFilter === 'All' || g.cat === s.galleryFilter).map((g, i) => ({
+        label:g.label, cat:g.cat, open:() => this.setState({ lightbox:g.id }),
+        style:'position:relative;height:' + (i % 5 === 0 ? 260 : 190) + 'px;border-radius:16px;cursor:pointer;overflow:hidden;background:' + listBg(i) + ';transition:transform .3s cubic-bezier(.2,.8,.2,1);'
+      })),
+      lightboxOpen:!!s.lightbox,
+      lightboxLabel:(s.gallery.find(g => g.id === s.lightbox) || {}).label || '',
+      lightboxStyle:'height:min(62vh,440px);border-radius:18px;background:' + listBg((s.lightbox || 1) - 1) + ';',
+      closeLightbox:() => this.setState({ lightbox:null }),
+
+      reviews:s.testimonials.filter(t => t.live),
+
+      posts:s.posts.filter(p => p.published).map(p => ({
+        title:p.title, excerpt:p.excerpt, date:p.date, read:p.read, cat:p.cat, author:p.author,
+        swatch:"height:160px;border-radius:12px;background:url('" + (p.cat === 'Export' ? MARKET : FARM) + "') center/cover no-repeat;",
+        open:() => this.nav('post', { postId:p.id })
+      })),
+      post:(function (p) {
+        return { title:p.title, cat:p.cat, date:p.date, read:p.read, author:p.author,
+          body:p.body.map(t => ({ text:t })),
+          hero:"height:300px;border-radius:20px;background:url('" + (p.cat === 'Export' ? MARKET : FARM) + "') center/cover no-repeat;" };
+      })(s.posts.find(p => p.id === s.postId) || s.posts[0]),
+      morePosts:s.posts.filter(p => p.published && p.id !== s.postId).slice(0, 2).map(p => ({
+        title:p.title, date:p.date, read:p.read, open:() => this.nav('post', { postId:p.id })
+      })),
+
+      faqs:FAQS.map((x, i) => ({
+        q:x.q, a:x.a, open:s.openFaq === i,
+        go:() => this.setState({ openFaq:s.openFaq === i ? -1 : i }),
+        row:'width:100%;text-align:left;border:0;background:transparent;cursor:pointer;display:flex;align-items:center;gap:14px;padding:18px 0;font-size:16.5px;font-weight:600;color:#0B1F13;',
+        sign:'margin-left:auto;font-size:20px;color:#16A34A;transition:transform .25s;transform:rotate(' + (s.openFaq === i ? 45 : 0) + 'deg);',
+        panel:'overflow:hidden;transition:max-height .34s cubic-bezier(.2,.8,.2,1),opacity .28s;max-height:' + (s.openFaq === i ? 220 : 0) + 'px;opacity:' + (s.openFaq === i ? 1 : 0) + ';'
+      })),
+
+      exportCreds:CERTS.map(c => ({ name:c.name, issuer:c.issuer, ref:c.ref, expires:c.expires, status:c.status,
+        pill:'padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;' + (c.status === 'Valid' ? 'background:#F0FDF4;color:#16A34A;' : 'background:#FFF1E6;color:#C2410C;') })),
+      exportSteps:[
+        { n:'1', t:'Spec agreed', d:'Cut, pack, grade and volume signed off in writing before a run is scheduled.' },
+        { n:'2', t:'Run and inspection', d:'Consignment prepared and presented for quarantine inspection at the facility.' },
+        { n:'3', t:'Documentation', d:'Phytosanitary certificate, certificate of origin, NAFDAC and NEPC references issued with the consignment.' },
+        { n:'4', t:'Load and photograph', d:'Loaded consignment photographed and shared before it leaves. Nothing ships unseen.' }
+      ],
+
+      dist:s.dist, distSent:s.distSent, distForm:!s.distSent,
+      onDistCompany:e => this.setState(p => ({ dist:Object.assign({}, p.dist, { company:e.target.value }) })),
+      onDistCountry:e => this.setState(p => ({ dist:Object.assign({}, p.dist, { country:e.target.value }) })),
+      onDistVolume:e => this.setState(p => ({ dist:Object.assign({}, p.dist, { volume:e.target.value }) })),
+      onDistMarkets:e => this.setState(p => ({ dist:Object.assign({}, p.dist, { markets:e.target.value }) })),
+      onDistMessage:e => this.setState(p => ({ dist:Object.assign({}, p.dist, { message:e.target.value }) })),
+      toggleAgreed:() => this.setState(p => ({ dist:Object.assign({}, p.dist, { agreed:!p.dist.agreed }) })),
+      agreedBox:'width:20px;height:20px;border-radius:6px;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;border:1px solid ' + (s.dist.agreed ? '#16A34A' : 'rgba(14,61,34,.24)') + ';background:' + (s.dist.agreed ? '#16A34A' : '#fff') + ';',
+      agreedMark:s.dist.agreed ? '✓' : '',
+      distSubmitLabel:s.distSending ? 'Sending…' : 'Submit application',
+      distSubmitStyle:this.cta(s.distSending),
+      submitDist:() => {
+        if (!s.dist.company.trim() || !s.dist.volume.trim() || !s.dist.agreed) { this.flash('Company, volume and the declaration are required'); return; }
+        this.setState({ distSending:true });
+        setTimeout(() => {
+          const entry = { id:Date.now(), name:s.dist.company, meta:'Distributor application · ' + s.dist.country, status:'New', when:'Just now', email:'partners@' + s.dist.company.toLowerCase().replace(/[^a-z]/g, '') + '.com', phone:'—', body:'Distributor application\nMarkets: ' + (s.dist.markets || '—') + '\nVolume: ' + s.dist.volume + (s.dist.message ? '\n\n' + s.dist.message : '') };
+          this.setState(p => ({ distSending:false, distSent:true, enquiries:[entry].concat(p.enquiries) }));
+        }, 900);
+      },
+      resetDist:() => this.setState({ distSent:false, dist:{ company:'', country:'Nigeria', volume:'', markets:'', message:'', agreed:false } }),
+
+      settings:s.settings, settingsDirty:s.settingsDirty,
+      settingsFields:[
+        ['business','Business name','text'], ['tagline','Tagline','text'], ['email','Contact email','text'],
+        ['phone','Phone / WhatsApp','text'], ['address','Address','text'], ['hours','Opening hours','text'],
+        ['instagram','Instagram handle','text'], ['linkedin','LinkedIn path','text']
+      ].map(([key, label]) => ({
+        label, value:s.settings[key],
+        onChange:e => { const v = e.target.value; this.setState(p => ({ settings:Object.assign({}, p.settings, { [key]:v }), settingsDirty:true })); }
+      })),
+      seoTitle:s.settings.seoTitle, seoDesc:s.settings.seoDesc, gsc:s.settings.gsc,
+      onSeoTitle:e => { const v = e.target.value; this.setState(p => ({ settings:Object.assign({}, p.settings, { seoTitle:v }), settingsDirty:true })); },
+      onSeoDesc:e => { const v = e.target.value; this.setState(p => ({ settings:Object.assign({}, p.settings, { seoDesc:v }), settingsDirty:true })); },
+      onGsc:e => { const v = e.target.value; this.setState(p => ({ settings:Object.assign({}, p.settings, { gsc:v }), settingsDirty:true })); },
+      saveSettingsLabel:s.savingSettings ? 'Saving…' : (s.settingsDirty ? 'Save changes' : 'Saved'),
+      saveSettingsStyle:this.cta(s.savingSettings, s.settingsDirty ? '' : 'background:#E5EFE8;color:#9CA3AF;box-shadow:none;cursor:default;'),
+      saveSettings:() => {
+        if (!s.settingsDirty) return;
+        this.setState({ savingSettings:true });
+        setTimeout(() => { this.setState({ savingSettings:false, settingsDirty:false }); this.flash('Site settings published'); }, 750);
+      },
+
+      catalogueRows:s.catalogue.map(p => ({
+        name:p.name, cat:p.cat, pack:p.pack, moq:p.moq, tagStyle:tag(p.cat),
+        photoWarn:p.photos === 0, photoText:p.photos === 0 ? 'No photographs' : p.photos + ' photographs',
+        live:p.live, liveLabel:p.live ? 'Live' : 'Hidden',
+        livePill:'padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;' + (p.live ? 'background:#F0FDF4;color:#16A34A;' : 'background:#F3F4F6;color:#6B7280;'),
+        toggle:() => this.setState(st => ({ catalogue:st.catalogue.map(x => x.id === p.id ? Object.assign({}, x, { live:!x.live }) : x) })),
+        edit:() => this.setState({ editingProduct:p.id, draft:Object.assign({}, p) }),
+        row:'display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid rgba(14,61,34,.06);transition:background .18s;' + (s.editingProduct === p.id ? 'background:#F0FDF4;' : 'background:#fff;')
+      })),
+      editingProduct:!!s.editingProduct, noProductSelected:!s.editingProduct,
+      draft:s.draft || { name:'', pack:'', moq:'', shelf:'', blurb:'' },
+      onDraftName:e => { const v = e.target.value; this.setState(p => ({ draft:Object.assign({}, p.draft, { name:v }) })); },
+      onDraftPack:e => { const v = e.target.value; this.setState(p => ({ draft:Object.assign({}, p.draft, { pack:v }) })); },
+      onDraftMoq:e => { const v = e.target.value; this.setState(p => ({ draft:Object.assign({}, p.draft, { moq:v }) })); },
+      onDraftShelf:e => { const v = e.target.value; this.setState(p => ({ draft:Object.assign({}, p.draft, { shelf:v }) })); },
+      onDraftBlurb:e => { const v = e.target.value; this.setState(p => ({ draft:Object.assign({}, p.draft, { blurb:v }) })); },
+      saveProductLabel:s.savingProduct ? 'Saving…' : 'Save product',
+      saveProductStyle:this.cta(s.savingProduct, 'padding:12px 22px;font-size:14px;'),
+      saveProduct:() => {
+        this.setState({ savingProduct:true });
+        setTimeout(() => {
+          this.setState(p => ({ savingProduct:false, catalogue:p.catalogue.map(x => x.id === p.editingProduct ? Object.assign({}, x, p.draft) : x) }));
+          this.flash('Product updated on the site');
+        }, 700);
+      },
+      cancelEdit:() => this.setState({ editingProduct:null, draft:null }),
+      addProduct:() => {
+        const id = 'new-' + Date.now();
+        this.setState(p => ({ catalogue:p.catalogue.concat({ id, name:'New line', cat:'Veg', pack:'—', moq:'20 packs', shelf:'—', blurb:'', live:false, photos:0 }), editingProduct:id, draft:{ name:'New line', pack:'—', moq:'20 packs', shelf:'—', blurb:'' } }));
+        this.flash('Draft line created — hidden until you publish it');
+      },
+      addPhoto:() => this.flash('Photograph uploaded to this line'),
+
+      reviewsAdmin:s.testimonials.map(t => ({
+        quote:t.quote, name:t.name, role:t.role, live:t.live,
+        liveLabel:t.live ? 'Published' : 'Pending',
+        livePill:'padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;' + (t.live ? 'background:#F0FDF4;color:#16A34A;' : 'background:#FFF1E6;color:#C2410C;'),
+        btnLabel:t.live ? 'Unpublish' : 'Publish',
+        toggle:() => { this.setState(st => ({ testimonials:st.testimonials.map(x => x.id === t.id ? Object.assign({}, x, { live:!x.live }) : x) })); this.flash(t.live ? 'Testimonial hidden' : 'Testimonial published'); },
+        remove:() => { this.setState(st => ({ testimonials:st.testimonials.filter(x => x.id !== t.id) })); this.flash('Testimonial deleted'); }
+      })),
+      reviewsPending:s.testimonials.filter(t => !t.live).length + ' awaiting review · ' + s.testimonials.filter(t => t.live).length + ' live',
+
+      certsList:s.certsEmpty ? [] : s.certs.map(c => ({
+        name:c.name, issuer:c.issuer, ref:c.ref, expires:c.expires, status:c.status,
+        pill:'padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;' + (c.status === 'Valid' ? 'background:#F0FDF4;color:#16A34A;' : 'background:#FFF1E6;color:#C2410C;'),
+        remove:() => { this.setState(st => ({ certs:st.certs.filter(x => x.id !== c.id) })); this.flash('Certification removed'); }
+      })),
+      certsHas:!s.certsEmpty && s.certs.length > 0, certsNone:s.certsEmpty || s.certs.length === 0,
+      toggleCertsEmpty:() => this.setState(p => ({ certsEmpty:!p.certsEmpty })),
+      certsEmptyLabel:s.certsEmpty ? 'Show populated state' : 'Preview empty state',
+      addCert:() => { this.setState(p => ({ certsEmpty:false, certs:p.certs.concat({ id:Date.now(), name:'New certification', issuer:'Issuer', ref:'—', expires:'—', status:'Renewing' }) })); this.flash('Certification added — fill in the details'); },
+
+      postsAdmin:s.posts.map(p => ({
+        title:p.title, date:p.date, cat:p.cat, published:p.published,
+        statusLabel:p.published ? 'Published' : 'Draft',
+        statusPill:'padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;' + (p.published ? 'background:#F0FDF4;color:#16A34A;' : 'background:#F3F4F6;color:#6B7280;'),
+        edit:() => this.setState({ editingPost:p.id, postDraft:{ title:p.title, excerpt:p.excerpt, body:p.body.join('\n\n'), published:p.published } }),
+        row:'display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid rgba(14,61,34,.06);cursor:pointer;transition:background .18s;' + (s.editingPost === p.id ? 'background:#F0FDF4;' : 'background:#fff;')
+      })),
+      editingPost:!!s.editingPost, noPostSelected:!s.editingPost,
+      postDraft:s.postDraft || { title:'', excerpt:'', body:'', published:false },
+      onPostTitle:e => { const v = e.target.value; this.setState(p => ({ postDraft:Object.assign({}, p.postDraft, { title:v }) })); },
+      onPostExcerpt:e => { const v = e.target.value; this.setState(p => ({ postDraft:Object.assign({}, p.postDraft, { excerpt:v }) })); },
+      onPostBody:e => { const v = e.target.value; this.setState(p => ({ postDraft:Object.assign({}, p.postDraft, { body:v }) })); },
+      togglePublish:() => this.setState(p => ({ postDraft:Object.assign({}, p.postDraft, { published:!p.postDraft.published }) })),
+      publishBox:'width:20px;height:20px;border-radius:6px;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;border:1px solid ' + ((s.postDraft && s.postDraft.published) ? '#16A34A' : 'rgba(14,61,34,.24)') + ';background:' + ((s.postDraft && s.postDraft.published) ? '#16A34A' : '#fff') + ';',
+      publishMark:(s.postDraft && s.postDraft.published) ? '✓' : '',
+      savePostLabel:s.savingPost ? 'Saving…' : 'Save post',
+      savePostStyle:this.cta(s.savingPost, 'padding:12px 22px;font-size:14px;'),
+      savePost:() => {
+        this.setState({ savingPost:true });
+        setTimeout(() => {
+          this.setState(p => ({ savingPost:false, posts:p.posts.map(x => x.id === p.editingPost ? Object.assign({}, x, { title:p.postDraft.title, excerpt:p.postDraft.excerpt, body:p.postDraft.body.split('\n\n'), published:p.postDraft.published }) : x) }));
+          this.flash('Post saved');
+        }, 700);
+      },
+      newPost:() => this.setState({ editingPost:'new', postDraft:{ title:'', excerpt:'', body:'', published:false } }),
+
+      galleryAdmin:s.gallery.map(g => ({
+        label:g.label, cat:g.cat, live:g.live,
+        tile:'position:relative;height:120px;border-radius:14px;overflow:hidden;background:' + listBg(g.id - 1) + ';opacity:' + (g.live ? 1 : .42) + ';transition:opacity .2s;',
+        btnLabel:g.live ? 'Hide' : 'Show',
+        toggle:() => this.setState(st => ({ gallery:st.gallery.map(x => x.id === g.id ? Object.assign({}, x, { live:!x.live }) : x) }))
+      })),
+      dropStyle:'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:120px;border-radius:14px;cursor:pointer;transition:background .2s,border-color .2s;border:1.5px dashed ' + (s.dragOver ? '#16A34A' : 'rgba(14,61,34,.2)') + ';background:' + (s.dragOver ? '#F0FDF4' : '#FAFDFB') + ';',
+      dragOn:() => this.setState({ dragOver:true }), dragOff:() => this.setState({ dragOver:false }),
+      addTile:() => { this.setState(p => ({ dragOver:false, gallery:p.gallery.concat({ id:Date.now(), label:'Untitled photograph', cat:'Facility', live:false }) })); this.flash('Photograph added as hidden — publish when captioned'); },
+
+      showDesktopNav:!isPublic || Math.min(w, s.winW - 36) >= 1080,
+      showBurger:isPublic && Math.min(w, s.winW - 36) < 1080,
+      menuOpen:s.menuOpen,
+      toggleMenu:() => this.setState(p => ({ menuOpen:!p.menuOpen })),
+      siteNav:[['home','Home'],['products','Products'],['services','Services'],['standards','Standards'],['about','About'],['blog','Blog'],['contact','Contact']].map(([id,label]) => ({
+        label, go:() => this.nav(id),
+        tip:showTip(id === 'standards' ? 'HACCP principles, potable-water wash and batch coding' : (id === 'services' ? 'Retail, kitchen supply, bulk and export' : label), id === 'standards'),
+        style:'cursor:pointer;padding:4px 0;border-bottom:2px solid ' + (s.screen === id ? '#16A34A' : 'transparent') + ';color:' + (s.screen === id ? '#16A34A' : '#374151') + ';transition:color .18s'
+      })),
+      goProducts:() => this.nav('products'), goQuote:() => this.nav('quote', { step:1, errors:{} }),
+      goLogin:() => this.nav('login'), goInbox:() => this.nav('inbox'),
+
+      filters:['All','Fruit','Veg'].map(label => ({ label, go:() => this.setState({ filter:label }), style:this.chip(s.filter === label) })),
+      query:s.query, onQuery:e => this.setState({ query:e.target.value }),
+      clearSearch:() => this.setState({ query:'', filter:'All' }),
+      downloadCatalogue:() => this.flash('Line card PDF downloaded'),
+      tipCatalogue:showTip('One-page PDF: every line, pack size, MOQ and shelf life', true),
+      tipCall:showTip('Tap to call — Mon to Sat, 6am to 6pm'),
+      tipSpec:showTip('Every figure here is held per batch and printed on the pack label', true),
+      tipSignOut:showTip('Sign out'),
+      hideTip:() => this.setState({ tip:null }),
+      tip:!!s.tip, tipText:s.tip ? s.tip.text : '',
+      tipStyle:s.tip ? 'position:fixed;left:' + s.tip.x + 'px;top:' + s.tip.y + 'px;transform:translate(-50%,-100%);z-index:90;max-width:' + (s.tip.wide ? 260 : 210) + 'px;padding:9px 13px;border-radius:10px;background:#0E3D22;color:#EAF6EE;font-size:12.5px;line-height:1.45;box-shadow:0 10px 26px rgba(14,61,34,.32);pointer-events:none;animation:kfPop .16s ease both' : '',
+
+      hasResults:visible.length > 0, noResults:visible.length === 0,
+      visibleProducts:visible.map(p => ({
+        name:p.name, cat:p.cat, pack:p.pack, moq:p.moq, shelf:p.shelf,
+        tagStyle:tag(p.cat),
+        swatch:'height:132px;border-radius:12px;background:' + imgBg(p.id, p.cat) + ';',
+        open:() => this.nav('product', { productId:p.id })
+      })),
+
+      product:{
+        name:product.name, cat:product.cat, blurb:product.blurb, tagStyle:tag(product.cat),
+        hero:'height:320px;border-radius:20px;background:' + imgBg(product.id, product.cat) + ';box-shadow:0 20px 44px rgba(14,61,34,.12);',
+        thumbs:[0,1,2].map(i => ({ style:'flex:1;height:74px;border-radius:12px;opacity:' + (1 - i * .16) + ';background:' + (i === 0 ? imgBg(product.id, product.cat) : listBg(i + 3)) + ';' })),
+        spec:[
+          { label:'Pack', value:product.pack }, { label:'Grade', value:product.grade },
+          { label:'Shelf life', value:product.shelf }, { label:'Minimum order', value:product.moq },
+          { label:'Storage', value:product.storage }, { label:'Sourced', value:product.origin },
+          { label:'Batch coding', value:'Date + farm code on every pack' }
+        ]
+      },
+      quoteThis:() => { this.setF('items', [product.name]); this.nav('quote', { step:1, errors:{} }); },
+
+      step1:s.step === 1, step2:s.step === 2, step3:s.step === 3, canBack:s.step > 1,
+      stepper:[1,2,3].map(n => ({
+        n, title:stepTitles[n - 1],
+        dot:'width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex:none;transition:background .3s,color .3s;' +
+          (n <= s.step ? 'background:#16A34A;color:#fff;' : 'background:#E5EFE8;color:#9CA3AF;'),
+        label:'font-size:13.5px;font-weight:600;white-space:nowrap;color:' + (n <= s.step ? '#0B1F13' : '#9CA3AF') + ';',
+        bar:'flex:1;height:2px;border-radius:99px;min-width:12px;background:' + (n < s.step ? '#16A34A' : '#E5EFE8') + ';transition:background .35s;' + (n === 3 ? 'display:none;' : '')
+      })),
+      stepHint:['Step 1 of 3','Step 2 of 3','Nothing is sent until you press below'][s.step - 1],
+      nextLabel:s.submitting ? 'Sending…' : (s.step === 3 ? 'Send quote request' : 'Continue'),
+      nextStyle:this.cta(s.submitting),
+      back:() => this.setState(p => ({ step:p.step - 1, errors:{} })),
+      next:() => {
+        const e = this.validate();
+        if (Object.keys(e).length) { this.setState({ errors:e }); return; }
+        if (s.step < 3) { this.setState({ step:s.step + 1, errors:{} }); return; }
+        this.setState({ submitting:true });
+        setTimeout(() => {
+          const ref = 'KF-' + String(1200 + s.enquiries.length * 7);
+          const entry = {
+            id:Date.now(), name:f.name, meta:f.buyer + ' · ' + (f.items[0] || 'custom cut') + ' · ' + (f.location || 'Lagos'),
+            status:'New', when:'Just now', email:f.email, phone:f.phone,
+            body:'Quote request ' + ref + '\nLines: ' + (f.items.join(', ') || 'described in notes') + '\nVolume: ' + f.volume + ' · ' + f.frequency + '\nDeliver to: ' + (f.location || '—') + (f.notes ? '\n\n' + f.notes : '')
+          };
+          this.setState(p => ({ submitting:false, enquiries:[entry].concat(p.enquiries), selectedId:entry.id, lastRef:ref, screen:'done' }));
+        }, 900);
+      },
+      lastRef:s.lastRef || 'KF-1200',
+
+      f:{
+        name:f.name, business:f.business, email:f.email, phone:f.phone, volume:f.volume, location:f.location, notes:f.notes,
+        nameErr:!!s.errors.name, nameErrText:s.errors.name || '', emailErr:!!s.errors.email, emailErrText:s.errors.email || '',
+        phoneErr:!!s.errors.phone, phoneErrText:s.errors.phone || '', itemsErr:!!s.errors.items, volumeErr:!!s.errors.volume,
+        nameInput:this.field(s.errors.name), emailInput:this.field(s.errors.email), phoneInput:this.field(s.errors.phone), volumeInput:this.field(s.errors.volume),
+        nameWrap:s.errors.name ? 'animation:kfShake .42s ease both' : '',
+        emailWrap:s.errors.email ? 'animation:kfShake .42s ease both' : '',
+        phoneWrap:s.errors.phone ? 'animation:kfShake .42s ease both' : '',
+        itemsWrap:s.errors.items ? 'animation:kfShake .42s ease both' : '',
+        volumeWrap:s.errors.volume ? 'animation:kfShake .42s ease both' : ''
+      },
+      onName:e => this.setF('name', e.target.value), onBusiness:e => this.setF('business', e.target.value),
+      onEmail:e => this.setF('email', e.target.value), onPhone:e => this.setF('phone', e.target.value),
+      onVolume:e => this.setF('volume', e.target.value), onLocation:e => this.setF('location', e.target.value),
+      onNotes:e => this.setF('notes', e.target.value),
+      buyerTypes:['Home cook','Restaurant / hotel','Wholesale distributor','Export buyer'].map(label => ({
+        label, go:() => this.setF('buyer', label), style:this.chip(f.buyer === label)
+      })),
+      frequencies:['One-off','Weekly','Twice weekly','Monthly'].map(label => ({
+        label, go:() => this.setF('frequency', label), style:this.chip(f.frequency === label) + 'padding:7px 13px;font-size:13px;'
+      })),
+      picker:PRODUCTS.map(p => ({
+        name:p.name, style:this.chip(f.items.indexOf(p.name) > -1) + 'padding:7px 14px;',
+        go:() => this.setF('items', f.items.indexOf(p.name) > -1 ? f.items.filter(x => x !== p.name) : f.items.concat(p.name))
+      })),
+      summary:[
+        { label:'Name', value:f.name || '—' }, { label:'Business', value:f.business || '—' },
+        { label:'Email', value:f.email || '—' }, { label:'Phone', value:f.phone || '—' },
+        { label:'Buyer type', value:f.buyer }, { label:'Lines', value:f.items.join(', ') || 'To be described' },
+        { label:'Volume', value:(f.volume || '—') + ' · ' + f.frequency }, { label:'Deliver to', value:f.location || '—' }
+      ],
+
+      loginEmail:s.loginEmail, loginPass:s.loginPass,
+      onLoginEmail:e => this.setState({ loginEmail:e.target.value }), onLoginPass:e => this.setState({ loginPass:e.target.value }),
+      loginError:!!s.loginError, loginErrorText:s.loginError,
+      signInLabel:s.signingIn ? 'Checking…' : 'Sign in',
+      signInStyle:'margin-top:22px;width:100%;border:0;cursor:pointer;padding:15px;border-radius:999px;color:#fff;font-weight:700;font-size:15.5px;background:linear-gradient(180deg,#22C55E,#16A34A);box-shadow:0 8px 22px rgba(22,163,74,.3);opacity:' + (s.signingIn ? .75 : 1),
+      signIn:() => {
+        if (!s.loginEmail.trim() || !s.loginPass.trim()) { this.setState({ loginError:'Enter both your email and password to continue.' }); return; }
+        this.setState({ signingIn:true, loginError:'' });
+        setTimeout(() => { this.setState({ signingIn:false }); this.nav('dash'); }, 850);
+      },
+      signOut:() => this.nav('login', { loginEmail:'', loginPass:'', loginError:'' }),
+
+      studioNav:[
+        ['dash','Dashboard',0],['settings','Site settings',0],['products-admin','Products',0],['inbox','Enquiries',newCount],
+        ['testimonials-admin','Testimonials',0],['certifications','Certifications',s.certs.length ? 0 : 0],['blog-admin','Blog',0],['gallery-admin','Gallery',0]
+      ].map(([id,label,badge]) => ({
+        label, badge:badge || false, go:() => this.nav(id),
+        style:'display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:0;cursor:pointer;padding:11px 12px;border-radius:10px;font-size:14.5px;transition:background .18s,color .18s;' +
+          (s.screen === id ? 'background:rgba(255,255,255,.13);color:#fff;font-weight:600;' : 'background:transparent;color:rgba(234,246,238,.7);font-weight:500;')
+      })),
+
+      stats:[
+        { label:'WhatsApp taps', value:s.counts[0], delta:'+12 on last week', pct:76 },
+        { label:'Form enquiries', value:s.counts[1], delta:'+2 on last week', pct:54 },
+        { label:'Quote requests', value:s.counts[2], delta:'Same as last week', pct:32 },
+        { label:'Visitors', value:s.counts[3], delta:'+64 on last week', pct:88 }
+      ].map(x => Object.assign(x, { bar:'display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#16A34A,#4ADE80);width:' + x.pct + '%;transition:width 1.1s cubic-bezier(.2,.8,.2,1);' })),
+      recent:enquiries.slice(0, 4).map(e => ({ name:e.name, meta:e.meta, status:e.status, pill:this.pill(e.status) + 'margin-left:auto;', open:openEnq(e.id) })),
+      waNumber:s.waNumber, onWa:e => this.setState({ waNumber:e.target.value }),
+      saveWaLabel:s.savingWa ? 'Saving…' : 'Save change',
+      saveWaStyle:this.cta(s.savingWa, 'width:100%;'),
+      saveWa:() => { this.setState({ savingWa:true }); setTimeout(() => { this.setState({ savingWa:false }); this.flash('WhatsApp number updated across the site'); }, 700); },
+
+      inboxSubtitle:newCount + ' unread · ' + enquiries.length + ' total',
+      inboxTabs:['All','New','Replied'].map(label => ({ label, go:() => this.setState({ inboxFilter:label }), style:this.chip(s.inboxFilter === label) + 'padding:7px 15px;' })),
+      inboxHasRows:rows.length > 0, inboxEmpty:rows.length === 0,
+      inboxRows:rows.map(e => ({
+        name:e.name, meta:e.meta, when:e.when, status:e.status, pill:this.pill(e.status), open:openEnq(e.id),
+        dot:'width:8px;height:8px;border-radius:50%;flex:none;display:inline-block;background:' + (e.status === 'New' ? '#F97316' : 'rgba(14,61,34,.16)') + ';',
+        row:'padding:14px 16px;cursor:pointer;border-bottom:1px solid rgba(14,61,34,.06);transition:background .18s;' + (e.id === s.selectedId ? 'background:#F0FDF4;box-shadow:inset 3px 0 0 #16A34A;' : 'background:#fff;')
+      })),
+      hasSelection:!!sel, noSelection:!sel,
+      sel:sel ? Object.assign({}, sel, { pill:this.pill(sel.status) + 'margin-left:auto;', mailto:'mailto:' + sel.email, tel:'tel:' + sel.phone.replace(/\s/g, '') }) : { name:'', meta:'', when:'', status:'', body:'', email:'', phone:'', pill:'', mailto:'#', tel:'#' },
+      reply:s.reply, onReply:e => this.setState({ reply:e.target.value }),
+      sendReplyLabel:s.sending ? 'Sending…' : 'Send reply',
+      sendReplyStyle:this.cta(s.sending, 'padding:12px 22px;font-size:14px;'),
+      sendReply:() => {
+        if (!s.reply.trim()) { this.flash('Write a reply first'); return; }
+        this.setState({ sending:true });
+        setTimeout(() => {
+          this.setState(p => ({ sending:false, reply:'', enquiries:p.enquiries.map(e => e.id === p.selectedId ? Object.assign({}, e, { status:'Replied' }) : e) }));
+          this.flash('Reply sent to ' + (sel ? sel.name : ''));
+        }, 800);
+      },
+      markNew:() => this.setState(p => ({ enquiries:p.enquiries.map(e => e.id === p.selectedId ? Object.assign({}, e, { status:'New' }) : e) })),
+
+      showCookies:s.cookies,
+      acceptCookies:() => { this.setState({ cookies:false }); this.flash('Preferences saved'); },
+      declineCookies:() => this.setState({ cookies:false }),
+
+      socials:[{ label:'f', href:'https://facebook.com/kadiefresh' }, { label:'in', href:'https://linkedin.com/company/kadiefresh' }, { label:'ig', href:'https://instagram.com/kadiefresh' }, { label:'x', href:'https://x.com/kadiefresh' }],
+      footerCols:[
+        { title:'Explore', links:[{ label:'Products', href:'#products' }, { label:'Services', href:'#services' }, { label:'Standards', href:'#standards' }, { label:'Gallery', href:'#gallery' }] },
+        { title:'Company', links:[{ label:'About us', href:'#about' }, { label:'The founder', href:'#founder' }, { label:'Our team', href:'#team' }, { label:'Blog', href:'#blog' }] },
+        { title:'Buyers', links:[{ label:'Export credentials', href:'#export' }, { label:'Download line card', href:'#linecard' }, { label:'Become a distributor', href:'#distributor' }, { label:'Request a quote', href:'#quote' }] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

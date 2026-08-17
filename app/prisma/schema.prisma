@@ -1,0 +1,165 @@
+// Kadie Fresh — data model
+// Learn more about Prisma schema: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  repliedEnquiries Enquiry[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  category    String
+  pack        String
+  grade       String
+  shelfLife   String
+  moq         String
+  storage     String
+  origin      String
+  blurb       String   @db.Text
+  heroImageUrl String
+  thumbImageUrls String[] @default([])
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  authorName String
+  authorRole String
+  quote      String   @db.Text
+  photoUrl   String?
+  approved   Boolean  @default(false)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum CertificationStatus {
+  VALID
+  ON_REQUEST
+  RENEWING
+}
+
+model Certification {
+  id        String              @id @default(cuid())
+  name      String
+  issuer    String
+  ref       String
+  expires   String
+  status    CertificationStatus @default(RENEWING)
+  sortOrder Int                 @default(0)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+}
+
+model BlogPost {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  title         String
+  category      String
+  excerpt       String    @db.Text
+  body          String    @db.Text // paragraphs joined by "\n\n"
+  readTime      String
+  coverImageUrl String?
+  author        String
+  published     Boolean   @default(false)
+  publishedAt   DateTime?
+  sortOrder     Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  label     String
+  category  String
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+enum EnquiryType {
+  QUOTE
+  DISTRIBUTOR
+  GENERAL
+}
+
+enum EnquiryStatus {
+  NEW
+  REPLIED
+  CLOSED
+}
+
+model Enquiry {
+  id          String        @id @default(cuid())
+  reference   String        @unique
+  type        EnquiryType
+  status      EnquiryStatus @default(NEW)
+
+  name        String
+  business    String?
+  email       String
+  phone       String
+  meta        String
+
+  // Quote-specific
+  buyerType   String?
+  items       String[]      @default([])
+  volume      String?
+  frequency   String?
+  location    String?
+  notes       String?       @db.Text
+
+  // Distributor-specific
+  details     Json?
+
+  replyMessage String?      @db.Text
+  repliedAt    DateTime?
+  repliedById  String?
+  repliedBy    AdminUser?   @relation(fields: [repliedById], references: [id])
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model SiteSettings {
+  id                    Int      @id @default(1)
+  businessName          String   @default("Kadie Fresh")
+  tagline               String   @default("Washed, sliced, ready to cook.")
+  phone                 String   @default("0810 542 0458")
+  whatsappNumber        String   @default("2348105420458")
+  email                 String   @default("info@kadiefresh.com")
+  address               String   @default("Ikorodu, Lagos")
+  hours                 String   @default("Mon–Sat 6am–6pm")
+  instagramHandle       String   @default("kadiefresh")
+  linkedinPath          String   @default("company/kadiefresh")
+  seoTitle              String   @default("Kadie Fresh — prepared fresh produce, Lagos") @db.Text
+  seoDescription        String   @default("Washed, cut and sealed within four hours. Retail packs, kitchen supply, bulk and export from Ikorodu, Lagos.") @db.Text
+  googleSearchConsoleId String?
+  guaranteeStatement    String   @default("If a pack arrives off-spec or past its seal window, we replace the batch or credit it in full. No return required — send the batch code.") @db.Text
+  cookieConsentCopy     String   @default("We use a small number of cookies to see which pages buyers read. Nothing is sold on.") @db.Text
+  termsContent          String   @db.Text
+  privacyContent        String   @db.Text
+  cookieNoticeContent   String   @db.Text
+  updatedAt             DateTime @updatedAt
+}
