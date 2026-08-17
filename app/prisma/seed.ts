@@ -1,10 +1,12 @@
 import "dotenv/config";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PRODUCT_PHOTOS, FARM_PHOTO, galleryPhotoForIndex } from "../src/lib/images";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 const TERMS_CONTENT = `These Terms of Service govern your use of the Kadie Fresh website and your purchase of goods and services from Kadie Fresh ("we", "us", "our"), a prepared fresh produce supplier based in Ikorodu, Lagos, Nigeria (RC 1849022).
