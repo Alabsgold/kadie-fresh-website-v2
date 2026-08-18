@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { HERO_VIDEO_URL, HERO_POSTER_URL } from "@/lib/images";
 
-export function HeroVideo() {
+/**
+ * Homepage hero video. Source and poster come from SiteSettings (editable in
+ * /studio/settings) so footage can be swapped without a code change; the
+ * treatment around it (scrims, fallback gradient) is video-agnostic. On any
+ * playback error it unmounts and the branded gradient layers show instead.
+ */
+export function HeroVideo({ src, poster }: { src?: string; poster?: string }) {
   const [failed, setFailed] = useState(false);
 
   if (failed) return null;
@@ -14,9 +19,9 @@ export function HeroVideo() {
       loop
       playsInline
       autoPlay
-      preload="auto"
-      poster={HERO_POSTER_URL}
-      src={HERO_VIDEO_URL}
+      preload="metadata"
+      poster={poster || undefined}
+      src={src || "/hero-video.mp4"}
       onError={() => setFailed(true)}
       className="absolute inset-0 h-full w-full object-cover"
     />

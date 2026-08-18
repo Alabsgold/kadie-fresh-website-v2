@@ -29,13 +29,19 @@ export type SiteSettingsInput = {
   seoTitle: string;
   seoDescription: string;
   googleSearchConsoleId: string;
+  heroVideoUrl: string;
+  heroPosterUrl: string;
 };
 
 export async function updateSiteSettings(input: SiteSettingsInput) {
   await requireSession();
   await prisma.siteSettings.update({
     where: { id: 1 },
-    data: { ...input, googleSearchConsoleId: input.googleSearchConsoleId || null },
+    data: {
+      ...input,
+      googleSearchConsoleId: input.googleSearchConsoleId || null,
+      heroVideoUrl: input.heroVideoUrl || "/hero-video.mp4",
+    },
   });
   revalidatePath("/", "layout");
   revalidatePath("/studio/settings");

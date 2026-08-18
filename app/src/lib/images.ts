@@ -3,11 +3,6 @@
  * Kept as named constants so a real asset pipeline can swap them in one place.
  */
 
-export const HERO_VIDEO_URL =
-  "/hero-video.mp4";
-export const HERO_POSTER_URL =
-  "https://images.pexels.com/videos/7456696/4k-agricultural-agriculture-batch-7456696.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
 function unsplash(id: string) {
   return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=72`;
 }
@@ -43,3 +38,13 @@ export const CATEGORY_SWATCH: Record<string, string> = {
   Fruit: "linear-gradient(135deg,#FFE0C7,#F9A870)",
   Veg: "linear-gradient(135deg,#CDEED8,#8FD3A9)",
 };
+
+/**
+ * CSS background for a product image slot: the photo layered over the
+ * category swatch, or the swatch alone when no photo has been uploaded yet
+ * (an empty url() would invalidate the whole declaration).
+ */
+export function productCardBackground(heroImageUrl: string, category: string) {
+  const swatch = CATEGORY_SWATCH[category] ?? CATEGORY_SWATCH.Veg;
+  return heroImageUrl ? `url(${heroImageUrl}), ${swatch}` : swatch;
+}
