@@ -136,8 +136,9 @@
 
 body {
   margin: 0;
-  background: #e9f1ea;
-  color: #111827;
+  /* Spec: White page ground, Ink body text (design-system palette). */
+  background: #ffffff;
+  color: #0f1a14;
   -webkit-font-smoothing: antialiased;
 }
 

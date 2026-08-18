@@ -11,7 +11,7 @@ export function PageHeader({
 }) {
   return (
     <div
-      className={`px-6 pt-11 pb-5 bg-[linear-gradient(170deg,#F4FBF6_0%,#FFFFFF_78%)] ${className}`}
+      className={`px-6 pt-11 pb-5 bg-[linear-gradient(170deg,#F0FDF4_0%,#FFFFFF_78%)] ${className}`}
     >
       <div className="text-xs font-bold tracking-[0.14em] text-green-600 uppercase">
         {eyebrow}

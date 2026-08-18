@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const STATUS_PILL: Record<string, string> = {
   VALID: "bg-green-50 text-green-700",
-  ON_REQUEST: "bg-blue-50 text-blue-700",
+  ON_REQUEST: "bg-gray-100 text-gray-600",
   RENEWING: "bg-orange-50 text-orange-700",
 };
 

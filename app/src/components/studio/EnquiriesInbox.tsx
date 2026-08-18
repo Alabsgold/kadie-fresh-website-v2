@@ -143,7 +143,7 @@ export function EnquiriesInbox({ initialEnquiries }: { initialEnquiries: Enquiry
                 </a>
               </div>
 
-              <div className="mt-4 rounded-2xl bg-[#F7FAF8] p-4 text-sm whitespace-pre-line text-gray-700">
+              <div className="mt-4 rounded-2xl bg-green-50 p-4 text-sm whitespace-pre-line text-gray-700">
                 {selected.body}
               </div>
 

@@ -15,7 +15,7 @@ const STATUS_OPTIONS: CertificationStatus[] = ["VALID", "ON_REQUEST", "RENEWING"
 
 const STATUS_PILL: Record<CertificationStatus, string> = {
   VALID: "bg-green-50 text-green-700",
-  ON_REQUEST: "bg-blue-50 text-blue-700",
+  ON_REQUEST: "bg-gray-100 text-gray-600",
   RENEWING: "bg-orange-50 text-orange-700",
 };
 
@@ -92,7 +92,7 @@ export function CertificationsManager({
       </div>
 
       {certs.length === 0 ? (
-        <div className="mt-8 flex flex-col items-center gap-3 rounded-3xl border border-dashed border-forest-800/18 bg-[#FAFDFB] px-6 py-16 text-center">
+        <div className="mt-8 flex flex-col items-center gap-3 rounded-3xl border border-dashed border-forest-800/18 bg-green-50 px-6 py-16 text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-50 text-xl">
             📄
           </div>

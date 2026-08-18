@@ -74,7 +74,7 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
           <div className="mt-8 flex flex-col gap-3 rounded-2xl border-l-3 border-green-600 bg-green-50 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="text-[15.5px] font-bold text-forest-800">Buying for a kitchen?</div>
-              <p className="mt-1 text-sm leading-relaxed text-pretty text-[#3F6B4F]">
+              <p className="mt-1 text-sm leading-relaxed text-pretty text-forest-800/80">
                 We will quote against your own cut spec.
               </p>
             </div>

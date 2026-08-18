@@ -64,10 +64,10 @@ export function DistributorForm() {
 
   if (reference) {
     return (
-      <div className="min-h-130 bg-[linear-gradient(175deg,#F4FBF6,#FFFFFF_70%)] px-6 py-17.5 text-center">
+      <div className="min-h-130 bg-[linear-gradient(175deg,#F0FDF4,#FFFFFF_70%)] px-6 py-17.5 text-center">
         <div className="relative mx-auto mb-6.5 h-24 w-24">
           <span className="absolute inset-0 animate-pulse-ring rounded-full bg-green-600 opacity-28" />
-          <span className="absolute inset-0 flex animate-pop items-center justify-center rounded-full bg-[radial-gradient(circle_at_34%_30%,#22C55E,#12833C)] text-4xl text-white">
+          <span className="absolute inset-0 flex animate-pop items-center justify-center rounded-full bg-[radial-gradient(circle_at_34%_30%,#22C55E,#16A34A)] text-4xl text-white">
             ✓
           </span>
         </div>

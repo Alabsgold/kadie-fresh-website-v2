@@ -22,7 +22,7 @@ export function DashboardStatCard({
         {display}
       </div>
       <div className="mt-1 text-xs text-gray-400">{delta}</div>
-      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#EAF3EC]">
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-forest-800/10">
         <div
           className="h-full rounded-full bg-green-600"
           style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}

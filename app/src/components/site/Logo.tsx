@@ -5,7 +5,7 @@ export function Logo({ size = 30 }: { size?: number }) {
       style={{
         width: size,
         height: size,
-        background: "radial-gradient(circle at 32% 30%,#22C55E,#12833C)",
+        background: "radial-gradient(circle at 32% 30%,#22C55E,#16A34A)",
         boxShadow: "0 4px 12px rgba(22,163,74,.3)",
       }}
     >

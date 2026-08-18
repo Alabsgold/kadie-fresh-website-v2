@@ -15,7 +15,7 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative min-h-140 overflow-hidden bg-forest-900">
         <div className="absolute inset-0 bg-[linear-gradient(125deg,#14532D_0%,#166534_40%,#0B1F13_100%)]" />
-        <div className="absolute inset-0 animate-drift bg-[radial-gradient(70%_60%_at_22%_30%,rgba(34,197,94,.5),transparent_62%),radial-gradient(50%_50%_at_82%_72%,rgba(249,115,22,.34),transparent_66%)]" />
+        <div className="absolute inset-0 animate-drift bg-[radial-gradient(70%_60%_at_22%_30%,rgba(34,197,94,.5),transparent_62%),radial-gradient(50%_50%_at_82%_72%,rgba(34,197,94,.28),transparent_66%)]" />
         <HeroVideo />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,20,12,.72)_0%,rgba(6,20,12,.58)_45%,rgba(6,20,12,.82)_100%)]" />
 
@@ -88,7 +88,7 @@ export default async function HomePage() {
       </section>
 
       {/* The line */}
-      <section className="mt-8.5 bg-[#F7FAF8] px-6 py-11">
+      <section className="mt-8.5 bg-green-50 px-6 py-11">
         <div className="text-xs font-bold tracking-[0.14em] text-green-600 uppercase">
           The line
         </div>

@@ -97,7 +97,7 @@ export function ProductsBrowser({ products }: { products: Product[] }) {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-forest-800/18 bg-[#FAFDFB] px-5 py-17.5 text-center">
+          <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-forest-800/18 bg-green-50 px-5 py-17.5 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-50 text-xl">
               ⌕
             </div>

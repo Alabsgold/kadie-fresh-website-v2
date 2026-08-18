@@ -20,7 +20,7 @@ export function Preloader() {
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex flex-col items-center justify-center gap-5 bg-[linear-gradient(180deg,#FBFDFB,#E9F1EA)] transition-opacity duration-[550ms] ease-out"
+      className="fixed inset-0 z-[80] flex flex-col items-center justify-center gap-5 bg-[linear-gradient(180deg,#FFFFFF,#F0FDF4)] transition-opacity duration-[550ms] ease-out"
       style={{ opacity: fading ? 0 : 1 }}
       aria-hidden={fading}
     >
@@ -30,7 +30,7 @@ export function Preloader() {
       </span>
       <span className="font-display text-lg font-bold text-forest-800">Kadie Fresh</span>
       <span className="h-1 w-43 overflow-hidden rounded-full bg-black/10">
-        <span className="block h-full w-full origin-left animate-bar rounded-full bg-[linear-gradient(90deg,#16A34A,#F97316)]" />
+        <span className="block h-full w-full origin-left animate-bar rounded-full bg-green-600" />
       </span>
     </div>
   );
