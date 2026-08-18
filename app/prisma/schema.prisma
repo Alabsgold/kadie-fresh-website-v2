@@ -1,9 +1,13 @@
 // Kadie Fresh — data model
 // Learn more about Prisma schema: https://pris.ly/d/prisma-schema
 
+// The app imports from "@/generated/prisma/client", which resolves to the
+// client.ts this generator emits. The previous "prisma-client-js" +
+// output ".../prisma/client" combination wrote a second, unused JS client
+// next to it, so `prisma generate` silently stopped updating the real one.
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma/client"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -156,6 +160,11 @@ model SiteSettings {
   seoTitle              String   @default("Kadie Fresh — prepared fresh produce, Lagos") @db.Text
   seoDescription        String   @default("Washed, cut and sealed within four hours. Retail packs, kitchen supply, bulk and export from Ikorodu, Lagos.") @db.Text
   googleSearchConsoleId String?
+  // Homepage hero media, editable from /studio/settings. The video falls back
+  // to the file shipped in public/; an empty poster means "no poster" (the
+  // hero's branded gradient shows while the video loads).
+  heroVideoUrl          String   @default("/hero-video.mp4")
+  heroPosterUrl         String   @default("")
   guaranteeStatement    String   @default("If a pack arrives off-spec or past its seal window, we replace the batch or credit it in full. No return required — send the batch code.") @db.Text
   cookieConsentCopy     String   @default("We use a small number of cookies to see which pages buyers read. Nothing is sold on.") @db.Text
   termsContent          String   @db.Text

@@ -4,8 +4,6 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { FARM_PHOTO } from "@/lib/images";
-
 async function requireSession() {
   const session = await getSession();
   if (!session) throw new Error("Not authenticated");
@@ -33,7 +31,9 @@ export async function createDraftProduct() {
       storage: "—",
       origin: "—",
       blurb: "",
-      heroImageUrl: FARM_PHOTO,
+      // Empty until a photo is uploaded — cards render the category swatch
+      // instead of a misleading stock image.
+      heroImageUrl: "",
       thumbImageUrls: [],
       published: false,
       sortOrder: count,
@@ -59,6 +59,14 @@ export async function updateProduct(
   await requireSession();
   const product = await prisma.product.update({ where: { id }, data });
   revalidateProductPaths();
+  return product;
+}
+
+export async function updateProductImage(id: string, heroImageUrl: string) {
+  await requireSession();
+  const product = await prisma.product.update({ where: { id }, data: { heroImageUrl } });
+  revalidateProductPaths();
+  revalidatePath(`/products/${product.slug}`);
   return product;
 }
 

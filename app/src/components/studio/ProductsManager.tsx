@@ -1,9 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Product } from "@/generated/prisma/client";
-import { createDraftProduct, updateProduct, toggleProductPublished } from "@/app/actions/products";
+import {
+  createDraftProduct,
+  updateProduct,
+  updateProductImage,
+  toggleProductPublished,
+} from "@/app/actions/products";
+import { productCardBackground } from "@/lib/images";
 import { useToast } from "@/components/ui/Toast";
 
 export type ProductAdmin = Product & { photoWarning: boolean };
@@ -24,8 +30,40 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [form, setForm] = useState<Form | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { showToast } = useToast();
+
+  const selected = products.find((p) => p.id === selectedId) ?? null;
+
+  async function uploadPhoto(file: File | null | undefined) {
+    if (!file || !selectedId) return;
+    setUploadingPhoto(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("category", "products");
+
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        showToast(data.error || "Upload failed — try again");
+        return;
+      }
+
+      const updated = await updateProductImage(selectedId, data.url);
+      setProducts((list) =>
+        list.map((p) => (p.id === updated.id ? { ...p, ...updated, photoWarning: false } : p)),
+      );
+      showToast("Photo updated on the site");
+      router.refresh();
+    } catch {
+      showToast("Upload failed — try again");
+    } finally {
+      setUploadingPhoto(false);
+    }
+  }
 
   function select(product: ProductAdmin) {
     setSelectedId(product.id);
@@ -137,6 +175,41 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
             <p className="text-sm text-gray-400">Pick a line to edit its spec and photographs</p>
           ) : (
             <div className="flex flex-col gap-3.5">
+              <div>
+                <label className="mb-1 block text-xs font-semibold text-gray-600">
+                  Photograph
+                </label>
+                <input
+                  ref={photoInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="hidden"
+                  onChange={(e) => {
+                    uploadPhoto(e.target.files?.[0]);
+                    e.target.value = "";
+                  }}
+                />
+                <button
+                  type="button"
+                  disabled={uploadingPhoto}
+                  onClick={() => photoInputRef.current?.click()}
+                  className="group relative block h-36 w-full overflow-hidden rounded-2xl border border-forest-800/14 bg-cover bg-center"
+                  style={{
+                    backgroundImage: selected
+                      ? productCardBackground(selected.heroImageUrl, selected.category)
+                      : undefined,
+                  }}
+                >
+                  <span className="absolute inset-0 flex items-center justify-center bg-forest-900/45 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100">
+                    {uploadingPhoto ? "Uploading…" : "Change photo"}
+                  </span>
+                  {!selected?.heroImageUrl && !uploadingPhoto && (
+                    <span className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-forest-800">
+                      Add a photo — JPG or PNG, up to 8MB
+                    </span>
+                  )}
+                </button>
+              </div>
               <div>
                 <label className="mb-1 block text-xs font-semibold text-gray-600">Name</label>
                 <input

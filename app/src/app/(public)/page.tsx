@@ -3,11 +3,12 @@ import { HeroVideo } from "@/components/site/HeroVideo";
 import { Reveal } from "@/components/ui/Reveal";
 import { CountUpStat } from "@/components/ui/CountUpStat";
 import { listPublishedProducts } from "@/lib/data/products";
-import { CATEGORY_SWATCH } from "@/lib/images";
+import { getSiteSettings } from "@/lib/data/settings";
+import { productCardBackground } from "@/lib/images";
 import { HOME_STATS, HOME_PROOF, HOME_AUDIENCES, HOME_STEPS } from "@/content/home";
 
 export default async function HomePage() {
-  const products = await listPublishedProducts();
+  const [products, settings] = await Promise.all([listPublishedProducts(), getSiteSettings()]);
   const featured = products.slice(0, 3);
 
   return (
@@ -16,7 +17,7 @@ export default async function HomePage() {
       <section className="relative min-h-140 overflow-hidden bg-forest-900">
         <div className="absolute inset-0 bg-[linear-gradient(125deg,#14532D_0%,#166534_40%,#0B1F13_100%)]" />
         <div className="absolute inset-0 animate-drift bg-[radial-gradient(70%_60%_at_22%_30%,rgba(34,197,94,.5),transparent_62%),radial-gradient(50%_50%_at_82%_72%,rgba(34,197,94,.28),transparent_66%)]" />
-        <HeroVideo />
+        <HeroVideo src={settings.heroVideoUrl} poster={settings.heroPosterUrl} />
         {/* Video-agnostic text protection. The scrims are anchored to where
             copy actually sits — strong under the left text column, anchored
             along the bottom stats row, near-transparent elsewhere — so any
@@ -141,9 +142,7 @@ export default async function HomePage() {
                 <div className="overflow-hidden rounded-2xl">
                   <div
                     className="h-40 bg-cover bg-center transition-transform duration-500 ease-soft group-hover:scale-105"
-                    style={{
-                      backgroundImage: `url(${p.heroImageUrl}), ${CATEGORY_SWATCH[p.category] ?? CATEGORY_SWATCH.Veg}`,
-                    }}
+                    style={{ backgroundImage: productCardBackground(p.heroImageUrl, p.category) }}
                   />
                 </div>
                 <div className="mt-3.5 flex items-center gap-2">

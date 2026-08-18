@@ -36,7 +36,11 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
         <div>
           <div
             className="h-80 rounded-3xl bg-cover bg-center shadow-[0_20px_44px_rgba(14,61,34,0.12)]"
-            style={{ backgroundImage: `url(${product.heroImageUrl}), ${swatch}` }}
+            style={{
+              backgroundImage: product.heroImageUrl
+                ? `url(${product.heroImageUrl}), ${swatch}`
+                : swatch,
+            }}
           />
           {product.thumbImageUrls.length > 0 && (
             <div className="mt-3 flex gap-2.5">

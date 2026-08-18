@@ -14,8 +14,8 @@ export function specRows(product: Product) {
   ];
 }
 
-export function hasPhotoWarning(product: Pick<Product, "thumbImageUrls">) {
-  return product.thumbImageUrls.length === 0;
+export function hasPhotoWarning(product: Pick<Product, "heroImageUrl" | "thumbImageUrls">) {
+  return !product.heroImageUrl && product.thumbImageUrls.length === 0;
 }
 
 export async function listPublishedProducts() {

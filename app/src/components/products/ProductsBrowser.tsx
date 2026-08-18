@@ -8,7 +8,7 @@ import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useToast } from "@/components/ui/Toast";
-import { CATEGORY_SWATCH } from "@/lib/images";
+import { productCardBackground } from "@/lib/images";
 
 const FILTERS = ["All", "Fruit", "Veg"] as const;
 
@@ -71,11 +71,7 @@ export function ProductsBrowser({ products }: { products: Product[] }) {
                   <div className="overflow-hidden rounded-2xl">
                     <div
                       className="h-38 bg-cover bg-center transition-transform duration-500 ease-soft group-hover:scale-105"
-                      style={{
-                        backgroundImage: `url(${p.heroImageUrl}), ${
-                          CATEGORY_SWATCH[p.category] ?? CATEGORY_SWATCH.Veg
-                        }`,
-                      }}
+                      style={{ backgroundImage: productCardBackground(p.heroImageUrl, p.category) }}
                     />
                   </div>
                   <div className="mt-3.5 flex items-center gap-2">

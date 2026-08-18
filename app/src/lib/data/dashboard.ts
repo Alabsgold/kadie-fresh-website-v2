@@ -7,7 +7,7 @@ export async function getDashboardStats() {
     await Promise.all([
       prisma.enquiry.count(),
       prisma.enquiry.count({ where: { type: "QUOTE" } }),
-      prisma.product.findMany({ select: { thumbImageUrls: true } }),
+      prisma.product.findMany({ select: { heroImageUrl: true, thumbImageUrls: true } }),
       prisma.certification.count(),
       prisma.blogPost.findFirst({
         where: { published: true },
