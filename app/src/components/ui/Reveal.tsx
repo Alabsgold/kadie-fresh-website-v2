@@ -6,6 +6,9 @@ import type { ElementType, ComponentPropsWithoutRef } from "react";
 type RevealProps<T extends ElementType> = {
   as?: T;
   className?: string;
+  /** Milliseconds to hold before the fade-up starts once in view — used to
+   * stagger sibling cards (e.g. `delay={i * 80}`). */
+  delay?: number;
   children: React.ReactNode;
 } & Omit<ComponentPropsWithoutRef<T>, "as" | "className" | "children">;
 
@@ -13,6 +16,7 @@ type RevealProps<T extends ElementType> = {
 export function Reveal<T extends ElementType = "div">({
   as,
   className = "",
+  delay = 0,
   children,
   ...rest
 }: RevealProps<T>) {
@@ -46,13 +50,15 @@ export function Reveal<T extends ElementType = "div">({
     );
     observer.observe(el);
 
-    // Failsafe: never leave content permanently invisible if the observer
-    // misfires (e.g. a very short page, or a browser quirk).
-    const failsafe = setTimeout(() => setVisible(true), 1400);
+    // No blanket timeout failsafe here: it fired at 1.4s and revealed
+    // below-the-fold content before the user ever scrolled to it, defeating
+    // the effect. The observer fires immediately for in-view elements, the
+    // no-IntersectionObserver branch above covers ancient browsers, and the
+    // CSS hiding rule is scoped to `@media (scripting: enabled)` so content
+    // can never be stranded invisible without JS.
 
     return () => {
       observer.disconnect();
-      clearTimeout(failsafe);
     };
   }, []);
 
@@ -61,6 +67,7 @@ export function Reveal<T extends ElementType = "div">({
       ref={ref}
       data-reveal="1"
       className={`${visible ? "is-visible" : ""} ${className}`.trim()}
+      style={delay ? ({ "--reveal-delay": `${delay}ms` } as React.CSSProperties) : undefined}
       {...rest}
     >
       {children}

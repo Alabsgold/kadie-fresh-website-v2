@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SITE_NAV } from "@/content/nav";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -9,11 +9,23 @@ import { MobileDrawer } from "@/components/site/MobileDrawer";
 
 export function Header({ phone }: { phone: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const telHref = `tel:+${phone.replace(/\D/g, "")}`;
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
-      <header className="glass-nav sticky top-0 z-30 flex items-center gap-6 px-6 py-3.5">
+      <header
+        className={`glass-nav sticky top-0 z-30 flex items-center gap-6 px-6 transition-[padding,box-shadow] duration-300 ${
+          scrolled ? "py-2 shadow-[0_10px_28px_rgba(14,61,34,0.12)]" : "py-3.5"
+        }`}
+      >
         <Link href="/" className="flex flex-none items-center gap-2.5 py-0.5 leading-none">
           <Logo size={30} />
           <span className="whitespace-nowrap font-display text-[19px] font-bold tracking-[-0.02em] text-forest-800">
@@ -26,7 +38,7 @@ export function Header({ phone }: { phone: string }) {
             const label = item.label;
             const tip = "tooltip" in item ? item.tooltip : undefined;
             const link = (
-              <Link key={item.href} href={item.href} className="text-gray-700 hover:text-green-700">
+              <Link key={item.href} href={item.href} className="nav-link text-gray-700 hover:text-green-700">
                 {label}
               </Link>
             );

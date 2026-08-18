@@ -65,17 +65,19 @@ export function ProductsBrowser({ products }: { products: Product[] }) {
       <div className="px-6 pb-14">
         {visible.length > 0 ? (
           <div className="grid grid-cols-1 gap-4.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {visible.map((p) => (
-              <Reveal key={p.id}>
-                <Link href={`/products/${p.slug}`} className="glass-card block p-3.5">
-                  <div
-                    className="h-38 rounded-2xl bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url(${p.heroImageUrl}), ${
-                        CATEGORY_SWATCH[p.category] ?? CATEGORY_SWATCH.Veg
-                      }`,
-                    }}
-                  />
+            {visible.map((p, i) => (
+              <Reveal key={p.id} delay={(i % 4) * 70}>
+                <Link href={`/products/${p.slug}`} className="glass-card group block p-3.5">
+                  <div className="overflow-hidden rounded-2xl">
+                    <div
+                      className="h-38 bg-cover bg-center transition-transform duration-500 ease-soft group-hover:scale-105"
+                      style={{
+                        backgroundImage: `url(${p.heroImageUrl}), ${
+                          CATEGORY_SWATCH[p.category] ?? CATEGORY_SWATCH.Veg
+                        }`,
+                      }}
+                    />
+                  </div>
                   <div className="mt-3.5 flex items-center gap-2">
                     <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700">
                       {p.category}
