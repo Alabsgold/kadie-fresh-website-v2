@@ -141,12 +141,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: #16a34a;
-  text-decoration: none;
-}
-a:hover {
-  color: var(--color-forest-800);
+/* Link defaults live in the base layer so Tailwind utilities (which sit in
+   the later `utilities` layer) can override them. Unlayered, these rules
+   would beat every text-* utility on anchors site-wide. */
+@layer base {
+  a {
+    color: #16a34a;
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-forest-800);
+  }
 }
 
 ::selection {

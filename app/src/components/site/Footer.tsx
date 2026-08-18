@@ -53,7 +53,7 @@ export function Footer({
             </div>
             <div className="mt-3 flex flex-col gap-2.5 text-sm text-white/75">
               {col.links.map((link) => (
-                <Link key={link.href} href={link.href} className="hover:text-white">
+                <Link key={link.href} href={link.href} className="text-white/75 hover:text-white">
                   {link.label}
                 </Link>
               ))}
@@ -65,13 +65,13 @@ export function Footer({
       <div className="mx-auto mt-10 flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/55">
         <span>© {year} Kadie Fresh. RC 1849022.</span>
         <div className="flex gap-5">
-          <Link href="/terms" className="hover:text-white">
+          <Link href="/terms" className="text-white/55 hover:text-white">
             Terms of service
           </Link>
-          <Link href="/privacy" className="hover:text-white">
+          <Link href="/privacy" className="text-white/55 hover:text-white">
             Privacy
           </Link>
-          <Link href="/cookie-notice" className="hover:text-white">
+          <Link href="/cookie-notice" className="text-white/55 hover:text-white">
             Cookie notice
           </Link>
         </div>
