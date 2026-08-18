@@ -17,7 +17,14 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-[linear-gradient(125deg,#14532D_0%,#166534_40%,#0B1F13_100%)]" />
         <div className="absolute inset-0 animate-drift bg-[radial-gradient(70%_60%_at_22%_30%,rgba(34,197,94,.5),transparent_62%),radial-gradient(50%_50%_at_82%_72%,rgba(34,197,94,.28),transparent_66%)]" />
         <HeroVideo />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,20,12,.72)_0%,rgba(6,20,12,.58)_45%,rgba(6,20,12,.82)_100%)]" />
+        {/* Video-agnostic text protection. The scrims are anchored to where
+            copy actually sits — strong under the left text column, anchored
+            along the bottom stats row, near-transparent elsewhere — so any
+            future footage (bright, busy or dark) stays legible without
+            re-tuning, while the video shows through on the right. */}
+        <div className="absolute inset-0 hidden backdrop-blur-[6px] [mask-image:linear-gradient(100deg,black_0%,black_30%,transparent_66%)] sm:block" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,32,15,.72)_0%,rgba(7,32,15,.55)_55%,rgba(7,32,15,.78)_100%)] sm:bg-[linear-gradient(100deg,rgba(7,32,15,.82)_0%,rgba(7,32,15,.62)_38%,rgba(7,32,15,.2)_70%,rgba(7,32,15,0)_100%)]" />
+        <div className="absolute inset-0 hidden bg-[linear-gradient(180deg,rgba(7,32,15,0)_58%,rgba(7,32,15,.6)_100%)] sm:block" />
 
         <div className="relative max-w-3xl px-6 pt-24 pb-21">
           <span className="inline-block rounded-full border border-white/22 bg-white/14 px-4 py-1.5 text-[13px] font-semibold text-[#EAF6EE] backdrop-blur-md">
