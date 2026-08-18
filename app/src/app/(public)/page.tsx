@@ -26,18 +26,20 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,32,15,.72)_0%,rgba(7,32,15,.55)_55%,rgba(7,32,15,.78)_100%)] sm:bg-[linear-gradient(100deg,rgba(7,32,15,.82)_0%,rgba(7,32,15,.62)_38%,rgba(7,32,15,.2)_70%,rgba(7,32,15,0)_100%)]" />
         <div className="absolute inset-0 hidden bg-[linear-gradient(180deg,rgba(7,32,15,0)_58%,rgba(7,32,15,.6)_100%)] sm:block" />
 
+        {/* One-time load choreography: badge → headline → copy → CTAs →
+            stats, ~90ms apart, on the shared kfFadeUp curve. */}
         <div className="relative max-w-3xl px-6 pt-24 pb-21">
-          <span className="inline-block rounded-full border border-white/22 bg-white/14 px-4 py-1.5 text-[13px] font-semibold text-[#EAF6EE] backdrop-blur-md">
+          <span className="animate-hero inline-block rounded-full border border-white/22 bg-white/14 px-4 py-1.5 text-[13px] font-semibold text-[#EAF6EE] backdrop-blur-md">
             Ikorodu, Lagos · supplying and exporting since day one
           </span>
-          <h1 className="mt-5.5 mb-4.5 font-display text-[42px] leading-[0.98] font-extrabold tracking-[-0.04em] text-balance text-white [text-shadow:0_2px_24px_rgba(0,0,0,.35)] sm:text-6xl">
+          <h1 className="animate-hero mt-5.5 mb-4.5 font-display text-[42px] leading-[0.98] font-extrabold tracking-[-0.04em] text-balance text-white [animation-delay:90ms] [text-shadow:0_2px_24px_rgba(0,0,0,.35)] sm:text-6xl">
             Welcome to Kadie Fresh.
           </h1>
-          <p className="max-w-xl text-lg leading-relaxed text-pretty text-white/88 [text-shadow:0_1px_12px_rgba(0,0,0,.4)]">
+          <p className="animate-hero max-w-xl text-lg leading-relaxed text-pretty text-white/88 [animation-delay:180ms] [text-shadow:0_1px_12px_rgba(0,0,0,.4)]">
             High-grade fresh produce, washed, sliced and sealed within four hours — supplied to
             Lagos kitchens and consolidated for export buyers overseas.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3.5">
+          <div className="animate-hero mt-8 flex flex-wrap gap-3.5 [animation-delay:270ms]">
             <Link href="/products" className="btn-cta px-7.5 py-4 text-base">
               Explore Products
             </Link>
@@ -48,7 +50,7 @@ export default async function HomePage() {
               Request a Quote
             </Link>
           </div>
-          <div className="mt-11 flex flex-wrap gap-9">
+          <div className="animate-hero mt-11 flex flex-wrap gap-9 [animation-delay:360ms]">
             {HOME_STATS.map((s) => (
               <CountUpStat key={s.label} value={s.value} label={s.label} />
             ))}
@@ -75,8 +77,8 @@ export default async function HomePage() {
           Four ways to buy
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {HOME_AUDIENCES.map((a) => (
-            <Reveal key={a.title} className="glass-card p-5.5">
+          {HOME_AUDIENCES.map((a, i) => (
+            <Reveal key={a.title} delay={i * 80} className="glass-card p-5.5">
               <div className="mb-3.5 flex h-9.5 w-9.5 items-center justify-center rounded-full bg-green-50">
                 <span className="inline-block h-3.5 w-3.5 rounded-full bg-orange-500" />
               </div>
@@ -103,8 +105,8 @@ export default async function HomePage() {
           Four steps, every batch
         </h2>
         <div className="grid grid-cols-1 gap-5.5 sm:grid-cols-2 lg:grid-cols-4">
-          {HOME_STEPS.map((s) => (
-            <Reveal key={s.title}>
+          {HOME_STEPS.map((s, i) => (
+            <Reveal key={s.title} delay={i * 80}>
               <span
                 className={`inline-block h-3 w-3 rounded-full ${
                   s.tone === "green" ? "bg-green-600" : "bg-orange-500"
@@ -133,15 +135,17 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-4.5 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((p) => (
-            <Reveal key={p.id}>
-              <Link href={`/products/${p.slug}`} className="glass-card block p-3.5">
-                <div
-                  className="h-40 rounded-2xl bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url(${p.heroImageUrl}), ${CATEGORY_SWATCH[p.category] ?? CATEGORY_SWATCH.Veg}`,
-                  }}
-                />
+          {featured.map((p, i) => (
+            <Reveal key={p.id} delay={i * 90}>
+              <Link href={`/products/${p.slug}`} className="glass-card group block p-3.5">
+                <div className="overflow-hidden rounded-2xl">
+                  <div
+                    className="h-40 bg-cover bg-center transition-transform duration-500 ease-soft group-hover:scale-105"
+                    style={{
+                      backgroundImage: `url(${p.heroImageUrl}), ${CATEGORY_SWATCH[p.category] ?? CATEGORY_SWATCH.Veg}`,
+                    }}
+                  />
+                </div>
                 <div className="mt-3.5 flex items-center gap-2">
                   <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700">
                     {p.category}

@@ -18,7 +18,12 @@
   --color-forest-950: #07200f;
   --color-forest-975: #082816;
 
+  /* House motion: one easing curve, two speeds. Micro-interactions run at
+     ~180ms; content reveals at ~550ms. */
+  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+
   --animate-fade-up: kfFadeUp 0.35s ease both;
+  --animate-hero: kfFadeUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   --animate-shake: kfShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   --animate-spin-slow: kfSpin 0.9s linear infinite;
   --animate-pulse-ring: kfPulse 2.2s ease-out infinite;
@@ -189,10 +194,37 @@ button:focus-visible {
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.9),
       0 8px 28px rgba(14, 61, 34, 0.09);
+    transition:
+      transform 0.18s var(--ease-soft),
+      box-shadow 0.18s ease;
   }
 
   .glass-card:hover {
+    transform: translateY(-3px);
     box-shadow: 0 18px 40px rgba(14, 61, 34, 0.12);
+  }
+
+  /* Header nav links: color shift plus an underline that slides in. */
+  .nav-link {
+    position: relative;
+    transition: color 0.18s ease;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -6px;
+    left: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: #16a34a;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.22s var(--ease-soft);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
   }
 
   /* Sticky glass chrome recipe used by the public header and studio topbar. */
@@ -248,12 +280,18 @@ button:focus-visible {
     border-color: #16a34a;
   }
 
-  /* Elements revealed as they scroll into view; toggled by useScrollReveal. */
-  [data-reveal="1"] {
-    opacity: 0;
-    transform: translateY(16px);
+  /* Elements revealed as they scroll into view; toggled by the Reveal
+     component. Hidden only when scripting is available — without JS the
+     is-visible class can never be added, so content must stay shown. */
+  @media (scripting: enabled) {
+    [data-reveal="1"] {
+      opacity: 0;
+      transform: translateY(16px);
+    }
   }
   [data-reveal="1"].is-visible {
-    animation: kfFadeUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation: kfFadeUp 0.55s var(--ease-soft) both;
+    /* Set per element by Reveal's `delay` prop to stagger siblings. */
+    animation-delay: var(--reveal-delay, 0s);
   }
 }
