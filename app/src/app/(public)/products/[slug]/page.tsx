@@ -100,7 +100,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
           <div className="mt-5.5 flex gap-3 rounded-2xl border-l-3 border-green-600 bg-green-50 px-4.5 py-4">
             <div>
               <div className="text-[14.5px] font-bold text-forest-800">Our guarantee</div>
-              <p className="mt-1.25 text-sm leading-relaxed text-pretty text-[#3F6B4F]">
+              <p className="mt-1.25 text-sm leading-relaxed text-pretty text-forest-800/80">
                 {settings.guaranteeStatement}
               </p>
             </div>

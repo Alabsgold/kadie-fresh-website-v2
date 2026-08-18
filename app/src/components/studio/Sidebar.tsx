@@ -20,7 +20,7 @@ export function Sidebar({
       <Link href="/studio" className="mb-7 flex items-center gap-2.5 px-2">
         <span
           className="h-7 w-7 flex-none rounded-full"
-          style={{ background: "radial-gradient(circle at 32% 30%,#22C55E,#12833C)" }}
+          style={{ background: "radial-gradient(circle at 32% 30%,#22C55E,#16A34A)" }}
         />
         <span className="font-display text-[17px] font-bold">Kadie Fresh</span>
       </Link>

@@ -32,7 +32,7 @@ export default async function StudioLoginPage() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center bg-[#FAFDFB] p-8">
+      <div className="flex items-center justify-center bg-white p-8">
         <LoginForm />
       </div>
     </div>

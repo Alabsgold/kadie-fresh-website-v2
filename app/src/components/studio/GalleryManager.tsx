@@ -90,7 +90,7 @@ export function GalleryManager({ initialImages }: { initialImages: GalleryImage[
         className={`flex aspect-square flex-col items-center justify-center gap-2.5 rounded-3xl border border-dashed px-5 text-center transition-colors ${
           isDragOver
             ? "border-green-600 bg-green-50/60"
-            : "border-forest-800/18 bg-[#FAFDFB] hover:border-green-600/60 hover:bg-green-50/40"
+            : "border-forest-800/18 bg-white hover:border-green-600/60 hover:bg-green-50/40"
         } ${isUploading ? "opacity-60" : ""}`}
       >
         <span className="flex h-11 w-11 items-center justify-center rounded-full bg-green-50 text-green-700">

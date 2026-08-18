@@ -108,7 +108,7 @@ export function TestimonialsManager({
       </div>
 
       {testimonials.length === 0 ? (
-        <div className="mt-6 flex flex-col items-center gap-3 rounded-3xl border border-dashed border-forest-800/18 bg-[#FAFDFB] px-6 py-16 text-center">
+        <div className="mt-6 flex flex-col items-center gap-3 rounded-3xl border border-dashed border-forest-800/18 bg-green-50 px-6 py-16 text-center">
           <p className="text-sm text-gray-500">No testimonials yet.</p>
         </div>
       ) : (

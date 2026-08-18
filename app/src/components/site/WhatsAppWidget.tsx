@@ -13,7 +13,7 @@ export function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: string }) {
       rel="noopener noreferrer"
       className="fixed right-6.5 bottom-6.5 z-[66] flex items-center gap-3 rounded-full px-4 py-3 text-white transition-transform hover:-translate-y-0.75 hover:shadow-[0_20px_44px_rgba(14,61,34,0.42)]"
       style={{
-        background: "rgba(20,150,70,.9)",
+        background: "rgba(22,163,74,.9)",
         backdropFilter: "blur(16px) saturate(1.7)",
         border: "1px solid rgba(255,255,255,.34)",
         boxShadow: "inset 0 1px 0 rgba(255,255,255,.34), 0 14px 36px rgba(14,61,34,.34)",
