@@ -4,7 +4,7 @@
  */
 
 export const HERO_VIDEO_URL =
-  "/app/public/hero-video.mp4";
+  "/hero-video.mp4";
 export const HERO_POSTER_URL =
   "https://images.pexels.com/videos/7456696/4k-agricultural-agriculture-batch-7456696.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
