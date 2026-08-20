@@ -32,7 +32,7 @@ read it before making content or visual changes.
    ```
 
    The seed reads `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_NAME` from `.env` (defaults to
-   `femi@kadiefresh.com` / `KadieFresh2026!`) to create the first Studio login — **change this
+   `femi@kadiefreshh.com` / `KadieFresh2026!`) to create the first Studio login — **change this
    password in production**.
 
 4. Start the app:

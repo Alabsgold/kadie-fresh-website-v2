@@ -25,7 +25,7 @@ const TERMS_CONTENT = `These Terms of Service govern your use of the Kadie Fresh
 
 7. Changes. We may update these terms from time to time; the version published on this page applies to orders placed after the date of any change.
 
-Questions about these terms can be sent to info@kadiefresh.com.`;
+Questions about these terms can be sent to info@kadiefreshh.com.`;
 
 const PRIVACY_CONTENT = `Kadie Fresh ("we", "us", "our") collects the minimum information needed to quote, fulfil and support your order.
 
@@ -37,11 +37,11 @@ const PRIVACY_CONTENT = `Kadie Fresh ("we", "us", "our") collects the minimum in
 
 4. Storage and access. Enquiry and order information is stored securely and is accessible only to Kadie Fresh staff who need it to do their job.
 
-5. Your rights. You can ask us what information we hold about you, ask us to correct it, or ask us to delete it, by writing to info@kadiefresh.com. We will action reasonable requests within a reasonable time.
+5. Your rights. You can ask us what information we hold about you, ask us to correct it, or ask us to delete it, by writing to info@kadiefreshh.com. We will action reasonable requests within a reasonable time.
 
 6. Retention. We keep enquiry and order records for as long as needed for accounting, quality-guarantee and legal purposes, then delete them.
 
-Questions about this policy can be sent to info@kadiefresh.com.`;
+Questions about this policy can be sent to info@kadiefreshh.com.`;
 
 const COOKIE_NOTICE_CONTENT = `This notice explains the cookies used on the Kadie Fresh website.
 
@@ -51,7 +51,7 @@ Analytics cookies. With your consent, we use a small number of cookies to see wh
 
 Your choice. You can accept or decline non-essential cookies from the banner shown on your first visit. You can change your mind at any time by clearing your browser's cookies for this site and reloading the page.
 
-Questions about this notice can be sent to info@kadiefresh.com.`;
+Questions about this notice can be sent to info@kadiefreshh.com.`;
 
 const PRODUCTS = [
   {
@@ -386,7 +386,7 @@ const ENQUIRIES = [
 ];
 
 async function main() {
-  const adminEmail = process.env.ADMIN_EMAIL ?? "femi@kadiefresh.com";
+  const adminEmail = process.env.ADMIN_EMAIL ?? "femi@kadiefreshh.com";
   const adminPassword = process.env.ADMIN_PASSWORD ?? "KadieFresh2026!";
   const adminName = process.env.ADMIN_NAME ?? "Femi Alabi";
 

@@ -48,7 +48,7 @@ export function LoginForm() {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="femi@kadiefresh.com"
+        placeholder="femi@kadiefreshh.com"
         className="mb-4 w-full rounded-xl border border-forest-800/14 px-4 py-3.25 text-[15px] outline-none"
       />
 

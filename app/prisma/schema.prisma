@@ -152,11 +152,11 @@ model SiteSettings {
   tagline               String   @default("Washed, sliced, ready to cook.")
   phone                 String   @default("0810 542 0458")
   whatsappNumber        String   @default("2348105420458")
-  email                 String   @default("info@kadiefresh.com")
+  email                 String   @default("info@kadiefreshh.com")
   address               String   @default("Ikorodu, Lagos")
   hours                 String   @default("Mon–Sat 6am–6pm")
-  instagramHandle       String   @default("kadiefresh")
-  linkedinPath          String   @default("company/kadiefresh")
+  instagramHandle       String   @default("kadiefreshh")
+  linkedinPath          String   @default("company/kadiefreshh")
   seoTitle              String   @default("Kadie Fresh — prepared fresh produce, Lagos") @db.Text
   seoDescription        String   @default("Washed, cut and sealed within four hours. Retail packs, kitchen supply, bulk and export from Ikorodu, Lagos.") @db.Text
   googleSearchConsoleId String?

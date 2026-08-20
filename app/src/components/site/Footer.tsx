@@ -2,10 +2,10 @@ import Link from "next/link";
 import { FOOTER_COLUMNS } from "@/content/nav";
 
 const SOCIALS = (settings: { instagramHandle: string; linkedinPath: string }) => [
-  { glyph: "f", label: "Facebook", href: "https://facebook.com/kadiefresh" },
+  { glyph: "f", label: "Facebook", href: "https://facebook.com/kadiefreshh" },
   { glyph: "in", label: "LinkedIn", href: `https://linkedin.com/${settings.linkedinPath}` },
   { glyph: "ig", label: "Instagram", href: `https://instagram.com/${settings.instagramHandle}` },
-  { glyph: "x", label: "X", href: "https://x.com/kadiefresh" },
+  { glyph: "x", label: "X", href: "https://x.com/kadiefreshh" },
 ];
 
 export function Footer({
