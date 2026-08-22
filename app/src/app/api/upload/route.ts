@@ -61,11 +61,15 @@ export async function POST(request: Request) {
   const filePath = `${category || "misc"}/${randomUUID()}.${ext}`;
   const bytes = Buffer.from(await file.arrayBuffer());
 
+  console.log("Supabase URL being used:", supabaseUrl);
+  console.log("Uploading to bucket:", BUCKET, "path:", filePath);
+
   const { error: uploadError } = await supabase.storage
     .from(BUCKET)
     .upload(filePath, bytes, { contentType: file.type, upsert: false });
 
   if (uploadError) {
+    console.error("Supabase upload error:", uploadError);
     return NextResponse.json({ error: uploadError.message }, { status: 500 });
   }
 
