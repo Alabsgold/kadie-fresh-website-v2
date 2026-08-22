@@ -3,17 +3,6 @@ import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error(
-    `Missing Supabase env vars — URL present: ${!!supabaseUrl}, Key present: ${!!supabaseKey}`
-  );
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 const IMAGE_TYPES: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
@@ -27,10 +16,16 @@ const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8MB
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50MB
 const BUCKET = "uploads"; // must match the bucket name you created in Supabase
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error(
+    `Missing Supabase env vars — URL present: ${!!supabaseUrl}, Key present: ${!!supabaseKey}`
+  );
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 /** Uploads an image or video to Supabase Storage and returns its public URL. */
 export async function POST(request: Request) {
