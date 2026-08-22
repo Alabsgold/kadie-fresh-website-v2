@@ -1,6 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
+import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 
@@ -13,10 +12,16 @@ const VIDEO_TYPES: Record<string, string> = {
   "video/mp4": "mp4",
   "video/webm": "webm",
 };
-const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8MB, matches the gallery dropzone copy
-const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50MB — hero clips should stay well under this
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8MB
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50MB
+const BUCKET = "uploads"; // must match the bucket name you created in Supabase
 
-/** Saves an uploaded image or video to public/uploads/<category>/ and returns its public URL. */
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
+
+/** Uploads an image or video to Supabase Storage and returns its public URL. */
 export async function POST(request: Request) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
@@ -28,6 +33,7 @@ export async function POST(request: Request) {
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
   }
+
   const isVideo = file.type in VIDEO_TYPES;
   const ext = IMAGE_TYPES[file.type] ?? VIDEO_TYPES[file.type];
   if (!ext) {
@@ -36,6 +42,7 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+
   const maxBytes = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
   if (file.size > maxBytes) {
     return NextResponse.json(
@@ -44,11 +51,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const dir = path.join(process.cwd(), "public", "uploads", category || "misc");
-  await mkdir(dir, { recursive: true });
-  const filename = `${randomUUID()}.${ext}`;
+  const filePath = `${category || "misc"}/${randomUUID()}.${ext}`;
   const bytes = Buffer.from(await file.arrayBuffer());
-  await writeFile(path.join(dir, filename), bytes);
 
-  return NextResponse.json({ url: `/uploads/${category || "misc"}/${filename}` });
+  const { error: uploadError } = await supabase.storage
+    .from(BUCKET)
+    .upload(filePath, bytes, { contentType: file.type, upsert: false });
+
+  if (uploadError) {
+    return NextResponse.json({ error: uploadError.message }, { status: 500 });
+  }
+
+  const { data } = supabase.storage.from(BUCKET).getPublicUrl(filePath);
+
+  return NextResponse.json({ url: data.publicUrl });
 }
