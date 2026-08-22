@@ -3,6 +3,17 @@ import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error(
+    `Missing Supabase env vars — URL present: ${!!supabaseUrl}, Key present: ${!!supabaseKey}`
+  );
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 const IMAGE_TYPES: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
