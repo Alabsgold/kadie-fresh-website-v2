@@ -30,7 +30,14 @@ export async function createDraftCertification() {
 
 export async function updateCertification(
   id: string,
-  data: { name: string; issuer: string; ref: string; expires: string; status: CertificationStatus },
+  data: {
+    name: string;
+    issuer: string;
+    ref: string;
+    expires: string;
+    status: CertificationStatus;
+    fileUrl?: string | null;
+  },
 ) {
   await requireSession();
   const cert = await prisma.certification.update({ where: { id }, data });

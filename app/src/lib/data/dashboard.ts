@@ -3,18 +3,27 @@ import { prisma } from "@/lib/prisma";
 import { hasPhotoWarning } from "@/lib/data/products";
 
 export async function getDashboardStats() {
-  const [enquiryCount, quoteCount, products, certificationCount, lastPublishedPost] =
-    await Promise.all([
-      prisma.enquiry.count(),
-      prisma.enquiry.count({ where: { type: "QUOTE" } }),
-      prisma.product.findMany({ select: { heroImageUrl: true, thumbImageUrls: true } }),
-      prisma.certification.count(),
-      prisma.blogPost.findFirst({
-        where: { published: true },
-        orderBy: { publishedAt: "desc" },
-        select: { publishedAt: true },
-      }),
-    ]);
+  const [
+    enquiryCount,
+    quoteCount,
+    products,
+    certificationCount,
+    lastPublishedPost,
+    whatsappMetric,
+    visitorsMetric,
+  ] = await Promise.all([
+    prisma.enquiry.count(),
+    prisma.enquiry.count({ where: { type: "QUOTE" } }),
+    prisma.product.findMany({ select: { heroImageUrl: true, thumbImageUrls: true } }),
+    prisma.certification.count(),
+    prisma.blogPost.findFirst({
+      where: { published: true },
+      orderBy: { publishedAt: "desc" },
+      select: { publishedAt: true },
+    }),
+    prisma.siteMetric.findUnique({ where: { key: "whatsapp_taps" } }),
+    prisma.siteMetric.findUnique({ where: { key: "visitors" } }),
+  ]);
 
   const missingPhotoCount = products.filter(hasPhotoWarning).length;
   const daysSinceLastPost = lastPublishedPost?.publishedAt
@@ -22,11 +31,8 @@ export async function getDashboardStats() {
     : null;
 
   return {
-    // No real analytics integration is wired up yet — these two remain
-    // manually-set placeholders until one is (e.g. WhatsApp click tracking,
-    // page-view analytics). Everything else below is computed live.
-    whatsappTaps: 38,
-    visitors: 412,
+    whatsappTaps: whatsappMetric?.count ?? 0,
+    visitors: visitorsMetric?.count ?? 0,
     formEnquiries: enquiryCount,
     quoteRequests: quoteCount,
     attention: {
@@ -35,6 +41,28 @@ export async function getDashboardStats() {
       daysSinceLastPost,
     },
   };
+}
+
+export async function incrementMetric(key: "whatsapp_taps" | "visitors") {
+  return prisma.siteMetric.upsert({
+    where: { key },
+    update: { count: { increment: 1 } },
+    create: { key, count: 1 },
+  });
+}
+
+export async function clearAllQuotesAndEnquiries() {
+  await prisma.enquiry.deleteMany({});
+  await prisma.siteMetric.upsert({
+    where: { key: "whatsapp_taps" },
+    update: { count: 0 },
+    create: { key: "whatsapp_taps", count: 0 },
+  });
+  await prisma.siteMetric.upsert({
+    where: { key: "visitors" },
+    update: { count: 0 },
+    create: { key: "visitors", count: 0 },
+  });
 }
 
 export async function getRecentEnquiries(limit = 4) {

@@ -66,6 +66,29 @@ export async function getEnquiry(id: string) {
   return prisma.enquiry.findUnique({ where: { id }, include: { repliedBy: true } });
 }
 
+export async function getQuoteByReference(referenceCode: string) {
+  const cleanRef = referenceCode.trim().toUpperCase();
+  if (!cleanRef) return null;
+  return prisma.enquiry.findUnique({
+    where: { reference: cleanRef },
+    select: {
+      id: true,
+      reference: true,
+      status: true,
+      name: true,
+      business: true,
+      buyerType: true,
+      items: true,
+      volume: true,
+      frequency: true,
+      location: true,
+      replyMessage: true,
+      repliedAt: true,
+      createdAt: true,
+    },
+  });
+}
+
 export async function replyToEnquiry(id: string, message: string, adminUserId: string) {
   return prisma.enquiry.update({
     where: { id },
