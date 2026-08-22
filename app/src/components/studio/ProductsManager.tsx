@@ -8,14 +8,18 @@ import {
   updateProduct,
   updateProductImage,
   toggleProductPublished,
+  deleteProduct,
 } from "@/app/actions/products";
 import { productCardBackground } from "@/lib/images";
 import { useToast } from "@/components/ui/Toast";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
 export type ProductAdmin = Product & { photoWarning: boolean };
 
 type Form = {
   name: string;
+  category: string;
+  published: boolean;
   pack: string;
   grade: string;
   shelfLife: string;
@@ -30,6 +34,8 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [form, setForm] = useState<Form | null>(null);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -69,6 +75,8 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
     setSelectedId(product.id);
     setForm({
       name: product.name,
+      category: product.category,
+      published: product.published,
       pack: product.pack,
       grade: product.grade,
       shelfLife: product.shelfLife,
@@ -93,7 +101,7 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
     setSaving(true);
     const updated = await updateProduct(selectedId, form);
     setProducts((list) =>
-      list.map((p) => (p.id === updated.id ? { ...p, ...updated } : p)),
+      list.map((p) => (p.id === updated.id ? { ...p, ...updated, photoWarning: !updated.heroImageUrl } : p)),
     );
     setSaving(false);
     showToast("Product updated on the site");
@@ -105,7 +113,28 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
     setProducts((list) =>
       list.map((p) => (p.id === updated.id ? { ...p, ...updated } : p)),
     );
+    if (selectedId === product.id && form) {
+      setForm({ ...form, published: updated.published });
+    }
     router.refresh();
+  }
+
+  async function handleDelete() {
+    if (!selectedId) return;
+    setDeleting(true);
+    try {
+      await deleteProduct(selectedId);
+      setProducts((list) => list.filter((p) => p.id !== selectedId));
+      setSelectedId(null);
+      setForm(null);
+      setConfirmDeleteOpen(false);
+      showToast("Product deleted");
+      router.refresh();
+    } catch {
+      showToast("Failed to delete product");
+    } finally {
+      setDeleting(false);
+    }
   }
 
   return (
@@ -210,6 +239,32 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
                   )}
                 </button>
               </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-gray-600">Status</label>
+                  <select
+                    value={form.published ? "LIVE" : "HIDDEN"}
+                    onChange={(e) => setForm({ ...form, published: e.target.value === "LIVE" })}
+                    className="w-full rounded-lg border border-forest-800/14 bg-white px-3 py-2 text-sm outline-none"
+                  >
+                    <option value="LIVE">Live (Visible)</option>
+                    <option value="HIDDEN">Hidden (Draft)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-gray-600">Type / Category</label>
+                  <select
+                    value={form.category}
+                    onChange={(e) => setForm({ ...form, category: e.target.value })}
+                    className="w-full rounded-lg border border-forest-800/14 bg-white px-3 py-2 text-sm outline-none"
+                  >
+                    <option value="Veg">Veg</option>
+                    <option value="Fruit">Fruit</option>
+                  </select>
+                </div>
+              </div>
+
               <div>
                 <label className="mb-1 block text-xs font-semibold text-gray-600">Name</label>
                 <input
@@ -287,18 +342,40 @@ export function ProductsManager({ initialProducts }: { initialProducts: ProductA
                   className="w-full rounded-lg border border-forest-800/14 px-3 py-2 text-sm outline-none"
                 />
               </div>
-              <button
-                type="button"
-                disabled={saving}
-                onClick={save}
-                className="btn-cta mt-1 py-2.5 text-sm disabled:opacity-60"
-              >
-                {saving ? "Saving…" : "Save product"}
-              </button>
+
+              <div className="mt-2 flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  disabled={deleting || saving}
+                  onClick={() => setConfirmDeleteOpen(true)}
+                  className="rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold text-red-600 transition-colors hover:border-red-300 hover:bg-red-100 disabled:opacity-50"
+                >
+                  Delete product
+                </button>
+                <button
+                  type="button"
+                  disabled={saving || deleting}
+                  onClick={save}
+                  className="btn-cta flex-1 py-2.5 text-sm disabled:opacity-60"
+                >
+                  {saving ? "Saving…" : "Save product"}
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={confirmDeleteOpen}
+        title="Delete this product?"
+        description="This action cannot be undone. This product will be permanently removed from the catalogue."
+        confirmLabel="Delete product"
+        isDestructive
+        loading={deleting}
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmDeleteOpen(false)}
+      />
     </div>
   );
 }

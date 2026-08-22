@@ -51,6 +51,7 @@ export const FOOTER_COLUMNS = [
       { label: "Download line card", href: "/api/line-card" },
       { label: "Become a distributor", href: "/distributors" },
       { label: "Request a quote", href: "/quote" },
+      { label: "Track a quote", href: "/track-quote" },
       { label: "FAQ", href: "/faq" },
     ],
   },

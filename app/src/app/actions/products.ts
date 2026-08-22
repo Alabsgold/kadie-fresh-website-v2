@@ -47,6 +47,8 @@ export async function updateProduct(
   id: string,
   data: {
     name: string;
+    category?: string;
+    published?: boolean;
     pack: string;
     grade: string;
     shelfLife: string;
@@ -59,6 +61,7 @@ export async function updateProduct(
   await requireSession();
   const product = await prisma.product.update({ where: { id }, data });
   revalidateProductPaths();
+  revalidatePath(`/products/${product.slug}`);
   return product;
 }
 
@@ -74,5 +77,13 @@ export async function toggleProductPublished(id: string, published: boolean) {
   await requireSession();
   const product = await prisma.product.update({ where: { id }, data: { published } });
   revalidateProductPaths();
+  return product;
+}
+
+export async function deleteProduct(id: string) {
+  await requireSession();
+  const product = await prisma.product.delete({ where: { id } });
+  revalidateProductPaths();
+  revalidatePath(`/products/${product.slug}`);
   return product;
 }

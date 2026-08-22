@@ -69,6 +69,7 @@ model Certification {
   issuer    String
   ref       String
   expires   String
+  fileUrl   String?
   status    CertificationStatus @default(RENEWING)
   sortOrder Int                 @default(0)
   createdAt DateTime            @default(now())
@@ -171,4 +172,10 @@ model SiteSettings {
   privacyContent        String   @db.Text
   cookieNoticeContent   String   @db.Text
   updatedAt             DateTime @updatedAt
+}
+
+model SiteMetric {
+  key       String   @id
+  count     Int      @default(0)
+  updatedAt DateTime @updatedAt
 }

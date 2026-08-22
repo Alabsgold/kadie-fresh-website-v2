@@ -5,6 +5,7 @@ import { getDashboardStats, getRecentEnquiries } from "@/lib/data/dashboard";
 import { getSiteSettings } from "@/lib/data/settings";
 import { DashboardStatCard } from "@/components/studio/DashboardStatCard";
 import { WhatsappNumberCard } from "@/components/studio/WhatsappNumberCard";
+import { DashboardToolbar } from "@/components/studio/DashboardToolbar";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
@@ -43,10 +44,13 @@ export default async function StudioDashboardPage() {
           </h1>
           <p className="mt-1 text-sm text-gray-500">Here is how the website is doing this week.</p>
         </div>
-        <span className="flex items-center gap-2 rounded-full bg-green-50 px-3.5 py-1.5 text-xs font-bold text-green-700">
-          <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
-          All systems normal
-        </span>
+        <div className="flex flex-wrap items-center gap-3">
+          <DashboardToolbar />
+          <span className="flex items-center gap-2 rounded-full bg-green-50 px-3.5 py-1.5 text-xs font-bold text-green-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
+            All systems normal
+          </span>
+        </div>
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-3.5 sm:grid-cols-2 xl:grid-cols-4">

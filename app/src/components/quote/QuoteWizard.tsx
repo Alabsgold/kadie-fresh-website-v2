@@ -51,13 +51,13 @@ export function QuoteWizard({
   const [reference, setReference] = useState<string | null>(null);
 
   function set<K extends keyof Fields>(key: K, value: Fields[K]) {
-    setFields((f) => ({ ...f, [key]: value }));
-    setErrors((e) => ({ ...e, [key]: undefined }));
+    setFields((f: Fields) => ({ ...f, [key]: value }));
+    setErrors((e: Partial<Record<string, string>>) => ({ ...e, [key]: undefined }));
   }
 
   function fail(nextErrors: Partial<Record<string, string>>) {
     setErrors(nextErrors);
-    setShakeToken((t) => t + 1);
+    setShakeToken((t: number) => t + 1);
   }
 
   function validateStep1() {
@@ -89,11 +89,11 @@ export function QuoteWizard({
   function next() {
     if (step === 1 && !validateStep1()) return;
     if (step === 2 && !validateStep2()) return;
-    setStep((s) => (s === 1 ? 2 : 3) as 1 | 2 | 3);
+    setStep((s: 1 | 2 | 3) => (s === 1 ? 2 : 3) as 1 | 2 | 3);
   }
 
   function back() {
-    setStep((s) => (s === 3 ? 2 : 1) as 1 | 2 | 3);
+    setStep((s: 1 | 2 | 3) => (s === 3 ? 2 : 1) as 1 | 2 | 3);
   }
 
   async function send() {
@@ -121,11 +121,11 @@ export function QuoteWizard({
   }
 
   function toggleItem(name: string) {
-    setFields((f) => ({
+    setFields((f: Fields) => ({
       ...f,
-      items: f.items.includes(name) ? f.items.filter((i) => i !== name) : [...f.items, name],
+      items: f.items.includes(name) ? f.items.filter((i: string) => i !== name) : [...f.items, name],
     }));
-    setErrors((e) => ({ ...e, items: undefined }));
+    setErrors((e: Partial<Record<string, string>>) => ({ ...e, items: undefined }));
   }
 
   if (reference) {
@@ -141,15 +141,14 @@ export function QuoteWizard({
           Quote request sent.
         </h1>
         <p className="mx-auto max-w-md text-base leading-relaxed text-gray-600">
-          Reference <strong className="text-forest-900">{reference}</strong>. We will come back
-          with pack sizes and a price within one working day.
+          Your reference: <strong className="rounded-md bg-green-100 px-2.5 py-1 font-mono text-lg font-bold text-forest-900">{reference}</strong>. Save this reference code to check your quote response anytime.
         </p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link href="/products" className="btn-outline px-6 py-3.25 text-[15px]">
             Back to products
           </Link>
-          <Link href="/studio/login" className="btn-cta px-6 py-3.25 text-[15px]">
-            See it arrive in the studio →
+          <Link href={`/track-quote?ref=${encodeURIComponent(reference)}`} className="btn-cta px-6 py-3.25 text-[15px]">
+            Track your quote status →
           </Link>
         </div>
       </div>

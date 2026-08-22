@@ -12,6 +12,9 @@ const VIDEO_TYPES: Record<string, string> = {
   "video/mp4": "mp4",
   "video/webm": "webm",
 };
+const DOCUMENT_TYPES: Record<string, string> = {
+  "application/pdf": "pdf",
+};
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8MB
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50MB
 const BUCKET = "uploads"; // must match the bucket name you created in Supabase
@@ -28,7 +31,7 @@ if (!supabaseUrl || !supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-/** Uploads an image or video to Supabase Storage and returns its public URL. */
+/** Uploads an image, video, or PDF document to Supabase Storage and returns its public URL. */
 export async function POST(request: Request) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
@@ -42,10 +45,10 @@ export async function POST(request: Request) {
   }
 
   const isVideo = file.type in VIDEO_TYPES;
-  const ext = IMAGE_TYPES[file.type] ?? VIDEO_TYPES[file.type];
+  const ext = IMAGE_TYPES[file.type] ?? VIDEO_TYPES[file.type] ?? DOCUMENT_TYPES[file.type];
   if (!ext) {
     return NextResponse.json(
-      { error: "Only JPG, PNG or WebP images, or MP4/WebM video, are allowed" },
+      { error: "Only JPG, PNG or WebP images, MP4/WebM video, or PDF documents are allowed" },
       { status: 400 },
     );
   }

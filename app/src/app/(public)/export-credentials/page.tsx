@@ -55,22 +55,37 @@ export default async function ExportCredentialsPage() {
 
         <Reveal className="glass-panel overflow-x-auto rounded-2xl">
           <div className="min-w-165">
-            <div className="grid grid-cols-[1.6fr_1.3fr_1fr_1fr_auto] gap-4 bg-green-50 px-5 py-3 text-xs font-bold tracking-[0.1em] text-green-600 uppercase">
+            <div className="grid grid-cols-[1.6fr_1.2fr_1fr_1fr_auto_auto] gap-4 bg-green-50 px-5 py-3 text-xs font-bold tracking-[0.1em] text-green-600 uppercase">
               <span>Name</span>
               <span>Issuer</span>
               <span>Ref</span>
               <span>Valid</span>
+              <span>Document</span>
               <span className="text-right">Status</span>
             </div>
             {certifications.map((cert) => (
               <div
                 key={cert.id}
-                className="grid grid-cols-[1.6fr_1.3fr_1fr_1fr_auto] items-center gap-4 border-t border-forest-800/7 px-5 py-3.5 text-sm"
+                className="grid grid-cols-[1.6fr_1.2fr_1fr_1fr_auto_auto] items-center gap-4 border-t border-forest-800/7 px-5 py-3.5 text-sm"
               >
                 <span className="font-semibold text-forest-900">{cert.name}</span>
                 <span className="text-gray-500">{cert.issuer}</span>
                 <span className="text-gray-500">{cert.ref}</span>
                 <span className="text-gray-500">Valid to {cert.expires}</span>
+                <div>
+                  {cert.fileUrl ? (
+                    <a
+                      href={cert.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700 transition-colors hover:bg-green-100 hover:text-green-800"
+                    >
+                      View ↗
+                    </a>
+                  ) : (
+                    <span className="text-xs text-gray-400">—</span>
+                  )}
+                </div>
                 <span
                   className={`ml-auto w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_PILL[cert.status] ?? "bg-gray-100 text-gray-600"}`}
                 >

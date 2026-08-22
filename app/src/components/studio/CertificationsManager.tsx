@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Certification, CertificationStatus } from "@/generated/prisma/client";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@/app/actions/certifications";
 import { CERTIFICATION_STATUS_LABEL } from "@/lib/certificationStatus";
 import { useToast } from "@/components/ui/Toast";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
 const STATUS_OPTIONS: CertificationStatus[] = ["VALID", "ON_REQUEST", "RENEWING"];
 
@@ -32,8 +33,14 @@ export function CertificationsManager({
     ref: string;
     expires: string;
     status: CertificationStatus;
+    fileUrl: string;
   } | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { showToast } = useToast();
 
@@ -45,6 +52,7 @@ export function CertificationsManager({
       ref: cert.ref,
       expires: cert.expires,
       status: cert.status,
+      fileUrl: cert.fileUrl || "",
     });
   }
 
@@ -53,6 +61,33 @@ export function CertificationsManager({
     setCerts((c) => [...c, cert]);
     select(cert);
     router.refresh();
+  }
+
+  async function uploadFile(file: File | null | undefined) {
+    if (!file || !selectedId || !form) return;
+    setUploadingFile(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("category", "certifications");
+
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        showToast(data.error || "Upload failed — try again");
+        return;
+      }
+
+      const updated = await updateCertification(selectedId, { ...form, fileUrl: data.url });
+      setCerts((list) => list.map((c) => (c.id === updated.id ? updated : c)));
+      setForm((f) => (f ? { ...f, fileUrl: data.url } : f));
+      showToast("Document attached to certificate");
+      router.refresh();
+    } catch {
+      showToast("Upload failed — try again");
+    } finally {
+      setUploadingFile(false);
+    }
   }
 
   async function save() {
@@ -65,14 +100,24 @@ export function CertificationsManager({
     router.refresh();
   }
 
-  async function remove(id: string) {
-    await deleteCertification(id);
-    setCerts((list) => list.filter((c) => c.id !== id));
-    if (selectedId === id) {
-      setSelectedId(null);
-      setForm(null);
+  async function remove() {
+    if (!deletingId) return;
+    setDeleting(true);
+    try {
+      await deleteCertification(deletingId);
+      setCerts((list) => list.filter((c) => c.id !== deletingId));
+      if (selectedId === deletingId) {
+        setSelectedId(null);
+        setForm(null);
+      }
+      showToast("Certification deleted");
+      router.refresh();
+    } catch {
+      showToast("Failed to delete certification");
+    } finally {
+      setDeleting(false);
+      setDeletingId(null);
     }
-    router.refresh();
   }
 
   return (
@@ -87,7 +132,7 @@ export function CertificationsManager({
           </p>
         </div>
         <button type="button" onClick={addDraft} className="btn-cta px-5 py-2.5 text-sm">
-          Upload certificate
+          Add certification
         </button>
       </div>
 
@@ -104,7 +149,7 @@ export function CertificationsManager({
             credentials page on.
           </p>
           <button type="button" onClick={addDraft} className="btn-cta mt-1 px-5 py-2.5 text-sm">
-            Upload the first one
+            Add the first one
           </button>
         </div>
       ) : (
@@ -127,6 +172,11 @@ export function CertificationsManager({
                   <div className="truncate text-xs text-gray-500">
                     {cert.issuer} · {cert.ref}
                   </div>
+                  {cert.fileUrl && (
+                    <div className="mt-0.5 text-[11px] font-semibold text-green-700">
+                      ✓ Document attached
+                    </div>
+                  )}
                 </div>
                 <div className="hidden text-xs text-gray-400 sm:block">Expires {cert.expires}</div>
                 <span
@@ -139,9 +189,9 @@ export function CertificationsManager({
                   tabIndex={0}
                   onClick={(e) => {
                     e.stopPropagation();
-                    remove(cert.id);
+                    setDeletingId(cert.id);
                   }}
-                  className="text-gray-300 hover:text-red-600"
+                  className="text-gray-300 hover:text-red-600 px-1 py-0.5 text-lg"
                 >
                   ×
                 </span>
@@ -162,6 +212,47 @@ export function CertificationsManager({
                     className="w-full rounded-lg border border-forest-800/14 px-3 py-2 text-sm outline-none"
                   />
                 </div>
+
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-gray-600">
+                    Document File (PDF or Image)
+                  </label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,application/pdf"
+                    className="hidden"
+                    onChange={(e) => {
+                      uploadFile(e.target.files?.[0]);
+                      e.target.value = "";
+                    }}
+                  />
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      disabled={uploadingFile}
+                      onClick={() => fileInputRef.current?.click()}
+                      className="btn-outline flex-1 py-2 text-xs font-semibold disabled:opacity-50"
+                    >
+                      {uploadingFile
+                        ? "Uploading…"
+                        : form.fileUrl
+                        ? "Change document"
+                        : "Upload document (PDF / Image)"}
+                    </button>
+                    {form.fileUrl && (
+                      <a
+                        href={form.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full bg-green-50 px-3 py-2 text-xs font-semibold text-green-700 transition-colors hover:bg-green-100"
+                      >
+                        View ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+
                 <div>
                   <label className="mb-1 block text-xs font-semibold text-gray-600">Issuer</label>
                   <input
@@ -193,7 +284,7 @@ export function CertificationsManager({
                   <select
                     value={form.status}
                     onChange={(e) => setForm({ ...form, status: e.target.value as CertificationStatus })}
-                    className="w-full rounded-lg border border-forest-800/14 px-3 py-2 text-sm outline-none"
+                    className="w-full rounded-lg border border-forest-800/14 bg-white px-3 py-2 text-sm outline-none"
                   >
                     {STATUS_OPTIONS.map((s) => (
                       <option key={s} value={s}>
@@ -215,6 +306,17 @@ export function CertificationsManager({
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!deletingId}
+        title="Delete this certification?"
+        description="This action cannot be undone. The certificate record will be permanently removed from export credentials."
+        confirmLabel="Delete certification"
+        isDestructive
+        loading={deleting}
+        onConfirm={remove}
+        onCancel={() => setDeletingId(null)}
+      />
     </div>
   );
 }
