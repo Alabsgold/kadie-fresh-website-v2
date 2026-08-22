@@ -16,6 +16,7 @@ const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8MB
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50MB
 const BUCKET = "uploads"; // must match the bucket name you created in Supabase
 
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
